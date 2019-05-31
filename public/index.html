@@ -5,6 +5,34 @@
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
+
+    <script src="https://www.assets.cms.vt.edu/jquery/archives/jquery-3.3.1.min.js"></script>
+
+    <script src="https://www.assets.cms.vt.edu/js/popper/archives/1.12.9/popper.min.js"></script>
+
+    <script src="https://www.assets.cms.vt.edu/bootstrap/archives/4.0.0/dist/js/bootstrap.min.js"></script>
+
+    <script defer src="https://www.assets.cms.vt.edu/font-awesome/archives-pro/5.6.latest/js/all.min.js" x-cq-linkchecker="skip"></script>
+
+    <!-- bootstrap responsive tabs -->
+    <script src="https://www.assets.cms.vt.edu/bootstrap/bootstrap-responsive-tabs/js/responsive-tabs.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="css/root.css"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -19,18 +47,322 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Mirador Viewer</title>
+
+
+
+
+
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+
+
+
+    <div class="header">
+
+
+
+<!-- ///////////////////////////////////////////// -->
+<!-- EYEBROW -->
+<!-- ///////////////////////////////////////////// -->
+  <div class="row vt-one-preHeader">
+    <div class="vt-universal-access">
+      <button onclick="accessToggle()" class="vt-access-toggle" aria-labelledby="vt_universal_access_label">
+        <img alt="" src="https://www.assets.cms.vt.edu/images/accessibility_icon_white.svg" class="vt-access-toggle-icon vt-transparent-bg" focusable="false" aria-hidden="true"/>
+        <span class="sr-only">Universal Access Toggle</span>
+      </button>
+      <div role="tooltip" id="vt_universal_access_label" class="vt-universal-access-label">Universal Access</div>
+      <div role="dialog" id="vt_access_dialog" aria-labelledby="access_dialog_label" aria-describedby="access_dialog_label" aria-modal="true" class="vt-access-dialog-wrapper" aria-hidden="true">
+        <div class="vt-access-dialog">
+          <button onclick="accessToggle()" class="vt-access-dialog-close" tabindex="-1" aria-label="Close Universal Access dialog">
+            <span class="far fa-times" focusable="false" aria-hidden="true"></span>
+            <span class="sr-only">Close Universal Access dialog</span>
+          </button>
+          <span id="vt_access_dialog_label" class="vt-access-dialog-label">Universal Access Options</span>
+          <ul id="uaRender" class="vt-access-options">
+          </ul>
+        </div> <!-- end vt-access-dialog -->
+      </div> <!-- end vt_access_dialog -->
+    </div> <!-- end vt-universal-access -->
+
+
+    <nav class="vt-actions-header" aria-label="Actions and Audiences">
+      <ul id="vt_common" role="group" aria-label="Actions">
+        <li class="vt-common-item"><a class="vt-common-link" href="https://vt.edu/apply.html">Apply</a></li>
+        <li class="vt-common-item"><a class="vt-common-link" href="https://vt.edu/visit.html">Visit</a></li>
+        <li class="vt-common-item"><a class="vt-common-link" href="https://webapps.es.vt.edu/givingto/gift">Give</a></li>
+        <li class="vt-common-item"><a class="vt-common-link" href="http://www.hokiegear.com/?_s=bm-storefront&utm_source=vt_edu&utm_medium=referral">Shop</a></li>
+      </ul>
+      <div class="vt-resources-for-wrapper" role="group" aria-label="Audiences">
+        <button id="vt_header_resources_toggle" class="vt-resources-toggle" aria-haspopup="true" aria-controls="vt_header_resources_options" aria-expanded="false">
+          <span class="vt-resources-toggle-text">Resources for</span>
+          <span class="far fa-chevron-down" aria-hidden="true" focusable="false" role="img"></span>
+        </button>
+        <ul id="vt_header_resources_options" role="menu" class="vt-resources-options closed" aria-labelledby="header_resources_toggle" aria-hidden="true">
+          <li role="none presentation" class="vt-resources-item"><a role="menuitem" tabindex="-1" class="vt-resources-item-link" href="https://vt.edu/admissions.html">Future Students</a></li>
+          <li role="none presentation" class="vt-resources-item"><a role="menuitem" tabindex="-1" class="vt-resources-item-link" href="https://vt.edu/resources/current-students.html">Current Students</a></li>
+          <li role="none presentation" class="vt-resources-item"><a role="menuitem" tabindex="-1" class="vt-resources-item-link" href="https://vt.edu/resources/parents-and-families.html">Parents and Families</a></li>
+          <li role="none presentation" class="vt-resources-item"><a role="menuitem" tabindex="-1" class="vt-resources-item-link" href="https://vt.edu/resources/faculty-and-staff.html">Faculty and Staff</a></li>
+          <li role="none presentation" class="vt-resources-item"><a role="menuitem" tabindex="-1" class="vt-resources-item-link" href="https://alumni.vt.edu">Alumni</a></li>
+          <li role="none presentation" class="vt-resources-item"><a role="menuitem" tabindex="-1" class="vt-resources-item-link" href="https://vt.edu/link.html">Industry and Partners</a></li>
+        </ul>
+      </div>
+    </nav> <!-- end vt-actions-header -->
+  </div> <!-- end vt-one-preHeader -->
+<!-- ///////////////////////////////////////////// -->
+<!-- END EYEBROW -->
+<!-- ///////////////////////////////////////////// -->
+
+
+
+<!-- ///////////////////////////////////////////// -->
+<!-- HEADER -->
+<!-- ///////////////////////////////////////////// -->
+  <div class="row vt-one-headerRow">
+  	<header class="col header-col" role="banner">
+      <div id="vt_logo">
+    		<a class="vt-logo-link" href="https://vt.edu"><img alt="VT Virginia Tech" src="https://www.assets.cms.vt.edu/images/logo-maroon-whiteBG.svg"/></a>
+      </div>
+
+
+      <!-- ///////////////////////////////////////////// -->
+      <!-- SEARCH -->
+      <!-- ///////////////////////////////////////////// -->
+      <div class="col" id="vt_header_search" role="search">
+        <div class="linkWrapper">
+          <button class="vt-search-toggle" aria-controls="vt_header_search_form" aria-expanded="false" onclick="javascript:searchToggle();">
+            <span class="vt-search-toggleLabel">Search</span>
+            <span class="far fa-search search-open" aria-hidden="true" focusable="false" role="img"></span>
+            <span class="far fa-times search-close d-none" aria-hidden="true" focusable="false" role="img"></span>
+          </button>
+        </div>
+        <div class="vt-search-wrapper">
+          <form id="vt_header_search_form" role="group" aria-label="Search Drawer" action="//search.vt.edu/query" method="get" name="vtsearchform" autocomplete="off">
+            <div class="vt-searchbox-input-wrapper">
+                <label for="vt_search_box" class="vt-search-searchboxLabel">Search</label>
+                <input type="search" maxlength="100" value="" name="q" id="vt_search_box" class="vt-search-box"/>
+              <button id="vt_go_button" type="submit" class="vt-search-button">
+                <span>Submit</span>
+              </button>
+            </div>
+          </form>
+          <div class="d-none" data-name="siteURL" data-value="vt.edu"></div>
+        </div> <!-- end vt-search-wrapper -->
+      <!-- ///////////////////////////////////////////// -->
+      <!-- END SEARCH -->
+      <!-- ///////////////////////////////////////////// -->
+
+
+
+</div> <!-- end vt_header_search -->
+</header>
+</div> <!-- end vt-one-headerRow -->
+<!-- ///////////////////////////////////////////// -->
+<!-- END HEADER -->
+<!-- ///////////////////////////////////////////// -->
+
+</div> <!-- end header -->
+
+
+<!-- ///////////////////////////////////////////// -->
+<!-- MAIN CONTENT -->
+<!-- ///////////////////////////////////////////// -->
+<main style="min-height: 500px; padding: 1em;">
+
+
+
+
+
+
+
+
+
+
+
+
     <div id="root">
-      <div id="mirador_frame" class="col-xs-12"></div>
-      <div class="col-sm-8">
-        <h2>Metadata</h2>
-        <div id="metadata_table"></div>
-      <div class="col-sm-4">
+      <div class="row">
+        <div id="mirador_frame" class="col-sm-12"></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8">
+          <h2>Metadata</h2>
+          <div id="metadata_table"></div>
+        </div>
+        <div class="col-sm-4"></div>
       </div>
     </div>
+
+
+
+
+
+
+    </main>
+<!-- ///////////////////////////////////////////// -->
+<!-- END MAIN CONTENT -->
+<!-- ///////////////////////////////////////////// -->
+
+
+
+
+<!-- ///////////////////////////////////////////// -->
+<!-- FOOTER -->
+<!-- ///////////////////////////////////////////// -->
+<footer>
+
+  <div class="vt-footer-row">
+
+  <div class="vt-footer-info">
+  	<div class="vt-embed-map">
+			<img class="vt-map-image" src="https://www.assets.cms.vt.edu/images/vt-campuses.svg" longdesc="https://vt.edu/maps.html#locations" alt="Map of Virginia with pins showing locations of Virginia Tech campuses. See All Locations link which follows provides details" />
+  </div>
+		<div class="vt-footer-infoWrapper">
+			<div class="vt-footer-logoWrapper">
+				<img class="vt-footer-logo" src="https://www.assets.cms.vt.edu/images/logo-white-black.svg" alt="Virginia Tech logo" />
+			</div>
+			<div class="vt-footer-info-linkWrapper">
+				<p class="vt-footer-directions"><a class="footer-info-link" href="https://vt.edu/maps/directions.html">Get Directions&nbsp;&nbsp;<span class="fal fa-arrow-right" aria-hidden="true" focusable="false"></span></a></p>
+				<p class="vt-footer-locations"><a class="footer-info-link" href="https://vt.edu/maps.html#locations">See All Locations&nbsp;&nbsp;<span class="fal fa-arrow-right" aria-hidden="true" focusable="false"></span></a></p>
+			</div>
+    </div>
+  </div>
+
+  <div class="vt-footer-rowSpacer"></div>
+
+  <div class="vt-footer-links">
+    <ul class="vt-footer-linksCol">
+      <li><a class="vt-footer-link" href="https://vt.edu/status.html">University Status</a></li>
+      <li><a class="vt-footer-link" href="https://vt.edu/contacts.html">Contact Virginia Tech</a></li>
+      <li><a class="vt-footer-link" href="https://vt.edu/privacy.html">Privacy Policy</a></li>
+      <li><a class="vt-footer-link" href="https://vt.edu/acceptable-use.html">Acceptable Use</a></li>
+      <li><a class="vt-footer-link vt-remember" href="https://www.weremember.vt.edu/">We Remember</a></li>
+      <li><a class="vt-footer-link" href="https://lib.vt.edu">University Libraries</a></li>
+      <li><a class="vt-footer-link" href="https://vt.edu/accessibility.html">Accessibility</a></li>
+      <li><a class="vt-footer-link" href="https://vt.edu/consumer-info.html">Consumer Information</a></li>
+      <li><a class="vt-footer-link" href="https://www.stopabuse.vt.edu/">Stop Abuse</a></li>
+      <li><a class="vt-footer-link" href="http://policies.vt.edu/">Policies</a></li>
+      <li><a class="vt-footer-link" href="https://vt.edu/equal-opportunity.html">Equal Opportunity</a></li>
+      <li><a class="vt-footer-link" href="http://www.wvtf.org/">WVTF</a></li>
+      <li><a class="vt-footer-link" href="https://www.bookstore.vt.edu">University Bookstore</a></li>
+      <li><a class="vt-footer-link" href="https://listings.jobs.vt.edu/">Jobs at Virginia Tech</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="vt-footer-row vt-footer-bottom">
+  <div id="vt_footer_copyright">
+    <p class="vt-copyright">&copy;&nbsp;Virginia Polytechnic Institute and State University. All rights reserved.</p>
+  </div>
+
+  <ul class="follow-virginia-tech-icons">
+    <li><a href="https://facebook.com/virginiatech" target="_blank" aria-label="Facebook"><span class="fab fa-facebook-square" aria-hidden="true" focusable="false"></span><span class="sr-only">Facebook</span></a></li>
+
+    <li><a href="https://twitter.com/virginia_tech" target="_blank" aria-label="Twitter"><span class="fab fa-twitter" aria-hidden="true" focusable="false"></span><span class="sr-only">Twitter</span></a></li>
+
+    <li><a href="https://instagram.com/virginia.tech" target="_blank" aria-label="Instagram"><span class="fab fa-instagram" aria-hidden="true" focusable="false"></span><span class="sr-only">Instagram</span></a></li>
+
+    <li><a href="http://www.linkedin.com/edu/school?id=19611&amp;trk" target="_blank" aria-label="Linked In"><span class="fab fa-linkedin" aria-hidden="true" focusable="false"></span><span class="sr-only">Linked In</span></a></li>
+
+    <li><a href="https://www.pinterest.com/imahokie/" target="_blank" aria-label="Pintrest"><span class="fab fa-pinterest" aria-hidden="true" focusable="false"></span><span class="sr-only">Pintrest</span></a></li>
+
+    <li><a href="https://www.youtube.com/user/VirginiaTech" target="_blank" aria-label="Youtube"><span class="fab fa-youtube" aria-hidden="true" focusable="false"></span><span class="sr-only">YouTube</span></a></li>
+  </ul>
+</div>
+
+<!-- end default footer content -->
+</footer>
+<!-- ///////////////////////////////////////////// -->
+<!-- END FOOTER -->
+<!-- ///////////////////////////////////////////// -->
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.90/jsrender.min.js"></script>
+
+<!-- ///////////////////////////////////////////// -->
+<!-- UNIVERSAL ACCESS TEMPLATES -->
+<!-- ///////////////////////////////////////////// -->
+<script id="uaImg" type="text/x-jsrender">
+  <img {{props attrs}}{{:key}}="{{:prop}}"{{/props}} />
+</script>
+<script id="uaSubText" type="text/x-jsrender">
+  <span {{props attrs}}{{:key}}="{{:prop}}"{{/props}}>
+    {{:text}}
+  </span>
+</script>
+<script id="uaText" type="text/x-jsrender">
+  <span {{props attrs}}{{:key}}="{{:prop}}"{{/props}}>
+    {{:text}}
+    {{if items}}
+      {{for items}}
+        {{include content tmpl="#uaSubText"/}}
+      {{/for}}
+    {{/if}}
+  </span>
+</script>
+<script id="uaButton" type="x-jsrender">
+  <button {{props attrs}}{{:key}}="{{:prop}}"{{/props}}>
+      {{for items}}
+          {{if content.el === "img"}}
+              {{include content tmpl="#uaImg"/}}
+          {{else}}
+              {{include content tmpl="#uaText"/}}
+          {{/if}}
+      {{/for}}
+  </button>
+</script>
+<script id="uaLink" type="x-jsrender">
+  <a {{props attrs}}{{:key}}="{{:prop}}"{{/props}}>
+      {{for items}}
+          {{if content.el === "img"}}
+              {{include content tmpl="#uaImg"/}}
+          {{else}}
+              {{include content tmpl="#uaText"/}}
+          {{/if}}
+      {{/for}}
+  </a>
+</script>
+<script id="uaMenu" type="x-jsrender">
+  {{for items}}
+  <li {{props attrs}}{{:key}}="{{:prop}}"{{/props}}>
+      {{if content.el === "a"}}
+          {{include content tmpl="#uaLink" /}}
+      {{else}}
+          {{include content tmpl="#uaButton" /}}
+      {{/if}}
+  </li>
+  {{/for}}
+</script>
+
+<script type="text/javascript" src="js/one.js"></script>
+
+<script type="text/javascript">
+
+  $.ajax({
+	  url: "uaMenu.json"
+  }).done(function(data){
+	$("#uaRender").html($.templates("#uaMenu").render(data));
+  })
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
