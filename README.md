@@ -1,5 +1,11 @@
-# IAWA Amplify React Application
+# IAWA version 2
 
+# Environments
+
+| Environment | Developer | Pre-Production | Production |
+|:-----------:|:---------:|:--------------:|------------|
+| GitHub      |     dev   |      pprd      |    master  |
+| Amplify     |     dev   |      pprd      |    master  |
 
 
 # Documents
