@@ -15,7 +15,7 @@ type Collection @model {
     language: [String!]
     bibliographic_citation: String!
     rights_holder: String!
-    permalink: String!
+    custom_key: String
     collection_category: String!
     visibility: Boolean!
     thumbnail_path: String!
@@ -48,7 +48,7 @@ type Item @model {
     format: [String!]
     related_url: [String!]
     contributor: [String!]
-    permalink: String!
+    custom_key: String
     parent_collection: [String!]
     item_category: String!
     visibility: Boolean!
