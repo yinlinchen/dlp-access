@@ -1,5 +1,3 @@
-# Collection data schema
-```
 type Collection @model {
     id: ID!
     title: String!
@@ -25,9 +23,6 @@ type Collection @model {
     modified_date: String!
     archives: [Archive] @connection(name: "CollectionArchives")
 }
-```
-# Archive data schema
-```
 type Archive @model {
     id: ID!
     title: String!
@@ -60,4 +55,3 @@ type Archive @model {
     modified_date: String!
     collection: Collection @connection(name: "CollectionArchives")
 }
-```
