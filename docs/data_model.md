@@ -3,6 +3,7 @@
 type Collection @model {
     id: ID!
     title: String!
+    identifier: String!
     description: String
     creator: [String!]
     source: [String!]
@@ -30,6 +31,7 @@ type Collection @model {
 type Item @model {
     id: ID!
     title: String!
+    identifier: String!
     description: String
     tags: [String!]
     creator: [String!]
