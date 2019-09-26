@@ -1,5 +1,12 @@
 # IAWA version 2
 
+# Data Model
+* [Collection & Archive data schema](docs/data_model.md)
+
+# AppSync
+* GraphQL API: collectionarchives
+* [Query examples](docs/appsync.md)
+
 # Environments
 
 | Environment | Development | Pre-Production | Production |
