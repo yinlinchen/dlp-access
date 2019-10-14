@@ -2,13 +2,20 @@ import React, { Component } from "react";
 import { graphqlOperation } from "aws-amplify";
 import { Connect } from "aws-amplify-react";
 
-import * as queries from "../graphql/queries";
+const GetCollection = `query getCollection($id: ID!) {
+    getCollection(id: $id) {
+      id
+      title
+      thumbnail_path
+    }
+  }
+  `;
 
 class CollectionsPage extends Component {
   render() {
     const ListView = ({ collection }) => (
       <div>
-        <h3>Collections List</h3>
+        <h3>Single Archive</h3>
         <ul>
           {
             <li key={collection.id}>
@@ -23,7 +30,7 @@ class CollectionsPage extends Component {
     return (
       <div>
         <Connect
-          query={graphqlOperation(queries.getCollection, {
+          query={graphqlOperation(GetCollection, {
             id: "1c5216df-ad4b-4ddb-9299-5692c986f7e3"
           })}
         >
