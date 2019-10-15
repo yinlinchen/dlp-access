@@ -1,4 +1,4 @@
-type Collection @model
+type Collection @model @searchable
     @key(fields: ["identifier"], name: "Identifier", queryField: "collectionByIdentifier") {
     id: ID!
     title: String!
@@ -24,7 +24,7 @@ type Collection @model
     modified_date: String!
     archives: [Archive] @connection(name: "CollectionArchives")
 }
-type Archive @model
+type Archive @model @searchable
     @key(fields: ["identifier"], name: "Identifier", queryField: "archiveByIdentifier") {
     id: ID!
     title: String!
