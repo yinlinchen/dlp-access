@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 
 const AboutPage = () => (
     <>
@@ -9,8 +8,11 @@ const AboutPage = () => (
         <p>The IAWA collections have always been open to scholars, students, and public researchers around the world. Historically, this meant traveling to Virginia Tech and visiting the University Libraries’ Special Collections Department to see materials in person. Through this website, today’s researchers also have access to a growing library of digitized documents and visual materials from the IAWA collections.</p>
         <h2>What We Collect</h2>
         <p>Today, the IAWA documents the legacies of more than 435 individuals, firms, organizations, and exhibits from the 1890s through the present day. The permanent collections include approximately 2000 cubic feet of documents, photographs and negatives, architectural drawings, sketches, scrapbooks, building models, presentation boards, and other materials that capture the creative process. The IAWA also collects books, biographical information, and other published materials as part of its mission to act as a clearinghouse of information about the global history of women in architecture.</p>
-        <p>Women who are interested in enhancing the historic record of architecture and related design professions should visit the Special Collections donations page or contact the IAWA Archivist for more information about donating materials to the IAWA.</p>
-        <h2>Are you starting a new research project? Check out our guide to conducting research in the IAWA collections: </h2>
+        <p>Women who are interested in enhancing the historic record of architecture and related design professions should visit the <a href="http://spec.lib.vt.edu/IAWA/donations.html" target="_blank" rel="noopener noreferrer">Special Collections donations page</a> or contact the <a href="mailto:specref@vt.edu">IAWA Archivist</a> for more information about donating materials to the IAWA.</p>
+        <h2>Learn More</h2>
+        <p>Are you starting a new research project? Check out our guide to conducting research in the IAWA collections: <a href="http://guides.lib.vt.edu/iawa/home" target="_blank" rel="noopener noreferrer">http://guides.lib.vt.edu/iawa/home</a></p>
+        <p>To learn more about the IAWA - including the collections not yet available online - please visit our main website: <a href="https://spec.lib.vt.edu/IAWA/" target="_blank" rel="noopener noreferrer">http://spec.lib.vt.edu/iawa</a></p>
+        <p>To learn more about the work of the IAWA Center, please visit the Center's site: <a href="http://archdesign.vt.edu/programs/iawa" target="_blank" rel="noopener noreferrer">http://archdesign.vt.edu/programs/iawa</a></p>
    </>
 );
 
