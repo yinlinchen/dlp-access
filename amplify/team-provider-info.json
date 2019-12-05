@@ -34,5 +34,17 @@
             "StackName": "iawav2-dev-20191016134756",
             "StackId": "arn:aws:cloudformation:us-east-1:909117335741:stack/iawav2-dev-20191016134756/15f379a0-f03d-11e9-885f-121fa677fe9a"
         }
+    },
+    "devupdate": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-iawav2-devupdate-80911-authRole",
+            "UnauthRoleArn": "arn:aws:iam::909117335741:role/amplify-iawav2-devupdate-80911-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::909117335741:role/amplify-iawav2-devupdate-80911-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-iawav2-devupdate-80911-deployment",
+            "UnauthRoleName": "amplify-iawav2-devupdate-80911-unauthRole",
+            "StackName": "amplify-iawav2-devupdate-80911",
+            "StackId": "arn:aws:cloudformation:us-east-1:909117335741:stack/amplify-iawav2-devupdate-80911/6db4dbd0-1760-11ea-9dc4-12cb3b0f9c64"
+        }
     }
 }
