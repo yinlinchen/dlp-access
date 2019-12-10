@@ -5,11 +5,16 @@ import { Connect } from "aws-amplify-react";
 import CollectionItemsList from "./CollectionItemsList.js";
 
 const GetCollectionItems = `query SearchCollectionItems($parent_id: String!) {
-  searchArchives(filter: { parent_collection: { eq: $parent_id }}) {
+  searchArchives(filter: { parent_collection: { eq: $parent_id }},
+      sort: {
+        field: identifier,
+        direction: asc
+      }) {
     items {
       title
       thumbnail_path
       custom_key
+      identifier
     }
   }
 }`;

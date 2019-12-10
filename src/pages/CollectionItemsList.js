@@ -33,13 +33,11 @@ class CollectionItemsList extends Component {
                       </NavLink>
                     </div>
                     <div className="collection-link-wrapper">
-                      Is part of:{" "}
+                      Identifier:{" "}
                       <NavLink
-                        to={`/collection/${arkLinkFormatted(
-                          this.props.collection.custom_key
-                        )}`}
+                        to={`/item/${arkLinkFormatted(item.custom_key)}`}
                       >
-                        {this.props.collection.title}
+                        {item.identifier}
                       </NavLink>
                     </div>
                   </td>
