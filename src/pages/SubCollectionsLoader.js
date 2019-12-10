@@ -5,7 +5,11 @@ import { Connect } from "aws-amplify-react";
 import CollectionsShowPage from "./CollectionsShowPage";
 
 const GetSubCollections = `query SearchSubCollections($parent_id: String!) {
-  searchCollections(filter: { parent_collection: { eq: $parent_id }}) {
+  searchCollections(filter: { parent_collection: { eq: $parent_id }},
+      sort: {
+        field: identifier,
+        direction: asc
+      }) {
     items {
       custom_key
       title
