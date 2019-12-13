@@ -21,7 +21,7 @@ brew install yarn
 | Environment | Development | Pre-Production | Production |
 |:-----------:|:-----------:|:--------------:|------------|
 | GitHub      |     dev     |      pprd      |    master  |
-| Amplify     |     dev     |      pprd      |    master  |
+| Amplify     |     dev(devupdate)     |      pprd      |    master  |
 
 ## Running the tests
 * End-to-end testing framework [Cypress.io](https://www.cypress.io/)
