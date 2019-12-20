@@ -2,5 +2,5 @@
     "AppSyncApiName": "collectionarchives",
     "DynamoDBBillingMode": "PAY_PER_REQUEST",
     "DynamoDBEnableServerSideEncryption": "false",
-    "APIKeyExpirationEpoch": "1602720000"
+    "APIKeyExpirationEpoch": "1603805317"
 }

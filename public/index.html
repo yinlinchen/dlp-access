@@ -17,7 +17,8 @@
     <!-- bootstrap responsive tabs -->
     <script src="https://www.assets.cms.vt.edu/bootstrap/bootstrap-responsive-tabs/js/responsive-tabs.js"></script>
 
-    <link type="text/css" rel="stylesheet" href="css/root.css"/>
+    <link type="text/css" rel="stylesheet" href="%PUBLIC_URL%/css/root.css"/>
+    <link type="text/css" rel="stylesheet" href="https://static.lib.vt.edu/iawa/css/mirador-combined.min.css"/>
 
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -110,13 +111,9 @@
       <div id="vt_logo">
     		<a class="vt-logo-link" href="https://vt.edu"><img alt="VT Virginia Tech" src="https://www.assets.cms.vt.edu/images/logo-maroon-whiteBG.svg"/></a>
       </div>
-
-
-
-
-
-
-
+      <div id="iawa-home-link-wrapper">
+        <a href="/">International Archive of Women In Architecture</a>
+      </div>
 
 
       <!-- ///////////////////////////////////////////// -->
@@ -133,7 +130,7 @@
         <div id="vt_offcanvas_nav" role="group" aria-label="Main Menu Drawer" aria-hidden="true" tabindex="-1">
           <ol id="vt_parent_org" class="vt-parent-org" aria-label="Parent Organization and Current Site">
             <li class="vt-currentSiteTitle">
-                <a class="vt-currentSiteTitle-link" href="/" tabindex="-1">Virginia Tech</a>
+                <a class="vt-currentSiteTitle-link" href="https://vt.edu" tabindex="-1">Virginia Tech</a>
             </li>
           </ol>
 
@@ -142,6 +139,7 @@
             <!-- Single menu item example -->
             <li class="nav-item"><div class="link-wrapper"><a href="/" tabindex="-1">Home</a></div></li>
             <li class="nav-item"><div class="link-wrapper"><a href="/about" tabindex="-1">About</a></div></li>
+            <li class="nav-item"><div class="link-wrapper"><a href="/terms" tabindex="-1">PERMISSION PAGE</a></div></li>
             <li class="nav-item"><div class="link-wrapper"><a href="/collections" tabindex="-1">EXPLORE COLLECTIONS</a></div></li>
             <li class="nav-item"><div class="link-wrapper"><a href="/items" tabindex="-1">BROWSE ITEMS</a></div></li>
 
@@ -179,36 +177,6 @@
           <!-- END MAIN NAVIGATION -->
           <!-- ///////////////////////////////////////////// -->
 
-      <!-- ///////////////////////////////////////////// -->
-      <!-- SEARCH -->
-      <!-- ///////////////////////////////////////////// -->
-      <div class="col" id="vt_header_search" role="search">
-        <div class="linkWrapper">
-          <button class="vt-search-toggle" aria-controls="vt_header_search_form" aria-expanded="false" onclick="javascript:searchToggle();">
-            <span class="vt-search-toggleLabel">Search</span>
-            <span class="far fa-search search-open" aria-hidden="true" focusable="false" role="img"></span>
-            <span class="far fa-times search-close d-none" aria-hidden="true" focusable="false" role="img"></span>
-          </button>
-        </div>
-        <div class="vt-search-wrapper">
-          <form id="vt_header_search_form" role="group" aria-label="Search Drawer" action="//search.vt.edu/query" method="get" name="vtsearchform" autocomplete="off">
-            <div class="vt-searchbox-input-wrapper">
-                <label for="vt_search_box" class="vt-search-searchboxLabel">Search</label>
-                <input type="search" maxlength="100" value="" name="q" id="vt_search_box" class="vt-search-box"/>
-              <button id="vt_go_button" type="submit" class="vt-search-button">
-                <span>Submit</span>
-              </button>
-            </div>
-          </form>
-          <div class="d-none" data-name="siteURL" data-value="vt.edu"></div>
-        </div> <!-- end vt-search-wrapper -->
-      <!-- ///////////////////////////////////////////// -->
-      <!-- END SEARCH -->
-      <!-- ///////////////////////////////////////////// -->
-
-
-
-</div> <!-- end vt_header_search -->
 </header>
 </div> <!-- end vt-one-headerRow -->
 <!-- ///////////////////////////////////////////// -->
@@ -321,7 +289,6 @@
 <!-- END FOOTER -->
 <!-- ///////////////////////////////////////////// -->
 
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.90/jsrender.min.js"></script>
 
 <!-- ///////////////////////////////////////////// -->
@@ -379,14 +346,15 @@
   {{/for}}
 </script>
 
-<script type="text/javascript" src="js/one.js"></script>
+<script type="text/javascript" src="%PUBLIC_URL%/js/one.js"></script>
+<script src="https://static.lib.vt.edu/iawa/js/mirador.js"></script>
 
 <script type="text/javascript">
 
   $.ajax({
 	  url: "uaMenu.json"
   }).done(function(data){
-	$("#uaRender").html($.templates("#uaMenu").render(data));
+    if ($.template) $("#uaRender").html($.templates("#uaMenu").render(data));
   })
 
 
