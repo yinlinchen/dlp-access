@@ -101,7 +101,7 @@ class CollectionItemsLoader extends Component {
   }
 
   render() {
-    if (this.state.items !== null) {
+    if (this.state.items !== null && this.state.total > 0) {
       return (
         <div className="collection-items-list-wrapper">
           <h3>Works ({this.state.total})</h3>
@@ -121,6 +121,8 @@ class CollectionItemsLoader extends Component {
           />
         </div>
       );
+    } else if (this.state.total == 0) {
+      return <div></div>;
     } else {
       return <div>Loading...</div>;
     }
