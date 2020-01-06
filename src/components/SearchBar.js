@@ -20,6 +20,12 @@ class SearchBar extends Component {
     });
   }
 
+  onKeyPress = e => {
+    if (e.which === 13) {
+      this.submit();
+    }
+  };
+
   async submit() {
     const parsedObject = this.state;
     const queryValue = parsedObject.q;
@@ -46,6 +52,7 @@ class SearchBar extends Component {
           onChange={event => {
             this.handleChange("title", event);
           }}
+          onKeyPress={this.onKeyPress}
         />
         <button onClick={this.submit}>GO</button>
       </div>
