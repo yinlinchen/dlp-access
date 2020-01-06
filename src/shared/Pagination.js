@@ -11,7 +11,7 @@ class Pagination extends Component {
   upperBound() {
     const lower = this.lowerBound();
     const num = lower + this.props.numResults - 1;
-    return num != lower ? `- ${num}` : "";
+    return num !== lower ? `- ${num}` : "";
   }
 
   render() {

@@ -121,7 +121,7 @@ class CollectionItemsLoader extends Component {
           />
         </div>
       );
-    } else if (this.state.total == 0) {
+    } else if (this.state.total === 0) {
       return <div></div>;
     } else {
       return <div>Loading...</div>;
