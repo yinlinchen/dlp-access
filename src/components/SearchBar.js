@@ -6,30 +6,40 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.submit = this.submit.bind(this);
-    const defaultSearchField = "title";
     this.state = {
-      search_field: defaultSearchField,
+      search_field: "title",
       q: ""
     };
   }
 
   handleChange(field, event) {
     this.setState({
-      search_field: field || this.state.defaultSearchField,
+      search_field: field,
       q: event.target.value
     });
   }
+
+  onKeyPress = e => {
+    if (e.which === 13) {
+      this.submit();
+    }
+  };
 
   async submit() {
     const parsedObject = this.state;
     const queryValue = parsedObject.q;
     try {
       if (queryValue === "") {
-        this.props.history.push("/items");
+        this.props.history.push({
+          pathname: "/items"
+        });
       } else {
         this.props.history.push({
           pathname: "/search",
-          search: `?${qs.stringify(parsedObject)}`
+          search: `?${qs.stringify(parsedObject)}`,
+          state: {
+            view: this.props.view
+          }
         });
       }
     } catch (err) {
@@ -39,15 +49,19 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <div>
+      <div className="input-group">
         <input
+          className="form-control"
           type="text"
           placeholder="Search Items"
           onChange={event => {
             this.handleChange("title", event);
           }}
+          onKeyPress={this.onKeyPress}
         />
-        <button onClick={this.submit}>GO</button>
+        <button className="btn btn-primary" onClick={this.submit}>
+          GO
+        </button>
       </div>
     );
   }

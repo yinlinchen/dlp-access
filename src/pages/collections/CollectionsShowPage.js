@@ -18,6 +18,14 @@ class CollectionsShowPage extends Component {
     }
   }
 
+  handleZeroItems(collection) {
+    if (collection > 0) {
+      return collection + " items";
+    }
+
+    return "";
+  }
+
   collectionSize(collection) {
     let subCollections =
       collection.subCollections.items != null
@@ -59,7 +67,7 @@ class CollectionsShowPage extends Component {
         <h1 className="collection-title">{this.props.collection.title}</h1>
         <div className="post-heading">
           <span className="item-count">
-            {this.collectionSize(this.props.collection)} items
+            {this.handleZeroItems(this.collectionSize(this.props.collection))}
           </span>
 
           <this.creatorDates collection={this.props.collection} />
@@ -80,12 +88,16 @@ class CollectionsShowPage extends Component {
           <div className="details-section-content">
             <table>
               <tbody>
-                <tr>
-                  <td className="collection-detail-key">Size</td>
-                  <td className="collection-detail-value">
-                    {this.collectionSize(this.props.collection)}
-                  </td>
-                </tr>
+                {this.collectionSize(this.props.collection) > 0 ? (
+                  <tr>
+                    <td className="collection-detail-key">Size</td>
+                    <td className="collection-detail-value">
+                      {this.collectionSize(this.props.collection)}
+                    </td>
+                  </tr>
+                ) : (
+                  <tr></tr>
+                )}
 
                 {this.props.collection.creator != null ? (
                   <tr>
