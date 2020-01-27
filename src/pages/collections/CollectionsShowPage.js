@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
-
 import "../../css/CollectionsShowPage.css";
-
 import SubCollectionsList from "./SubCollectionsList.js";
 import CollectionItemsLoader from "./CollectionItemsLoader.js";
-
-// import * as queries from "../graphql/queries";
+import Breadcrumbs from "../../components/Breadcrumbs.js";
 
 class CollectionsShowPage extends Component {
   creatorDates(props) {
@@ -55,15 +51,13 @@ class CollectionsShowPage extends Component {
   render() {
     return (
       <div>
-        <div className="nav-row">
-          <span>
-            <NavLink to={"/"}>Home</NavLink>
-          </span>{" "}
-          /{" "}
-          <span>
-            <NavLink to={"/collections"}>Back to search results</NavLink>
-          </span>
+        <div className="breadcrumbs-wrapper">
+          <Breadcrumbs
+            dataType={"Collections"}
+            record={this.props.collection}
+          />
         </div>
+
         <h1 className="collection-title">{this.props.collection.title}</h1>
         <div className="post-heading">
           <span className="item-count">
