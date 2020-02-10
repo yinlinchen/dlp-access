@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import TermsPage from "./pages/TermsPage";
@@ -13,10 +14,37 @@ import ContactSection from "./shared/ContactSection";
 import "./App.css";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      view: "List",
+      siteDetails: null
+    };
+  }
+
+  async fetchSiteDetails(siteName) {
+    const response = await fetch(`/site_data/${siteName}.json`);
+    const data = await response.json();
+    this.setState({
+      siteDetails: data
+    });
+  }
+
+  getSiteName() {
+    const host = window.location.hostname;
+    const regex = /^[a-z]*/;
+    let siteName = null;
+    if (host.match(regex) !== null) {
+      siteName = host.match(regex)[0];
+    }
+    return siteName;
+  }
+
   render() {
     return (
       <Router>
-        <div>
+        <Header siteDetails={this.state.siteDetails} />
+        <main style={{ minHeight: "500px", padding: "1em 1em 0 1em" }}>
           <div id="content-wrapper" className="container" role="main">
             <Switch>
               <Route path="/" exact component={HomePage} />
@@ -40,7 +68,7 @@ class App extends Component {
             </Switch>
           </div>
           <ContactSection />
-        </div>
+        </main>
       </Router>
     );
   }
