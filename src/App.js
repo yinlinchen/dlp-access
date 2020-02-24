@@ -23,54 +23,112 @@ class App extends Component {
   }
 
   async fetchSiteDetails(siteName) {
-    const response = await fetch(`/site_data/${siteName}.json`);
-    const data = await response.json();
+    let response = null;
+    let data = null;
+
+    try {
+      response = await fetch(
+        `${process.env.REACT_APP_CONFIG_PATH}/${siteName.toLowerCase()}.json`
+      );
+      data = await response.json();
+    } catch (error) {
+      console.error(`Error fetching ${siteName.toLowerCase()}.json`);
+      console.error(error);
+    }
+    if (data === null) {
+      try {
+        response = await fetch(
+          `${process.env.REACT_APP_CONFIG_PATH}/default.json`
+        );
+        data = await response.json();
+      } catch (error) {
+        console.error("Error fetching default.json");
+        console.error(error);
+      }
+    }
     this.setState({
       siteDetails: data
     });
   }
 
-  getSiteName() {
-    const host = window.location.hostname;
-    const regex = /^[a-z]*/;
-    let siteName = null;
-    if (host.match(regex) !== null) {
-      siteName = host.match(regex)[0];
-    }
-    return siteName;
+  componentDidMount() {
+    this.fetchSiteDetails(process.env.REACT_APP_REP_TYPE);
   }
 
   render() {
-    return (
-      <Router>
-        <Header siteDetails={this.state.siteDetails} />
-        <main style={{ minHeight: "500px", padding: "1em 1em 0 1em" }}>
-          <div id="content-wrapper" className="container" role="main">
-            <Switch>
-              <Route path="/" exact component={HomePage} />
-              <Route path="/about" exact component={AboutPage} />
-              <Route path="/terms" component={TermsPage} />
-              <Route
-                path="/collections"
-                exact
-                component={CollectionsListLoader}
-              />
-              <Route
-                path="/collection/:customKey"
-                render={props => (
-                  <CollectionsShowLoader
-                    customKey={props.match.params.customKey}
-                  />
-                )}
-              />
-              <Route path="/search" exact component={SearchLoader} />
-              <Route path="/archive/:customKey" component={ArchivePage} />
-            </Switch>
-          </div>
-          <ContactSection />
-        </main>
-      </Router>
-    );
+    console.log(process.env);
+    if (this.state.siteDetails !== null) {
+      return (
+        <Router>
+          <Header siteDetails={this.state.siteDetails} />
+          <main style={{ minHeight: "500px", padding: "1em 1em 0 1em" }}>
+            <div id="content-wrapper" className="container" role="main">
+              <Switch>
+                <Route
+                  path="/"
+                  exact
+                  render={props => (
+                    <HomePage siteDetails={this.state.siteDetails} />
+                  )}
+                />
+                <Route
+                  path="/about"
+                  exact
+                  render={props => (
+                    <AboutPage siteDetails={this.state.siteDetails} />
+                  )}
+                />
+                <Route
+                  path="/terms"
+                  exact
+                  render={props => (
+                    <TermsPage siteDetails={this.state.siteDetails} />
+                  )}
+                />
+                <Route
+                  path="/collections"
+                  exact
+                  render={props => (
+                    <CollectionsListLoader
+                      siteDetails={this.state.siteDetails}
+                    />
+                  )}
+                />
+                <Route
+                  path="/collection/:customKey"
+                  render={props => (
+                    <CollectionsShowLoader
+                      siteDetails={this.state.siteDetails}
+                      customKey={props.match.params.customKey}
+                    />
+                  )}
+                />
+                <Route
+                  path="/search"
+                  exact
+                  render={props => (
+                    <SearchLoader siteDetails={this.state.siteDetails} />
+                  )}
+                />
+                <Route
+                  path="/archive/:customKey"
+                  exact
+                  render={props => (
+                    <ArchivePage
+                      siteDetails={this.state.siteDetails}
+                      customKey={props.match.params.customKey}
+                    />
+                  )}
+                />
+              </Switch>
+            </div>
+            <ContactSection siteDetails={this.state.siteDetails} />
+          </main>
+        </Router>
+      );
+    } else {
+      return <div>Error fetching site details from config</div>;
+    }
   }
 }
 
