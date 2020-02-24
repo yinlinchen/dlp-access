@@ -1,6 +1,5 @@
 # IAWA version 2
 
-
 ## Design
 * Data Model
   * [Collection & Archive data schema](docs/data_model.md)
@@ -16,12 +15,14 @@ npm install -g @aws-amplify/cli
 brew install yarn
 ```
 
-* Environments
-
+## Environments
 | Environment | Development | Pre-Production | Production |
 |:-----------:|:-----------:|:--------------:|------------|
 | GitHub      |     dev     |      pprd      |    master  |
 | Amplify     |     dev(devupdate)     |      pprd      |    master  |
+
+## Amplify CLI
+* Version: 4.13.1 as 02/04/2020
 
 ## Running the tests
 * End-to-end testing framework [Cypress.io](https://www.cypress.io/)
