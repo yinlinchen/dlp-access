@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import TermsPage from "./pages/TermsPage";
@@ -124,6 +125,7 @@ class App extends Component {
             </div>
             <ContactSection siteDetails={this.state.siteDetails} />
           </main>
+          <Footer />
         </Router>
       );
     } else {
