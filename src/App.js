@@ -33,7 +33,7 @@ class App extends Component {
       );
       data = await response.json();
     } catch (error) {
-      console.error(`Error fetching ${siteName.toLowerCase()}.json`);
+      console.error(`Error fetching config file`);
       console.error(error);
     }
     if (data === null) {
@@ -57,7 +57,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(process.env);
     if (this.state.siteDetails !== null) {
       return (
         <Router>
