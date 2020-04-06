@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import CollectionsList from "./CollectionsList";
-import ResultsNumberDropdown from "../../shared/ResultsNumberDropdown";
-import Pagination from "../../shared/Pagination";
+import { ItemListView } from "../search/ItemListView";
+import ResultsNumberDropdown from "../../components/ResultsNumberDropdown";
+import Pagination from "../../components/Pagination";
 import "../../css/ListPages.css";
 
 class CollectionsListPage extends Component {
@@ -35,7 +35,13 @@ class CollectionsListPage extends Component {
         <Header />
         <ResultsNumberDropdown setLimit={this.props.setLimit} />
         <ul>
-          <CollectionsList collections={this.props.collections} />
+          {this.props.collections.map(collection => (
+            <ItemListView
+              key={collection.id}
+              item={collection}
+              dataType="collection"
+            />
+          ))}
         </ul>
         <CollectionsPaginationDisplay atBottom={true} />
       </div>

@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import { graphqlOperation } from "aws-amplify";
 import { Connect } from "aws-amplify-react";
 import Viewer from "../../components/Viewer";
-import { Table } from "../../components/Table";
 import SearchBar from "../../components/SearchBar";
-import { SetAttrArray } from "../../components/SetAttrArray";
 import Breadcrumbs from "../../components/Breadcrumbs.js";
 import SiteTitle from "../../components/SiteTitle";
+import { RenderItemsDetailed } from "../../lib/MetadataRenderer";
 
 const GetArchive = `query searchArchive($customKey: String) {
   searchArchives(filter: {
@@ -45,7 +44,7 @@ const GetArchive = `query searchArchive($customKey: String) {
 }
 `;
 
-const keyArray = [
+const KeyArray = [
   "identifier",
   "belongs_to",
   "bibliographic_citation",
@@ -112,6 +111,11 @@ class ArchivePage extends Component {
             showAddFromURLBox: false
           };
 
+          // log archive identifier in ga
+          window.ga("send", "pageview", {
+            dimension1: item.identifier
+          });
+
           return (
             <div>
               <SiteTitle
@@ -135,9 +139,16 @@ class ArchivePage extends Component {
                 </div>
               </div>
               <p>{item.description}</p>
-              <div className="row">
-                <div id="metadata_table" className="col-sm-12">
-                  <Table rows={SetAttrArray(keyArray, item)} />
+              <div className="details-section">
+                <div className="details-section-header">
+                  <h2>Archive Details</h2>
+                </div>
+                <div className="details-section-content">
+                  <table>
+                    <tbody>
+                      <RenderItemsDetailed keyArray={KeyArray} item={item} />
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>

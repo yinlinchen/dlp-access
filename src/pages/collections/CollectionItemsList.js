@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { Thumbnail } from "../../components/Thumbnail";
-import { arkLinkFormatted } from "../../shared/TextFormatTools";
+import { arkLinkFormatted } from "../../lib/MetadataRenderer";
 
 import "../../css/CollectionsShowPage.css";
 
@@ -11,7 +11,7 @@ class CollectionItemsList extends Component {
     if (this.props.items.length) {
       retVal = (
         <div className="collection-items-list">
-          <table>
+          <table className="table table-striped">
             <thead>
               <tr>
                 <th>&nbsp;</th>

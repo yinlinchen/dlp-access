@@ -15,6 +15,12 @@ npm install -g @aws-amplify/cli
 brew install yarn
 ```
 
+## Amplify Environment variables
+```
+REACT_APP_REP_TYPE=IAWA (e.g. IAWA, SWVA, etc)
+REACT_APP_CONFIG_PATH="https://vtdlp-dev-site-data.s3.amazonaws.com"
+```
+
 ## Environments
 | Environment | Development | Pre-Production | Production |
 |:-----------:|:-----------:|:--------------:|------------|
@@ -26,8 +32,8 @@ brew install yarn
 
 ## Running the tests
 * End-to-end testing framework [Cypress.io](https://www.cypress.io/)
-  * Start local server using ```npm start```
-  * Launch the Cypress app ```node_modules/.bin/cypress open```
+  * Start local server using ```REACT_APP_REP_TYPE=IAWA REACT_APP_CONFIG_PATH="https://vtdlp-dev-site-data.s3.amazonaws.com" npm start```
+  * Launch the Cypress app ```yarn run cypress open```
 
 ## Documents
 * [Development workflow](https://aws-amplify.github.io/docs/cli-toolchain/quickstart#concepts-1)

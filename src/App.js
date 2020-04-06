@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import ScrollToTop from "./lib/ScrollToTop";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import TermsPage from "./pages/TermsPage";
@@ -9,7 +11,7 @@ import CollectionsShowLoader from "./pages/collections/CollectionsShowLoader";
 
 import SearchLoader from "./pages/search/SearchLoader";
 import ArchivePage from "./pages/archives/ArchivePage";
-import ContactSection from "./shared/ContactSection";
+import ContactSection from "./components/ContactSection";
 
 import "./App.css";
 
@@ -32,7 +34,7 @@ class App extends Component {
       );
       data = await response.json();
     } catch (error) {
-      console.error(`Error fetching ${siteName.toLowerCase()}.json`);
+      console.error(`Error fetching config file`);
       console.error(error);
     }
     if (data === null) {
@@ -56,10 +58,10 @@ class App extends Component {
   }
 
   render() {
-    console.log(process.env);
     if (this.state.siteDetails !== null) {
       return (
         <Router>
+          <ScrollToTop />
           <Header siteDetails={this.state.siteDetails} />
           <main style={{ minHeight: "500px", padding: "1em 1em 0 1em" }}>
             <div id="content-wrapper" className="container" role="main">
@@ -124,6 +126,7 @@ class App extends Component {
             </div>
             <ContactSection siteDetails={this.state.siteDetails} />
           </main>
+          <Footer />
         </Router>
       );
     } else {
