@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
-import TermsPage from "./pages/TermsPage";
+import PermissionsPage from "./pages/PermissionsPage";
 import CollectionsListLoader from "./pages/collections/CollectionsListLoader";
 import CollectionsShowLoader from "./pages/collections/CollectionsShowLoader";
 
@@ -61,7 +61,10 @@ class App extends Component {
       return (
         <Router>
           <ScrollToTop />
-          <Header siteDetails={this.state.siteDetails} />
+          <Header
+            siteDetails={this.state.siteDetails}
+            location={window.location}
+          />
           <main style={{ minHeight: "500px", padding: "1em 1em 0 1em" }}>
             <div id="content-wrapper" className="container" role="main">
               <Switch>
@@ -80,10 +83,10 @@ class App extends Component {
                   )}
                 />
                 <Route
-                  path="/terms"
+                  path="/permissions"
                   exact
                   render={props => (
-                    <TermsPage siteDetails={this.state.siteDetails} />
+                    <PermissionsPage siteDetails={this.state.siteDetails} />
                   )}
                 />
                 <Route
