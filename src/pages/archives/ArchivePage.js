@@ -53,6 +53,16 @@ class ArchivePage extends Component {
     this.setState({ page: page });
   };
 
+  addNewlineInDesc(content) {
+    if (content) {
+      content = content.split("\n").map((value, index) => {
+        return <p key={index}>{value}</p>;
+      });
+    }
+
+    return content;
+  }
+
   componentDidMount() {
     fetchLanguages(this, "abbr");
   }
@@ -118,9 +128,7 @@ class ArchivePage extends Component {
                 <div className="row item-details-section">
                   <div className="col-lg-6 details-section-description">
                     <h4>{item.title}</h4>
-                    {item.description.split("\n").map((value, index) => {
-                      return <p key={index}>{value}</p>;
-                    })}
+                    {this.addNewlineInDesc(item.description)}
                   </div>
                   <div className="col-lg-6 details-section-metadata">
                     <table>

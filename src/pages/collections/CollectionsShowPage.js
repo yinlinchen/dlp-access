@@ -34,6 +34,16 @@ class CollectionsShowPage extends Component {
     return "";
   }
 
+  addNewlineInDesc(content) {
+    if (content) {
+      content = content.split("\n").map((value, index) => {
+        return <p key={index}>{value}</p>;
+      });
+    }
+
+    return content;
+  }
+
   componentDidMount() {
     fetchLanguages(this, "abbr");
   }
@@ -78,11 +88,7 @@ class CollectionsShowPage extends Component {
             </span>
           </div>
           <div className="description">
-            {this.props.collection.description
-              .split("\n")
-              .map((value, index) => {
-                return <p key={index}>{value}</p>;
-              })}
+            {this.addNewlineInDesc(this.props.collection.description)}
           </div>
 
           <SubCollectionsLoader
