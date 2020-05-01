@@ -49,8 +49,9 @@ export function addNewlineInDesc(content) {
     content = content.split("\n").map((value, index) => {
       return <p key={index}>{value}</p>;
     });
+    return <div className="description">{content}</div>;
   }
-  return content;
+  return <></>;
 }
 
 function listValue(dataType, attr, value, languages) {

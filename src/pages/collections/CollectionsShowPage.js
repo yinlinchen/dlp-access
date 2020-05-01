@@ -78,9 +78,8 @@ class CollectionsShowPage extends Component {
               Last updated: {this.props.collection.modified_date}
             </span>
           </div>
-          <div className="description">
-            {addNewlineInDesc(this.props.collection.description)}
-          </div>
+
+          {addNewlineInDesc(this.props.collection.description)}
 
           <SubCollectionsLoader
             collection={this.props.collection}
