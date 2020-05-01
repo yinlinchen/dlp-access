@@ -44,6 +44,15 @@ export function collectionSize(collection) {
   return subCollections + archives;
 }
 
+export function addNewlineInDesc(content) {
+  if (content) {
+    content = content.split("\n").map((value, index) => {
+      return <p key={index}>{value}</p>;
+    });
+  }
+  return content;
+}
+
 function listValue(dataType, attr, value, languages) {
   const LinkedFields = [
     "creator",

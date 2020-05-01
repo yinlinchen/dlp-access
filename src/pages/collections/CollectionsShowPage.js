@@ -5,7 +5,8 @@ import CollectionItemsLoader from "./CollectionItemsLoader.js";
 import Breadcrumbs from "../../components/Breadcrumbs.js";
 import {
   RenderItemsDetailed,
-  collectionSize
+  collectionSize,
+  addNewlineInDesc
 } from "../../lib/MetadataRenderer";
 import { fetchLanguages } from "../../lib/fetchTools";
 
@@ -32,16 +33,6 @@ class CollectionsShowPage extends Component {
     }
 
     return "";
-  }
-
-  addNewlineInDesc(content) {
-    if (content) {
-      content = content.split("\n").map((value, index) => {
-        return <p key={index}>{value}</p>;
-      });
-    }
-
-    return content;
   }
 
   componentDidMount() {
@@ -88,7 +79,7 @@ class CollectionsShowPage extends Component {
             </span>
           </div>
           <div className="description">
-            {this.addNewlineInDesc(this.props.collection.description)}
+            {addNewlineInDesc(this.props.collection.description)}
           </div>
 
           <SubCollectionsLoader

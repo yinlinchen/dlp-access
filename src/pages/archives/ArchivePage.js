@@ -5,7 +5,10 @@ import Viewer from "../../components/Viewer";
 import SearchBar from "../../components/SearchBar";
 import Breadcrumbs from "../../components/Breadcrumbs.js";
 import SiteTitle from "../../components/SiteTitle";
-import { RenderItemsDetailed } from "../../lib/MetadataRenderer";
+import {
+  RenderItemsDetailed,
+  addNewlineInDesc
+} from "../../lib/MetadataRenderer";
 import { fetchLanguages } from "../../lib/fetchTools";
 import { getArchiveByCustomKey } from "../../graphql/queries";
 
@@ -128,7 +131,7 @@ class ArchivePage extends Component {
                 <div className="row item-details-section">
                   <div className="col-lg-6 details-section-description">
                     <h4>{item.title}</h4>
-                    {this.addNewlineInDesc(item.description)}
+                    {addNewlineInDesc(item.description)}
                   </div>
                   <div className="col-lg-6 details-section-metadata">
                     <table>
