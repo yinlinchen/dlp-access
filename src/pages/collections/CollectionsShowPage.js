@@ -5,7 +5,8 @@ import CollectionItemsLoader from "./CollectionItemsLoader.js";
 import Breadcrumbs from "../../components/Breadcrumbs.js";
 import {
   RenderItemsDetailed,
-  collectionSize
+  collectionSize,
+  addNewlineInDesc
 } from "../../lib/MetadataRenderer";
 import { fetchLanguages } from "../../lib/fetchTools";
 
@@ -77,13 +78,8 @@ class CollectionsShowPage extends Component {
               Last updated: {this.props.collection.modified_date}
             </span>
           </div>
-          <div className="description">
-            {this.props.collection.description
-              .split("\n")
-              .map((value, index) => {
-                return <p key={index}>{value}</p>;
-              })}
-          </div>
+
+          {addNewlineInDesc(this.props.collection.description)}
 
           <SubCollectionsLoader
             collection={this.props.collection}
