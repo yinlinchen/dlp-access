@@ -86,6 +86,7 @@ a.more-link {
 .pagination-text {
   padding: 5px 3.5px 5px 0px;
   font-weight: 500;
+  font-size: 1.1rem;
 }
 
 .pagination-section .ui.button {
