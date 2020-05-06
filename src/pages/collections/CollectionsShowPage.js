@@ -94,6 +94,7 @@ class CollectionsShowPage extends Component {
   }
 
   subCollectionTitle() {
+    console.log(this.props.collection);
     let title = "";
     if (this.state.title && this.state.title !== this.props.collection.title) {
       title = this.props.collection.title;
@@ -196,26 +197,27 @@ class CollectionsShowPage extends Component {
               </div>
             </div>
           </div>
-          <div className="mid-content-row row">
-            <div className="col-8 details-section">
-              <div className="details-section-header">
-                <h2>Collection Details</h2>
+
+          <div className="container-fluid">
+            <div className="mid-content-row row">
+              <div className="col-12 col-lg-8 details-section">
+                <div className="details-section-header"></div>
+                <div className="details-section-content-grid">
+                  <RenderItemsDetailed
+                    keyArray={KeyArray}
+                    item={this.props.collection}
+                    languages={this.state.languages}
+                    type="grid"
+                  />
+                </div>
               </div>
-              <div className="details-section-content-grid">
-                <RenderItemsDetailed
-                  keyArray={KeyArray}
-                  item={this.props.collection}
-                  languages={this.state.languages}
-                  type="grid"
+
+              <div className="col-12 col-lg-4 subcollections-section">
+                <SubCollectionsLoader
+                  collection={this.props.collection}
+                  updateSubCollections={this.updateSubCollections}
                 />
               </div>
-            </div>
-
-            <div className="col-4 subcollections-section">
-              <SubCollectionsLoader
-                collection={this.props.collection}
-                updateSubCollections={this.updateSubCollections}
-              />
             </div>
           </div>
 
