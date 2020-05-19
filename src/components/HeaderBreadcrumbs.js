@@ -9,7 +9,7 @@ class HeaderBreadcrumbs extends Breadcrumbs {
     super(props);
     this.state = {
       links: [],
-      identifier: null
+      title: null
     };
   }
 
@@ -17,29 +17,29 @@ class HeaderBreadcrumbs extends Breadcrumbs {
     const type = path_array[1];
     const customKey = path_array[2];
     const filter = { customKey: `ark:/53696/${customKey}` };
-    let identifier = null;
+    let title = null;
     if (type === "collection") {
       const item = await API.graphql(
         graphqlOperation(queries.getCollectionByCustomKey, filter)
       );
       try {
-        identifier = item.data.searchCollections.items[0].identifier;
+        title = item.data.searchCollections.items[0].title;
       } catch (error) {
-        console.error(`error getting identifier for collection: ${customKey}`);
+        console.error(`error getting title for collection: ${customKey}`);
       }
     } else if (type === "archive") {
       const item = await API.graphql(
         graphqlOperation(queries.getArchiveByCustomKey, filter)
       );
       try {
-        identifier = item.data.searchArchives.items[0].identifier;
+        title = item.data.searchArchives.items[0].title;
       } catch (error) {
-        console.error(`error getting identifier for archive: ${customKey}`);
+        console.error(`error getting title for archive: ${customKey}`);
       }
     }
 
-    if (identifier) {
-      this.setState({ identifier: identifier }, function() {
+    if (title) {
+      this.setState({ title: title }, function() {
         this.buildList(pathname, path_array);
       });
     } else {
@@ -54,9 +54,7 @@ class HeaderBreadcrumbs extends Breadcrumbs {
       page = path_array[1];
       if (page === "collection" || page === "archive") {
         pageObj = {
-          title: `${page.charAt(0).toUpperCase() + page.slice(1)}: ${
-            this.state.identifier
-          }`,
+          title: this.state.title,
           url: pathname,
           custom_key: null
         };

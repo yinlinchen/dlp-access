@@ -29,7 +29,7 @@ class Breadcrumbs extends Component {
         : null;
     let parent_list = [];
     parent_list.push({
-      title: breadcrumbTitle(this.props.record.title),
+      title: this.props.record.title,
       url:
         "/" +
         this.props.dataType.replace(/s+$/, "").toLowerCase() +
@@ -46,7 +46,7 @@ class Breadcrumbs extends Component {
             ? parent_collection.parent_collection[0]
             : null;
         parent_list.push({
-          title: parent_collection.identifier,
+          title: parent_collection.title,
           url: "/collection/" + arkLinkFormatted(parent_collection.custom_key),
           custom_key: arkLinkFormatted(parent_collection.custom_key)
         });

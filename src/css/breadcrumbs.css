@@ -15,7 +15,10 @@
   position: relative;
   display: block;
   float: left;
-  margin-left: 15px;
+}
+
+.breadcrumbs-wrapper ol li .breadcrumb-slash {
+  margin: 0 5px;
 }
 
 .breadcrumbs-wrapper ol li a.vt-breadcrumbs-link,

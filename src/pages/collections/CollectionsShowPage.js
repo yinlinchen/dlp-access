@@ -93,15 +93,6 @@ class CollectionsShowPage extends Component {
     return this.state.title || this.props.collection.title;
   }
 
-  subCollectionTitle() {
-    console.log(this.props.collection);
-    let title = "";
-    if (this.state.title && this.state.title !== this.props.collection.title) {
-      title = this.props.collection.title;
-    }
-    return title;
-  }
-
   onMoreLessClick(e) {
     e.preventDefault();
     let truncated = true;
@@ -165,9 +156,6 @@ class CollectionsShowPage extends Component {
             </div>
             <div className="collection-details-col col-8">
               <h1 className="collection-title">{this.collectionTitle()}</h1>
-              <h2 className="subcollection-title">
-                {this.subCollectionTitle()}
-              </h2>
               <div className="post-heading">
                 <span className="item-count">
                   {this.handleZeroItems(collectionSize(this.props.collection))}
