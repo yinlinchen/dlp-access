@@ -13,31 +13,26 @@ class HeaderBreadcrumbs extends Breadcrumbs {
     };
   }
 
-  async getIdentifier(pathname, path_array) {
+  async getTitle(pathname, path_array) {
     const type = path_array[1];
     const customKey = path_array[2];
     const filter = { customKey: `ark:/53696/${customKey}` };
     let title = null;
+    let query = null;
+    let dataRecord = null;
     if (type === "collection") {
-      const item = await API.graphql(
-        graphqlOperation(queries.getCollectionByCustomKey, filter)
-      );
-      try {
-        title = item.data.searchCollections.items[0].title;
-      } catch (error) {
-        console.error(`error getting title for collection: ${customKey}`);
-      }
+      query = queries.getCollectionByCustomKey;
+      dataRecord = "searchCollections";
     } else if (type === "archive") {
-      const item = await API.graphql(
-        graphqlOperation(queries.getArchiveByCustomKey, filter)
-      );
-      try {
-        title = item.data.searchArchives.items[0].title;
-      } catch (error) {
-        console.error(`error getting title for archive: ${customKey}`);
-      }
+      query = queries.getArchiveByCustomKey;
+      dataRecord = "searchArchives";
     }
-
+    const item = await API.graphql(graphqlOperation(query, filter));
+    try {
+      title = item.data[dataRecord].items[0].title;
+    } catch (error) {
+      console.error(`error getting title for archive: ${customKey}`);
+    }
     if (title) {
       this.setState({ title: title }, function() {
         this.buildList(pathname, path_array);
@@ -93,7 +88,7 @@ class HeaderBreadcrumbs extends Breadcrumbs {
       const pathname = this.props.location.pathname;
       const path_array = pathname.split("/");
       if (path_array.length >= 2) {
-        this.getIdentifier(pathname, path_array);
+        this.getTitle(pathname, path_array);
       }
     }
   }
@@ -102,7 +97,7 @@ class HeaderBreadcrumbs extends Breadcrumbs {
     const pathname = this.props.location.pathname;
     const path_array = pathname.split("/");
     if (path_array.length >= 2) {
-      this.getIdentifier(pathname, path_array);
+      this.getTitle(pathname, path_array);
     }
   }
 
