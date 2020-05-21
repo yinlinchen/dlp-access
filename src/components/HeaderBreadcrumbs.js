@@ -9,37 +9,34 @@ class HeaderBreadcrumbs extends Breadcrumbs {
     super(props);
     this.state = {
       links: [],
-      identifier: null
+      title: null
     };
   }
 
-  async getIdentifier(pathname, path_array) {
+  async getTitle(pathname, path_array) {
     const type = path_array[1];
     const customKey = path_array[2];
     const filter = { customKey: `ark:/53696/${customKey}` };
-    let identifier = null;
+    let title = null;
+    let query = null;
+    let dataRecord = null;
     if (type === "collection") {
-      const item = await API.graphql(
-        graphqlOperation(queries.getCollectionByCustomKey, filter)
-      );
-      try {
-        identifier = item.data.searchCollections.items[0].identifier;
-      } catch (error) {
-        console.error(`error getting identifier for collection: ${customKey}`);
-      }
+      query = queries.getCollectionByCustomKey;
+      dataRecord = "searchCollections";
     } else if (type === "archive") {
-      const item = await API.graphql(
-        graphqlOperation(queries.getArchiveByCustomKey, filter)
-      );
+      query = queries.getArchiveByCustomKey;
+      dataRecord = "searchArchives";
+    }
+    if (query) {
+      const item = await API.graphql(graphqlOperation(query, filter));
       try {
-        identifier = item.data.searchArchives.items[0].identifier;
+        title = item.data[dataRecord].items[0].title;
       } catch (error) {
-        console.error(`error getting identifier for archive: ${customKey}`);
+        console.error(`error getting title for archive: ${customKey}`);
       }
     }
-
-    if (identifier) {
-      this.setState({ identifier: identifier }, function() {
+    if (title) {
+      this.setState({ title: title }, function() {
         this.buildList(pathname, path_array);
       });
     } else {
@@ -54,9 +51,7 @@ class HeaderBreadcrumbs extends Breadcrumbs {
       page = path_array[1];
       if (page === "collection" || page === "archive") {
         pageObj = {
-          title: `${page.charAt(0).toUpperCase() + page.slice(1)}: ${
-            this.state.identifier
-          }`,
+          title: this.state.title,
           url: pathname,
           custom_key: null
         };
@@ -95,7 +90,7 @@ class HeaderBreadcrumbs extends Breadcrumbs {
       const pathname = this.props.location.pathname;
       const path_array = pathname.split("/");
       if (path_array.length >= 2) {
-        this.getIdentifier(pathname, path_array);
+        this.getTitle(pathname, path_array);
       }
     }
   }
@@ -104,7 +99,7 @@ class HeaderBreadcrumbs extends Breadcrumbs {
     const pathname = this.props.location.pathname;
     const path_array = pathname.split("/");
     if (path_array.length >= 2) {
-      this.getIdentifier(pathname, path_array);
+      this.getTitle(pathname, path_array);
     }
   }
 
