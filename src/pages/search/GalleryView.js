@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
 import { arkLinkFormatted } from "../../lib/MetadataRenderer";
 import Thumbnail from "../../components/Thumbnail";
 import "../../css/SearchResult.css";
@@ -15,8 +14,8 @@ class GalleryView extends Component {
             className="card-img-top"
           />
           <div className="card-body">
-            <NavLink
-              to={`/${this.props.dataType}/${arkLinkFormatted(
+            <a
+              href={`/${this.props.dataType}/${arkLinkFormatted(
                 this.props.item.custom_key
               )}`}
             >
@@ -26,7 +25,7 @@ class GalleryView extends Component {
               <p className="card-text crop-text-3">
                 {this.props.item.description}
               </p>
-            </NavLink>
+            </a>
           </div>
         </div>
       </div>

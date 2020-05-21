@@ -27,11 +27,13 @@ class HeaderBreadcrumbs extends Breadcrumbs {
       query = queries.getArchiveByCustomKey;
       dataRecord = "searchArchives";
     }
-    const item = await API.graphql(graphqlOperation(query, filter));
-    try {
-      title = item.data[dataRecord].items[0].title;
-    } catch (error) {
-      console.error(`error getting title for archive: ${customKey}`);
+    if (query) {
+      const item = await API.graphql(graphqlOperation(query, filter));
+      try {
+        title = item.data[dataRecord].items[0].title;
+      } catch (error) {
+        console.error(`error getting title for archive: ${customKey}`);
+      }
     }
     if (title) {
       this.setState({ title: title }, function() {
