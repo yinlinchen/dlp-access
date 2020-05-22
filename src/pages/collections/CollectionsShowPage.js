@@ -135,7 +135,9 @@ class CollectionsShowPage extends Component {
       "identifier",
       "bibliographic_citation",
       "rights_holder",
-      "related_url"
+      "related_url",
+      "provenance",
+      "belongs_to"
     ];
 
     if (this.state.languages) {
@@ -175,10 +177,10 @@ class CollectionsShowPage extends Component {
                 <div>
                   <h3 className="introduction">Introduction</h3>
                   {this.getDescription()}{" "}
-                  <a href="#" onClick={this.onMoreLessClick} id="more">
+                  <a href="/#" onClick={this.onMoreLessClick} id="more">
                     . . .[more]
                   </a>
-                  <a href="#" onClick={this.onMoreLessClick} id="less">
+                  <a href="/#" onClick={this.onMoreLessClick} id="less">
                     . . .[less]
                   </a>
                 </div>

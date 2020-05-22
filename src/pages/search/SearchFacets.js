@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { API, graphqlOperation } from "aws-amplify";
-import * as queries from "../../graphql/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDoubleRight,
@@ -9,6 +7,7 @@ import {
 import { NavLink } from "react-router-dom";
 import qs from "query-string";
 import { labelAttr } from "../../lib/MetadataRenderer";
+import { fetchSearchResults } from "../../lib/fetchTools";
 import "../../css/ListPages.css";
 import "../../css/SearchResult.css";
 
@@ -17,7 +16,7 @@ class SearchFacets extends Component {
     super(props);
     this.state = {
       open: false,
-      facetNodes: null
+      facetNodes: []
     };
     this._isMounted = false;
     this.togglePanel = this.togglePanel.bind(this);
@@ -36,6 +35,12 @@ class SearchFacets extends Component {
     this._isMounted = false;
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      this.loadFacets("date");
+    }
+  }
+
   dateRanges = [
     ["1920", "1939"],
     ["1940", "1959"],
@@ -49,30 +54,21 @@ class SearchFacets extends Component {
   };
 
   async loadFacets(field) {
-    const REP_TYPE = process.env.REACT_APP_REP_TYPE;
-    let archiveFilter = {
-      item_category: { eq: REP_TYPE },
-      visibility: { eq: true }
-    };
     let fieldFacet = [];
-    let searchPhrase = {};
     let parsedObject = {
       data_type: this.props.dataType,
       search_field: field,
       view: this.props.view
     };
 
-    for (const [index, value] of this.dateRanges.entries()) {
-      searchPhrase = {
-        start_date: { gte: `${value[0]}/01/01`, lte: `${value[1]}/12/31` }
+    for (const value of this.dateRanges) {
+      let options = {
+        filter: {
+          start_date: { gte: `${value[0]}/01/01`, lte: `${value[1]}/12/31` }
+        }
       };
-      archiveFilter = { ...archiveFilter, ...searchPhrase };
-      const Archives = await API.graphql(
-        graphqlOperation(queries.searchArchives, {
-          filter: archiveFilter
-        })
-      );
-      let total = Archives.data.searchArchives.total;
+      let searchResults = await fetchSearchResults(this, options);
+      let total = searchResults.total;
       if (total > 0) {
         let searchQuery = { q: this.date(value) };
         fieldFacet.push({
