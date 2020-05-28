@@ -13,12 +13,15 @@ import { fetchLanguages } from "../../lib/fetchTools";
 
 import "../../css/CollectionsShowPage.css";
 
+const TRUNCATION_LENGTH = 600;
+
 class CollectionsShowPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       languages: null,
       descriptionTruncated: true,
+      subDescriptionTruncated: true,
       description: "",
       title: "",
       thumbnail_path: ""
@@ -93,27 +96,84 @@ class CollectionsShowPage extends Component {
     return this.state.title || this.props.collection.title;
   }
 
-  onMoreLessClick(e) {
+  subCollectionTitle() {
+    let title = "";
+    if (this.state.title && this.state.title !== this.props.collection.title) {
+      title = this.props.collection.title;
+    }
+    return title;
+  }
+
+  subCollectionDescription() {
+    let descriptionSection = <></>;
+    let descriptionText = this.props.collection.description;
+
+    if (descriptionText && this.state.subDescriptionTruncated) {
+      descriptionText = descriptionText.substr(0, TRUNCATION_LENGTH);
+    }
+    if (this.props.collection.parent_collection && descriptionText) {
+      descriptionSection = (
+        <div className="collection-detail-description">
+          <div className="collection-detail-key">Description</div>
+          <div
+            className={`collection-detail-value description ${
+              this.state.subDescriptionTruncated ? "trunc" : "full"
+            }`}
+          >
+            {addNewlineInDesc(descriptionText)}
+            {this.moreLessButtons(descriptionText, "metadata")}
+          </div>
+        </div>
+      );
+    }
+    return descriptionSection;
+  }
+
+  moreLessButtons(text, section) {
+    let moreLess = <></>;
+    if (text && text.length >= TRUNCATION_LENGTH) {
+      moreLess = (
+        <span>
+          <button
+            onClick={e => this.onMoreLessClick(section, e)}
+            className="more"
+          >
+            . . .[more]
+          </button>
+          <button
+            onClick={e => this.onMoreLessClick(section, e)}
+            className="less"
+          >
+            . . .[less]
+          </button>
+        </span>
+      );
+    }
+    return moreLess;
+  }
+
+  onMoreLessClick(section, e) {
     e.preventDefault();
+    let key = "descriptionTruncated";
+    if (section === "metadata") {
+      key = "subDescriptionTruncated";
+    }
     let truncated = true;
-    if (this.state.descriptionTruncated) {
+    if (this.state[key]) {
       truncated = false;
     }
-    this.setState(
-      {
-        descriptionTruncated: truncated
-      },
-      function() {
-        this.render();
-      }
-    );
+    let stateObj = {};
+    stateObj[key] = truncated;
+    this.setState(stateObj, function() {
+      this.render();
+    });
   }
 
   getDescription() {
     let description =
       this.state.description || this.props.collection.description;
     if (description && this.state.descriptionTruncated) {
-      description = description.substr(0, 600);
+      description = description.substr(0, TRUNCATION_LENGTH);
     }
     return addNewlineInDesc(description);
   }
@@ -139,6 +199,8 @@ class CollectionsShowPage extends Component {
       "provenance",
       "belongs_to"
     ];
+    const topLevelDesc =
+      this.state.description || this.props.collection.description;
 
     if (this.state.languages) {
       return (
@@ -177,12 +239,7 @@ class CollectionsShowPage extends Component {
                 <div>
                   <h3 className="introduction">Introduction</h3>
                   {this.getDescription()}{" "}
-                  <a href="/#" onClick={this.onMoreLessClick} id="more">
-                    . . .[more]
-                  </a>
-                  <a href="/#" onClick={this.onMoreLessClick} id="less">
-                    . . .[less]
-                  </a>
+                  {this.moreLessButtons(topLevelDesc, "top-level")}
                 </div>
               </div>
             </div>
@@ -193,6 +250,8 @@ class CollectionsShowPage extends Component {
               <div className="col-12 col-lg-8 details-section">
                 <div className="details-section-header"></div>
                 <div className="details-section-content-grid">
+                  {this.subCollectionDescription()}
+
                   <RenderItemsDetailed
                     keyArray={KeyArray}
                     item={this.props.collection}
