@@ -88,12 +88,21 @@ class CollectionItemsLoader extends Component {
       })
     );
     nextTokens[this.state.page + 1] = items.data.searchArchives.nextToken;
-    this.setState({
-      items: items.data.searchArchives.items,
-      total: items.data.searchArchives.total,
-      nextTokens: nextTokens,
-      totalPages: Math.ceil(items.data.searchArchives.total / this.state.limit)
-    });
+    this.setState(
+      {
+        items: items.data.searchArchives.items,
+        total: items.data.searchArchives.total,
+        nextTokens: nextTokens,
+        totalPages: Math.ceil(
+          items.data.searchArchives.total / this.state.limit
+        )
+      },
+      this.props.updateCollectionArchives(
+        this.props.parent,
+        this.props.collection,
+        items.data.searchArchives
+      )
+    );
   }
 
   componentDidMount() {
