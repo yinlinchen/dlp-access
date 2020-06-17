@@ -81,16 +81,22 @@ function listValue(category, attr, value, languages) {
     "resource_type",
     "tags"
   ];
-  if (attr === "language" && languages !== undefined) {
-    value = languages[value];
-  }
   if (LinkedFields.indexOf(attr) > -1) {
-    const parsedObject = {
+    let attrValue = [value];
+    if (["creator", "language"].includes(attr)) {
+      attrValue = value;
+    }
+    let parsedObject = {
       category: category,
-      search_field: attr,
-      q: value,
-      view: "List"
+      [attr]: attrValue,
+      field: "title",
+      q: "",
+      view: "Gallery"
     };
+
+    if (attr === "language" && languages !== undefined) {
+      value = languages[value];
+    }
     return <a href={`/search/?${qs.stringify(parsedObject)}`}>{value}</a>;
   } else if (attr === "source" || attr === "related_url") {
     return htmlParsedValue(value);
