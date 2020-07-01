@@ -1,4 +1,4 @@
-# VTDLP - Amplify
+# DLP Access Website
 
 ## Design
 * Data Model
