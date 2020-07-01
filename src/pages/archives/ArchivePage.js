@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import { graphqlOperation } from "aws-amplify";
 import { Connect } from "aws-amplify-react";
 import PDFViewer from "../../components/PDFViewer";
-import AudioPlayer from "../../components/AudioPlayer";
-import VideoPlayer from "../../components/VideoPlayer";
 import KalturaPlayer from "../../components/KalturaPlayer";
 import MiradorViewer from "../../components/MiradorViewer";
+import MediaElement from "../../components/MediaElement";
 import SearchBar from "../../components/SearchBar";
 import Breadcrumbs from "../../components/Breadcrumbs.js";
 import SiteTitle from "../../components/SiteTitle";
@@ -97,8 +96,22 @@ class ArchivePage extends Component {
     return url.match(/\.(json)$/) != null;
   }
 
+  buildTrack(url) {
+    const nameExt = this.fileNameFromUrl(url);
+    const name = nameExt.split(".")[0];
+
+    const track = {};
+    track["kind"] = "subtitles";
+    track["label"] = "English";
+    track["src"] = url.replace(nameExt, name + ".srt");
+    track["srclang"] = "en";
+    return track;
+  }
+
   mediaDisplay(item) {
     let display = null;
+    let config = {};
+    let tracks = [];
     if (this.isJsonURL(item.manifest_url)) {
       const miradorConfig = {
         id: "mirador_viewer",
@@ -116,16 +129,19 @@ class ArchivePage extends Component {
         ],
         showAddFromURLBox: false
       };
-
       display = <MiradorViewer config={miradorConfig} />;
     } else if (this.isImgURL(item.manifest_url)) {
       display = (
         <img className="item-img" src={item.manifest_url} alt={item.title} />
       );
     } else if (this.isAudioURL(item.manifest_url)) {
-      display = <AudioPlayer manifest_url={item.manifest_url} />;
+      const track = this.buildTrack(item.manifest_url);
+      tracks.push(track);
+      display = this.mediaElement(item.manifest_url, "audio", config, tracks);
     } else if (this.isVideoURL(item.manifest_url)) {
-      display = <VideoPlayer manifest_url={item.manifest_url} />;
+      const track = this.buildTrack(item.manifest_url);
+      tracks.push(track);
+      display = this.mediaElement(item.manifest_url, "video", config, tracks);
     } else if (this.isKalturaURL(item.manifest_url)) {
       display = <KalturaPlayer manifest_url={item.manifest_url} />;
     } else if (this.isPdfURL(item.manifest_url)) {
@@ -136,6 +152,36 @@ class ArchivePage extends Component {
       display = <></>;
     }
     return display;
+  }
+
+  fileExtensionFromFileName(filename) {
+    return filename.split(".")[1];
+  }
+
+  fileNameFromUrl(manifest_url) {
+    let url = new URL(manifest_url);
+    return url.pathname.split("/").reverse()[0];
+  }
+
+  mediaElement(src, type, config, tracks) {
+    const filename = this.fileNameFromUrl(src);
+    console.log(filename);
+    const typeString = `${type}/${this.fileExtensionFromFileName(filename)}`;
+    const srcArray = [{ src: src, type: typeString }];
+    return (
+      <MediaElement
+        id="player1"
+        mediaType={type}
+        preload="none"
+        controls
+        width="100%"
+        height="640"
+        poster=""
+        sources={JSON.stringify(srcArray)}
+        options={JSON.stringify(config)}
+        tracks={JSON.stringify(tracks)}
+      />
+    );
   }
 
   componentDidMount() {
