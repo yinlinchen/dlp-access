@@ -5,9 +5,9 @@ import { fetchSiteDetails } from "./lib/fetchTools";
 import AnalyticsConfig from "./components/AnalyticsConfig";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import CustomPageRoutes from "./components/CustomPageRoutes";
 import HomePage from "./pages/HomePage";
-import AboutPage from "./pages/AboutPage";
-import PermissionsPage from "./pages/PermissionsPage";
+
 import CollectionsListLoader from "./pages/collections/CollectionsListLoader";
 import CollectionsShowLoader from "./pages/collections/CollectionsShowLoader";
 
@@ -66,20 +66,6 @@ class App extends Component {
                   )}
                 />
                 <Route
-                  path="/about"
-                  exact
-                  render={props => (
-                    <AboutPage siteDetails={this.state.siteDetails} />
-                  )}
-                />
-                <Route
-                  path="/permissions"
-                  exact
-                  render={props => (
-                    <PermissionsPage siteDetails={this.state.siteDetails} />
-                  )}
-                />
-                <Route
                   path="/collections"
                   exact
                   render={props => (
@@ -118,22 +104,7 @@ class App extends Component {
                     />
                   )}
                 />
-                {this.state.siteDetails.aboutCopy.additionalPages
-                  ? this.state.siteDetails.aboutCopy.additionalPages.map(
-                      (page, index) => {
-                        return (
-                          <Route
-                            key={index}
-                            path={page.link}
-                            exact
-                            render={() => (
-                              <AdditionalPages siteDetails={page} />
-                            )}
-                          />
-                        );
-                      }
-                    )
-                  : null}
+                <CustomPageRoutes siteDetails={this.state.siteDetails} />
               </Switch>
             </div>
           </main>
