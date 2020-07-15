@@ -13,7 +13,10 @@ class PermissionsPage extends Component {
   }
 
   componentDidMount() {
-    getHTML(this.props.siteDetails.termsCopy, this);
+    getHTML(
+      this.props.siteDetails.siteNavLinks[this.props.parentKey].data_url,
+      this
+    );
   }
 
   render() {

@@ -5,7 +5,7 @@ import { fetchSiteDetails } from "./lib/fetchTools";
 import AnalyticsConfig from "./components/AnalyticsConfig";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import CustomPageRoutes from "./components/CustomPageRoutes";
+import { buildRoutes } from "./lib/CustomPageRoutes";
 import HomePage from "./pages/HomePage";
 
 import CollectionsListLoader from "./pages/collections/CollectionsListLoader";
@@ -15,7 +15,6 @@ import SearchLoader from "./pages/search/SearchLoader";
 import ArchivePage from "./pages/archives/ArchivePage";
 
 import "./App.css";
-import AdditionalPages from "./pages/AdditionalPages";
 
 class App extends Component {
   constructor(props) {
@@ -46,7 +45,7 @@ class App extends Component {
   render() {
     if (this.state.siteDetails !== null) {
       this.setColor(this.state.siteDetails.siteColor);
-
+      const customRoutes = buildRoutes(this.state.siteDetails);
       return (
         <Router>
           <AnalyticsConfig analyticsID={this.state.siteDetails.analyticsID} />
@@ -58,6 +57,7 @@ class App extends Component {
           <main style={{ minHeight: "500px", padding: "1em 1em 0 1em" }}>
             <div id="content-wrapper" className="container p-0" role="main">
               <Switch>
+                {customRoutes}
                 <Route
                   path="/"
                   exact
@@ -104,7 +104,6 @@ class App extends Component {
                     />
                   )}
                 />
-                <CustomPageRoutes siteDetails={this.state.siteDetails} />
               </Switch>
             </div>
           </main>
