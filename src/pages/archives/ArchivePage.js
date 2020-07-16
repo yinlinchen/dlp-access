@@ -81,7 +81,7 @@ class ArchivePage extends Component {
   }
 
   isVideoURL(url) {
-    return url.match(/\.(mp4)$/) != null;
+    return url.match(/\.(mp4|mov)$/) != null;
   }
 
   isKalturaURL(url) {
