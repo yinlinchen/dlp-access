@@ -88,12 +88,21 @@ class CollectionItemsLoader extends Component {
       })
     );
     nextTokens[this.state.page + 1] = items.data.searchArchives.nextToken;
-    this.setState({
-      items: items.data.searchArchives.items,
-      total: items.data.searchArchives.total,
-      nextTokens: nextTokens,
-      totalPages: Math.ceil(items.data.searchArchives.total / this.state.limit)
-    });
+    this.setState(
+      {
+        items: items.data.searchArchives.items,
+        total: items.data.searchArchives.total,
+        nextTokens: nextTokens,
+        totalPages: Math.ceil(
+          items.data.searchArchives.total / this.state.limit
+        )
+      },
+      this.props.updateCollectionArchives(
+        this.props.parent,
+        this.props.collection,
+        items.data.searchArchives
+      )
+    );
   }
 
   componentDidMount() {
@@ -105,7 +114,9 @@ class CollectionItemsLoader extends Component {
       return (
         <div className="collection-items-list-wrapper">
           <div className="mb-3">
-            <h4>Works ({this.state.total})</h4>
+            <h4 className="collection-items-header">
+              Items in Collection ({this.state.total})
+            </h4>
           </div>
           <form className="form-group">
             <label className="mr-1">

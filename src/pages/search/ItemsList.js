@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { ItemListView } from "./ItemListView";
-import { GalleryView } from "./GalleryView";
+import ItemListView from "./ItemListView";
+import GalleryView from "./GalleryView";
+import { getCategory } from "../../lib/MetadataRenderer";
 import { MasonryView } from "./MasonryView";
 
 class ItemsList extends Component {
@@ -14,7 +15,7 @@ class ItemsList extends Component {
 
   render() {
     return (
-      <div className="search-results">
+      <div className="search-results-section">
         <div className={this.getClassName()}>
           {this.props.items.map(item => {
             if (this.props.view === "Gallery") {
@@ -22,7 +23,8 @@ class ItemsList extends Component {
                 <GalleryView
                   key={item.id}
                   item={item}
-                  dataType={this.props.dataType}
+                  category={getCategory(item)}
+                  label={true}
                 />
               );
             } else if (this.props.view === "Masonry") {
@@ -30,7 +32,8 @@ class ItemsList extends Component {
                 <MasonryView
                   key={item.id}
                   item={item}
-                  dataType={this.props.dataType}
+                  category={getCategory(item)}
+                  label={true}
                 />
               );
             } else {
@@ -38,7 +41,8 @@ class ItemsList extends Component {
                 <ItemListView
                   key={item.id}
                   item={item}
-                  dataType={this.props.dataType}
+                  category={getCategory(item)}
+                  label={true}
                 />
               );
             }

@@ -1,5 +1,4 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import qs from "query-string";
 import "../css/ListPages.css";
 import ReactHtmlParser from "react-html-parser";
@@ -9,7 +8,18 @@ export function labelAttr(attr) {
   else if (attr === "rights_statement") return "Rights";
   else if (attr === "custom_key") return "Permanent Link";
   else if (attr === "related_url") return "Relation";
+  else if (attr === "start_date") return "Date";
+  else if (attr === "archive") return "Item";
   else return (attr.charAt(0).toUpperCase() + attr.slice(1)).replace("_", " ");
+}
+
+export function breadcrumbTitle(title) {
+  const titleArray = title.split(",");
+  return titleArray[0];
+}
+
+export function getCategory(item) {
+  return item.collection_category ? "collection" : "archive";
 }
 
 export function arkLinkFormatted(customKey) {
@@ -20,12 +30,12 @@ export function htmlParsedValue(value) {
   return value.includes("<a href=") ? ReactHtmlParser(value) : value;
 }
 
-export function titleFormatted(item, dataType) {
+export function titleFormatted(item, category) {
   return (
     <h4>
-      <NavLink to={`/${dataType}/${arkLinkFormatted(item.custom_key)}`}>
+      <a href={`/${category}/${arkLinkFormatted(item.custom_key)}`}>
         {item.title}
-      </NavLink>
+      </a>
     </h4>
   );
 }
@@ -36,17 +46,34 @@ export function dateFormatted(item) {
   return circa_date + start_date + end_date;
 }
 
-export function collectionSize(collection) {
-  let subCollections =
-    collection.subCollections.items != null
-      ? collection.subCollections.items.length
-      : 0;
-  let archives =
-    collection.archives.items != null ? collection.archives.items.length : 0;
-  return subCollections + archives;
+export function collectionSizeText(collection) {
+  let subCollections = null;
+  if (collection.subCollections) {
+    subCollections =
+      collection.subCollections.total != null
+        ? collection.subCollections.total
+        : 0;
+  }
+  let archives = collection.archives || 0;
+  return (
+    <div>
+      {subCollections > 0 && <div>Collections: {subCollections}</div>}
+      {archives > 0 && <div>Items: {archives}</div>}
+    </div>
+  );
 }
 
-function listValue(dataType, attr, value) {
+export function addNewlineInDesc(content) {
+  if (content) {
+    content = content.split("\n").map((value, index) => {
+      return <p key={index}>{value}</p>;
+    });
+    return <span>{content}</span>;
+  }
+  return <></>;
+}
+
+function listValue(category, attr, value, languages) {
   const LinkedFields = [
     "creator",
     "belongs_to",
@@ -56,15 +83,22 @@ function listValue(dataType, attr, value) {
     "tags"
   ];
   if (LinkedFields.indexOf(attr) > -1) {
-    const parsedObject = {
-      data_type: dataType,
-      search_field: attr,
-      q: value,
-      view: "List"
+    let attrValue = [value];
+    if (["creator", "language"].includes(attr)) {
+      attrValue = value;
+    }
+    let parsedObject = {
+      category: category,
+      [attr]: attrValue,
+      field: "title",
+      q: "",
+      view: "Gallery"
     };
-    return (
-      <NavLink to={`/search/?${qs.stringify(parsedObject)}`}>{value}</NavLink>
-    );
+
+    if (attr === "language" && languages !== undefined) {
+      value = languages[value];
+    }
+    return <a href={`/search/?${qs.stringify(parsedObject)}`}>{value}</a>;
   } else if (attr === "source" || attr === "related_url") {
     return htmlParsedValue(value);
   } else {
@@ -72,25 +106,25 @@ function listValue(dataType, attr, value) {
   }
 }
 
-function textFormat(item, attr) {
+function textFormat(item, attr, languages) {
   if (item[attr] === null) return null;
-  let dataType = "archive";
-  if (item.collection_category) dataType = "collection";
+  let category = "archive";
+  if (item.collection_category) category = "collection";
   if (Array.isArray(item[attr])) {
     return (
       <div>
         {item[attr].map((value, i) => (
-          <li className="list-unstyled" key={i}>
-            {listValue(dataType, attr, value)}
-          </li>
+          <span className="list-unstyled" key={i} data-cy="multi-field-span">
+            {listValue(category, attr, value, languages)}
+          </span>
         ))}
       </div>
     );
   } else if (attr === "identifier") {
     return (
-      <NavLink to={`/${dataType}/${arkLinkFormatted(item.custom_key)}`}>
+      <a href={`/${category}/${arkLinkFormatted(item.custom_key)}`}>
         {item[attr]}
-      </NavLink>
+      </a>
     );
   } else if (attr === "rights_statement") {
     return htmlParsedValue(item[attr]);
@@ -99,33 +133,33 @@ function textFormat(item, attr) {
       `<a href="http://idn.lib.vt.edu/${item.custom_key}">idn.lib.vt.edu/${item.custom_key}</a>`
     );
   } else if (attr === "description") {
-    return <MoreLink dataType={dataType} item={item} />;
+    return <MoreLink category={category} item={item} />;
   } else if (attr === "date") {
     return dateFormatted(item);
   } else if (attr === "size") {
-    if (dataType === "collection") return collectionSize(item);
+    if (category === "collection") return collectionSizeText(item);
     else return 0;
   } else {
     return item[attr];
   }
 }
 
-const MoreLink = ({ dataType, item }) => {
+const MoreLink = ({ category, item }) => {
   return (
     <span>
-      <span>{item["description"].substring(0, 100)}</span>
-      <NavLink
+      <span>{item["description"].substring(0, 120)}</span>
+      <a
         className="more-link"
-        to={`/${dataType}/${arkLinkFormatted(item.custom_key)}`}
+        href={`/${category}/${arkLinkFormatted(item.custom_key)}`}
       >
         . . .[more]
-      </NavLink>
+      </a>
     </span>
   );
 };
 
-const RenderAttribute = ({ item, attribute }) => {
-  if (textFormat(item, attribute)) {
+const RenderAttribute = ({ item, attribute, languages }) => {
+  if (textFormat(item, attribute, languages)) {
     let value_style = attribute === "identifier" ? "identifier" : "";
     return (
       <div className="collection-detail">
@@ -134,7 +168,7 @@ const RenderAttribute = ({ item, attribute }) => {
             <tr>
               <td className="collection-detail-key">{labelAttr(attribute)}:</td>
               <td className={`collection-detail-value ${value_style}`}>
-                {textFormat(item, attribute)}
+                {textFormat(item, attribute, languages)}
               </td>
             </tr>
           </tbody>
@@ -146,36 +180,63 @@ const RenderAttribute = ({ item, attribute }) => {
   }
 };
 
-const RenderAttrDetailed = ({ item, attribute }) => {
-  if (textFormat(item, attribute)) {
+const RenderAttrDetailed = ({ item, attribute, languages, type }) => {
+  if (textFormat(item, attribute, languages)) {
     let value_style = attribute === "identifier" ? "identifier" : "";
-    return (
-      <tr>
-        <td className="collection-detail-key">{labelAttr(attribute)}</td>
-        <td className={`collection-detail-value ${value_style}`}>
-          {textFormat(item, attribute)}
-        </td>
-      </tr>
-    );
+    if (type === "table") {
+      return (
+        <tr>
+          <td className="collection-detail-key">{labelAttr(attribute)}</td>
+          <td className={`collection-detail-value ${value_style}`}>
+            {textFormat(item, attribute, languages)}
+          </td>
+        </tr>
+      );
+    } else if (type === "grid") {
+      return (
+        <div className="collection-detail-entry">
+          <div className="collection-detail-key">{labelAttr(attribute)}</div>
+          <div className={`collection-detail-value ${value_style}`}>
+            {textFormat(item, attribute, languages)}
+          </div>
+        </div>
+      );
+    }
   } else {
     return <></>;
   }
 };
-export const RenderItems = ({ keyArray, item }) => {
+export const RenderItems = ({ keyArray, item, languages }) => {
   let render_items = [];
   for (const [index, value] of keyArray.entries()) {
     render_items.push(
-      <RenderAttribute item={item} attribute={value} key={index} />
+      <RenderAttribute
+        item={item}
+        attribute={value}
+        key={index}
+        languages={languages}
+      />
     );
   }
   return render_items;
 };
 
-export const RenderItemsDetailed = ({ keyArray, item }) => {
+export const RenderItemsDetailed = ({
+  keyArray,
+  item,
+  languages,
+  type = "table"
+}) => {
   let render_items_detailed = [];
   for (const [index, value] of keyArray.entries()) {
     render_items_detailed.push(
-      <RenderAttrDetailed item={item} attribute={value} key={index} />
+      <RenderAttrDetailed
+        item={item}
+        attribute={value}
+        key={index}
+        languages={languages}
+        type={type}
+      />
     );
   }
   return render_items_detailed;

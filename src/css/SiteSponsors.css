@@ -1,0 +1,29 @@
+.home-sponsors-section {
+  background-color: var(--dark-gray);
+  padding-bottom: 10px;
+}
+
+.home-sponsors-wrapper {
+  justify-content: space-evenly;
+}
+
+.sponsor-wrapper {
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sponsor-wrapper img {
+  max-height: 80px;
+}
+
+@media (min-width: 992px) {
+  .home-sponsors-section {
+    padding-bottom: 20px;
+  }
+
+  .sponsor-wrapper {
+    padding-top: 20px;
+  }
+}

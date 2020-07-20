@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
 import { API, graphqlOperation } from "aws-amplify";
 import * as queries from "../graphql/queries";
 import { arkLinkFormatted } from "../lib/MetadataRenderer";
@@ -30,10 +29,10 @@ class Breadcrumbs extends Component {
         : null;
     let parent_list = [];
     parent_list.push({
-      title: this.props.record.identifier,
+      title: this.props.record.title,
       url:
         "/" +
-        this.props.dataType.replace(/s+$/, "").toLowerCase() +
+        this.props.category.replace(/s+$/, "").toLowerCase() +
         "/" +
         arkLinkFormatted(this.props.record.custom_key),
       custom_key: arkLinkFormatted(this.props.record.custom_key)
@@ -47,13 +46,17 @@ class Breadcrumbs extends Component {
             ? parent_collection.parent_collection[0]
             : null;
         parent_list.push({
-          title: parent_collection.identifier,
+          title: parent_collection.title,
           url: "/collection/" + arkLinkFormatted(parent_collection.custom_key),
           custom_key: arkLinkFormatted(parent_collection.custom_key)
         });
       } while (parent_id !== null);
     }
-    this.setState({ links: parent_list });
+    this.setState({ links: parent_list }, function() {
+      if (typeof this.props.setTitleList == "function") {
+        this.props.setTitleList(parent_list);
+      }
+    });
   }
 
   componentDidMount() {
@@ -63,20 +66,31 @@ class Breadcrumbs extends Component {
   render() {
     const linksCopy = this.state.links.slice();
     return (
-      <ul>
-        <li>
-          <NavLink className="breadcrumb-link first" to={"/"}>
+      <ol id="vt_navtrail" className="long_title vt-breadcrumbs">
+        <li key="home" className="vt-breadcrumbs-item">
+          <a className="vt-breadcrumbs-link" href={"/"}>
             Home
-          </NavLink>
+          </a>
+          <span className="breadcrumb-slash" aria-hidden="true">
+            {" "}
+            /{" "}
+          </span>
         </li>
         {linksCopy.reverse().map(link => (
-          <li key={arkLinkFormatted(link.custom_key)}>
-            <NavLink className="breadcrumb-link" to={link.url}>
+          <li
+            className="vt-breadcrumbs-item"
+            key={arkLinkFormatted(link.custom_key)}
+          >
+            <a className="vt-breadcrumbs-link" href={link.url}>
               {link.title}
-            </NavLink>
+            </a>
+            <span className="breadcrumb-slash" aria-hidden="true">
+              {" "}
+              /{" "}
+            </span>
           </li>
         ))}
-      </ul>
+      </ol>
     );
   }
 }

@@ -1,70 +1,62 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ScrollToTop from "./lib/ScrollToTop";
+import { fetchSiteDetails } from "./lib/fetchTools";
+import AnalyticsConfig from "./components/AnalyticsConfig";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
-import TermsPage from "./pages/TermsPage";
+import PermissionsPage from "./pages/PermissionsPage";
 import CollectionsListLoader from "./pages/collections/CollectionsListLoader";
 import CollectionsShowLoader from "./pages/collections/CollectionsShowLoader";
 
 import SearchLoader from "./pages/search/SearchLoader";
 import ArchivePage from "./pages/archives/ArchivePage";
-import ContactSection from "./components/ContactSection";
 
 import "./App.css";
+import AdditionalPages from "./pages/AdditionalPages";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: "List",
-      siteDetails: null
+      siteDetails: null,
+      paginationClick: null
     };
   }
 
-  async fetchSiteDetails(siteName) {
-    let response = null;
-    let data = null;
-
-    try {
-      response = await fetch(
-        `${process.env.REACT_APP_CONFIG_PATH}/${siteName.toLowerCase()}.json`
+  setColor(color) {
+    if (color) {
+      document.documentElement.style.setProperty(
+        "--themeHighlightColor",
+        color
       );
-      data = await response.json();
-    } catch (error) {
-      console.error(`Error fetching config file`);
-      console.error(error);
     }
-    if (data === null) {
-      try {
-        response = await fetch(
-          `${process.env.REACT_APP_CONFIG_PATH}/default.json`
-        );
-        data = await response.json();
-      } catch (error) {
-        console.error("Error fetching default.json");
-        console.error(error);
-      }
-    }
-    this.setState({
-      siteDetails: data
-    });
+  }
+
+  setPaginationClick(event) {
+    this.setState({ paginationClick: event });
   }
 
   componentDidMount() {
-    this.fetchSiteDetails(process.env.REACT_APP_REP_TYPE);
+    fetchSiteDetails(this, process.env.REACT_APP_REP_TYPE);
   }
 
   render() {
     if (this.state.siteDetails !== null) {
+      this.setColor(this.state.siteDetails.siteColor);
+
       return (
         <Router>
-          <ScrollToTop />
-          <Header siteDetails={this.state.siteDetails} />
+          <AnalyticsConfig analyticsID={this.state.siteDetails.analyticsID} />
+          <ScrollToTop paginationClick={this.state.paginationClick} />
+          <Header
+            siteDetails={this.state.siteDetails}
+            location={window.location}
+          />
           <main style={{ minHeight: "500px", padding: "1em 1em 0 1em" }}>
-            <div id="content-wrapper" className="container" role="main">
+            <div id="content-wrapper" className="container p-0" role="main">
               <Switch>
                 <Route
                   path="/"
@@ -81,10 +73,10 @@ class App extends Component {
                   )}
                 />
                 <Route
-                  path="/terms"
+                  path="/permissions"
                   exact
                   render={props => (
-                    <TermsPage siteDetails={this.state.siteDetails} />
+                    <PermissionsPage siteDetails={this.state.siteDetails} />
                   )}
                 />
                 <Route
@@ -92,6 +84,7 @@ class App extends Component {
                   exact
                   render={props => (
                     <CollectionsListLoader
+                      scrollUp={this.setPaginationClick.bind(this)}
                       siteDetails={this.state.siteDetails}
                     />
                   )}
@@ -109,7 +102,10 @@ class App extends Component {
                   path="/search"
                   exact
                   render={props => (
-                    <SearchLoader siteDetails={this.state.siteDetails} />
+                    <SearchLoader
+                      scrollUp={this.setPaginationClick.bind(this)}
+                      siteDetails={this.state.siteDetails}
+                    />
                   )}
                 />
                 <Route
@@ -122,9 +118,27 @@ class App extends Component {
                     />
                   )}
                 />
+                {this.state.siteDetails.aboutCopy.additionalPages
+                  ? this.state.siteDetails.aboutCopy.additionalPages.map(
+                      (page, index) => {
+                        return (
+                          <Route
+                            key={index}
+                            path={page.link}
+                            exact
+                            render={() => (
+                              <AdditionalPages
+                                siteDetails={this.state.siteDetails}
+                                page={page}
+                              />
+                            )}
+                          />
+                        );
+                      }
+                    )
+                  : null}
               </Switch>
             </div>
-            <ContactSection siteDetails={this.state.siteDetails} />
           </main>
           <Footer />
         </Router>

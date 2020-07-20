@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { API, graphqlOperation } from "aws-amplify";
-import * as queries from "../../graphql/queries";
 import SiteTitle from "../../components/SiteTitle";
+import { fetchSearchResults } from "../../lib/fetchTools";
 
 import CollectionsListPage from "./CollectionsListPage";
 
@@ -15,9 +14,16 @@ class CollectionsListLoader extends Component {
       nextTokens: [],
       limit: 10,
       page: 0,
-      totalPages: 1
+      totalPages: 1,
+      view: "Gallery"
     };
   }
+
+  updateFormState = (name, val) => {
+    this.setState({
+      [name]: val
+    });
+  };
 
   previousPage() {
     this.setState(
@@ -54,28 +60,30 @@ class CollectionsListLoader extends Component {
   }
 
   async loadCollections() {
-    const collections = await API.graphql(
-      graphqlOperation(queries.searchCollections, {
-        filter: {
-          collection_category: { eq: process.env.REACT_APP_REP_TYPE },
-          visibility: { eq: true },
-          parent_collection: { exists: false }
-        },
-        limit: this.state.limit,
-        nextToken: this.state.nextTokens[this.state.page]
-      })
+    let options = {
+      filter: { category: "collection" },
+      sort: {
+        field: "title",
+        direction: "asc"
+      },
+      limit: this.state.limit,
+      nextToken: this.state.nextTokens[this.state.page]
+    };
+    const searchResults = await fetchSearchResults(this, options);
+    nextTokens[this.state.page + 1] = searchResults.nextToken;
+    this.setState(
+      {
+        collections: searchResults.items,
+        total: searchResults.total,
+        nextTokens: nextTokens,
+        totalPages: Math.ceil(searchResults.total / this.state.limit)
+      },
+      function() {
+        if (typeof this.props.scrollUp === "function") {
+          this.props.scrollUp(new Event("click"));
+        }
+      }
     );
-
-    nextTokens[this.state.page + 1] =
-      collections.data.searchCollections.nextToken;
-    this.setState({
-      collections: collections.data.searchCollections.items,
-      total: collections.data.searchCollections.total,
-      nextTokens: nextTokens,
-      totalPages: Math.ceil(
-        collections.data.searchCollections.total / this.state.limit
-      )
-    });
   }
 
   componentDidMount() {
@@ -99,6 +107,9 @@ class CollectionsListLoader extends Component {
             previousPage={this.previousPage.bind(this)}
             nextPage={this.nextPage.bind(this)}
             totalPages={this.state.totalPages}
+            view={this.state.view}
+            updateFormState={this.updateFormState}
+            scrollUp={this.props.scrollUp}
           />
         </div>
       );

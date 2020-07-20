@@ -1,8 +1,12 @@
 import React, { Component } from "react";
-import { ItemListView } from "../search/ItemListView";
+import ItemListView from "../search/ItemListView";
+import GalleryView from "../search/GalleryView";
 import ResultsNumberDropdown from "../../components/ResultsNumberDropdown";
 import Pagination from "../../components/Pagination";
+import ViewBar from "../../components/ViewBar";
+
 import "../../css/ListPages.css";
+import "../../css/CollectionsListPage.css";
 
 class CollectionsListPage extends Component {
   render() {
@@ -10,7 +14,11 @@ class CollectionsListPage extends Component {
       if (this.props.isSearch) {
         return <CollectionsPaginationDisplay atBottom={false} />;
       } else {
-        return <h3 className="list-type">Collections</h3>;
+        return (
+          <h1 className="list-type">
+            About Our <span>Collections</span>
+          </h1>
+        );
       }
     };
 
@@ -31,18 +39,46 @@ class CollectionsListPage extends Component {
     };
 
     return (
-      <div>
-        <Header />
-        <ResultsNumberDropdown setLimit={this.props.setLimit} />
-        <ul>
-          {this.props.collections.map(collection => (
-            <ItemListView
-              key={collection.id}
-              item={collection}
-              dataType="collection"
-            />
-          ))}
-        </ul>
+      <div className="collection-browse-wrapper">
+        <div className="collection-browse-header">
+          <Header />
+        </div>
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-12 navbar navbar-light justify-content-between">
+              <div></div>
+              <div className="form-inline collection-view-options">
+                <ViewBar
+                  view={this.props.view}
+                  updateFormState={this.props.updateFormState}
+                  pageViews={["Gallery", "List"]}
+                />
+                <ResultsNumberDropdown setLimit={this.props.setLimit} />
+              </div>
+            </div>
+            {this.props.collections.map(collection => {
+              if (this.props.view === "Gallery") {
+                return (
+                  <GalleryView
+                    key={collection.id}
+                    item={collection}
+                    category="collection"
+                    label={false}
+                  />
+                );
+              } else {
+                return (
+                  <ItemListView
+                    key={collection.id}
+                    item={collection}
+                    category="collection"
+                    label={false}
+                  />
+                );
+              }
+            })}
+          </div>
+        </div>
         <CollectionsPaginationDisplay atBottom={true} />
       </div>
     );

@@ -13,35 +13,33 @@ class ViewBar extends Component {
   };
 
   render() {
+    const buttons = this.props.pageViews.map((buttonType, index) => {
+      return (
+        <button
+          key={index}
+          className="btn btn-outline-light"
+          data-toggle="tooltip"
+          title={buttonType}
+          onClick={() => this.updateView(buttonType)}
+          active={(this.state.view === buttonType).toString()}
+        >
+          <FontAwesomeIcon
+            icon={
+              buttonType === "Gallery"
+                ? faTh
+                : buttonType === "List"
+                ? faThList
+                : faImages
+            }
+            size="lg"
+            style={{ color: "var(--themeHighlightColor" }}
+          />
+        </button>
+      );
+    });
     return (
       <div className="btn-group" aria-label="View Options">
-        <button
-          className="btn btn-outline-light"
-          data-toggle="tooltip"
-          title="List"
-          onClick={() => this.updateView("List")}
-          active={(this.state.view === "List").toString()}
-        >
-          <FontAwesomeIcon icon={faThList} size="lg" style={{ color: "red" }} />
-        </button>
-        <button
-          className="btn btn-outline-light"
-          data-toggle="tooltip"
-          title="Gallery"
-          onClick={() => this.updateView("Gallery")}
-          active={(this.state.view === "Gallery").toString()}
-        >
-          <FontAwesomeIcon icon={faTh} size="lg" style={{ color: "red" }} />
-        </button>
-        <button
-          className="btn btn-outline-light"
-          data-toggle="tooltip"
-          title="Masonry"
-          onClick={() => this.updateView("Masonry")}
-          active={(this.state.view === "Masonry").toString()}
-        >
-          <FontAwesomeIcon icon={faImages} size="lg" style={{ color: "red" }} />
-        </button>
+        {buttons}
       </div>
     );
   }

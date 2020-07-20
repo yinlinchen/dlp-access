@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import SiteNavigationLinks from "./SiteNavigationLinks";
+import HeaderBreadcrumbs from "./HeaderBreadcrumbs";
 
 class Header extends Component {
   onNavClick() {
@@ -15,10 +16,11 @@ class Header extends Component {
           <div className="row vt-one-headerRow">
             <header className="col header-col" role="banner">
               <div id="vt_logo">
-                <a className="vt-logo-link" href="https://vt.edu">
+                <a className="vt-logo-link" href="https://lib.vt.edu">
                   <img
-                    alt="VT Virginia Tech"
-                    src="https://www.assets.cms.vt.edu/images/logo-maroon-whiteBG.svg"
+                    alt="University Libraries at Virginia Tech"
+                    src="/images/library-logo-lockup_color.png"
+                    style={{ width: "220px" }}
                   />
                 </a>
               </div>
@@ -73,7 +75,7 @@ class Header extends Component {
                     </li>
                   </ol>
 
-                  <SiteNavigationLinks />
+                  <SiteNavigationLinks siteDetails={this.props.siteDetails} />
                 </div>
               </nav>{" "}
               {/* !-- end vt_nav --> */}
@@ -92,20 +94,10 @@ class Header extends Component {
         */}
           <nav aria-label="Page Context" className="vt-page-path row">
             <div className="gateway">
-              <ol id="vt_navtrail" className="long_title vt-breadcrumbs">
-                <li className="vt-breadcrumbs-item">
-                  <a
-                    className="vt-breadcrumbs-link"
-                    href="https://www.lib.vt.edu/"
-                  >
-                    University Libraries
-                  </a>
-                  <span className="breadcrumb-slash" aria-hidden="true">
-                    {" "}
-                    /{" "}
-                  </span>
-                </li>
-              </ol>
+              <HeaderBreadcrumbs
+                siteDetails={this.props.siteDetails}
+                location={this.props.location}
+              />
             </div>
           </nav>
         </div>

@@ -1,21 +1,31 @@
 import React, { Component } from "react";
-import FeaturedCarousel from "./home/FeaturedCarousel";
 import FeaturedStaticImage from "./home/FeaturedStaticImage";
 import SearchBar from "../components/SearchBar";
 import HomeStatement from "./home/HomeStatement";
 import SiteTitle from "../components/SiteTitle";
+import FeaturedItems from "./home/FeaturedItems";
+import MultimediaSection from "./home/MultimediaSection";
+import SiteSponsors from "./home/SiteSponsors";
+import CollectionHighlights from "./home/CollectionHighlights";
 
 import "../css/HomePage.css";
 
 class HomePage extends Component {
   render() {
-    let slides = null;
-    let statement = null;
+    let featuredItems = null;
+    let homeStatement = null;
     let staticImage = null;
+    let mediaSection = null;
+    let sponsors = null;
+    let collectionHighlights = null;
     try {
-      slides = this.props.siteDetails.homePage.carousel;
-      statement = this.props.siteDetails.homePage.statement;
+      featuredItems = this.props.siteDetails.homePage.featuredItems;
+      homeStatement = this.props.siteDetails.homePage.homeStatement;
       staticImage = this.props.siteDetails.homePage.staticImage;
+      mediaSection = this.props.siteDetails.homePage.mediaSection;
+      sponsors = this.props.siteDetails.homePage.sponsors;
+      collectionHighlights = this.props.siteDetails.homePage
+        .collectionHighlights;
     } catch (error) {
       console.error("Error setting config property");
     }
@@ -25,7 +35,13 @@ class HomePage extends Component {
           siteTitle={this.props.siteDetails.siteTitle}
           pageTitle="Home"
         />
-        <div className="home-wrapper">
+        <div
+          className={
+            this.props.siteDetails.homePage.staticImage.showTitle
+              ? "home-wrapper"
+              : "home-wrapper-no-text"
+          }
+        >
           <div className="home-featured-image-wrapper">
             <FeaturedStaticImage staticImage={staticImage} />
             <div id="home-site-title-wrapper">
@@ -34,19 +50,17 @@ class HomePage extends Component {
           </div>
           <div className="home-search-wrapper">
             <SearchBar
-              dataType="archive"
-              view="list"
+              view="gallery"
               searchField="title"
               q=""
               setPage={this.props.setPage}
-              dateRange="1920-1939"
             />
           </div>
-          <div className="home-welcome-wrapper">
-            <h1>Welcome</h1>
-            <HomeStatement statement={statement} />
-          </div>
-          <FeaturedCarousel slides={slides} />
+          <HomeStatement homeStatement={homeStatement} />
+          <FeaturedItems featuredItems={featuredItems} />
+          <MultimediaSection mediaSection={mediaSection} />
+          <SiteSponsors sponsors={sponsors} />
+          <CollectionHighlights collectionHighlights={collectionHighlights} />
         </div>
       </>
     );

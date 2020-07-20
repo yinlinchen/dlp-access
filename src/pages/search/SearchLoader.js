@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { API, graphqlOperation } from "aws-amplify";
-import * as queries from "../../graphql/queries";
 import SiteTitle from "../../components/SiteTitle";
+import { fetchLanguages } from "../../lib/fetchTools";
+import { fetchSearchResults } from "../../lib/fetchTools";
 
 import SearchResults from "./SearchResults";
 
@@ -17,18 +17,43 @@ class SearchLoader extends Component {
       limit: 10,
       page: 0,
       totalPages: 1,
-      dataType: "archive",
-      searchField: "title",
-      view: "List",
+      filters: {},
+      field: "title",
+      view: "Gallery",
       q: "",
-      dateRange: "1920 - 1939"
+      languages: null
     };
   }
 
   updateFormState = (name, val) => {
-    this.setState({
-      [name]: val
-    });
+    const url = this.setParams(name, val);
+    this.props.history.push(`?${url}`);
+  };
+
+  setParams = (name, val) => {
+    let q = name === "q" ? val : this.state.q;
+    let field = name === "field" ? val : this.state.field;
+    let view = name === "view" ? val : this.state.view;
+    let filters = name === "filters" ? val : this.state.filters;
+
+    const searchParams = new URLSearchParams();
+    const searchQuery = {
+      q: q,
+      field: field,
+      view: view,
+      ...filters
+    };
+
+    for (const key of Object.keys(searchQuery)) {
+      if (Array.isArray(searchQuery[key])) {
+        searchQuery[key].forEach(val => {
+          searchParams.append(key, val);
+        });
+      } else {
+        searchParams.set(key, searchQuery[key]);
+      }
+    }
+    return searchParams.toString();
   };
 
   previousPage() {
@@ -38,6 +63,7 @@ class SearchLoader extends Component {
       },
       function() {
         this.loadItems();
+        this.scrollUp();
       }
     );
   }
@@ -49,6 +75,7 @@ class SearchLoader extends Component {
       },
       function() {
         this.loadItems();
+        this.scrollUp();
       }
     );
   }
@@ -63,6 +90,12 @@ class SearchLoader extends Component {
     );
   }
 
+  scrollUp() {
+    if (typeof this.props.scrollUp === "function") {
+      this.props.scrollUp(new Event("click"));
+    }
+  }
+
   setLimit(event, result) {
     this.setState(
       {
@@ -75,86 +108,51 @@ class SearchLoader extends Component {
     );
   }
 
+  getParams(location) {
+    const searchParams = new URLSearchParams(location.search);
+    let restQuery = {};
+    const otherKeys = ["field", "q", "view"];
+    for (let pair of searchParams.entries()) {
+      if (pair[0] === "category" && pair[1]) {
+        restQuery[pair[0]] = pair[1];
+      } else if (!otherKeys.includes(pair[0]) && pair[1]) {
+        if (!restQuery[pair[0]]) {
+          restQuery[pair[0]] = [];
+        }
+        restQuery[pair[0]].push(pair[1]);
+      }
+    }
+    return {
+      q: searchParams.get("q") || "",
+      field: searchParams.get("field") || "title",
+      view: searchParams.get("view") || "Gallery",
+      ...restQuery
+    };
+  }
+
   async loadItems() {
-    const searchQuery = new URLSearchParams(this.props.location.search);
-    const REP_TYPE = process.env.REACT_APP_REP_TYPE;
-    let archiveFilter = {
-      item_category: { eq: REP_TYPE },
-      visibility: { eq: true }
-    };
-    let collectionFilter = {
-      collection_category: { eq: REP_TYPE },
-      visibility: { eq: true },
-      parent_collection: { exists: false }
-    };
-    let searchPhrase = {};
-    if (searchQuery.get("search_field") && searchQuery.get("data_type")) {
-      if (searchQuery.get("search_field") === "date") {
-        let dates = searchQuery.get("date_range").split(" - ");
-        searchPhrase = {
-          start_date: { gte: `${dates[0]}/01/01`, lte: `${dates[1]}/12/31` }
-        };
-        this.setState({
-          dateRange: searchQuery.get("date_range")
-        });
-      } else if (searchQuery.get("q") !== "") {
-        searchPhrase = {
-          [searchQuery.get("search_field")]: {
-            matchPhrase: searchQuery.get("q")
-          }
-        };
-        this.setState({
-          q: searchQuery.get("q")
-        });
-      }
-      if (searchQuery.get("data_type") === "archive") {
-        archiveFilter = { ...archiveFilter, ...searchPhrase };
-        console.log("search query", archiveFilter);
-      } else if (searchQuery.get("data_type") === "collection") {
-        collectionFilter = { ...collectionFilter, ...searchPhrase };
-      }
-      this.setState({
-        dataType: searchQuery.get("data_type"),
-        searchField: searchQuery.get("search_field"),
-        q: searchQuery.get("q")
-      });
+    const { q, field, view, ...filters } = this.getParams(this.props.location);
+    let searchInput = {};
+    if (field && q) {
+      searchInput = { [field]: q };
     }
+    this.setState({
+      q: q,
+      field: field,
+      view: view,
+      filters: filters
+    });
+    let options = {
+      filter: { ...filters, ...searchInput },
+      sort: {
+        field: "title",
+        direction: "asc"
+      },
+      limit: this.state.limit,
+      nextToken: this.state.nextTokens[this.state.page]
+    };
 
-    const Archives = await API.graphql(
-      graphqlOperation(queries.searchArchives, {
-        filter: archiveFilter,
-        sort: {
-          field: "identifier",
-          direction: "asc"
-        },
-        limit: this.state.limit,
-        nextToken: this.state.nextTokens[this.state.page]
-      })
-    );
-    const Collections = await API.graphql(
-      graphqlOperation(queries.searchCollections, {
-        filter: collectionFilter,
-        sort: {
-          field: "identifier",
-          direction: "asc"
-        },
-        limit: this.state.limit,
-        nextToken: this.state.nextTokens[this.state.page]
-      })
-    );
-
-    let searchResults = null;
-    if (
-      searchQuery.get("q") === null &&
-      searchQuery.get("search_field") === null &&
-      searchQuery.get("data_type") === null
-    ) {
-      searchResults = Archives.data.searchArchives;
-    } else if (this.state.dataType === "collection") {
-      searchResults = Collections.data.searchCollections;
-    } else {
-      searchResults = Archives.data.searchArchives;
-    }
+    let searchResults = await fetchSearchResults(this, options);
     nextTokens[this.state.page + 1] = searchResults.nextToken;
     this.setState({
       items: searchResults.items,
@@ -181,6 +179,7 @@ class SearchLoader extends Component {
   }
 
   componentDidMount() {
+    fetchLanguages(this, "name", this.loadItems);
     this.loadItems();
   }
 
@@ -202,12 +201,12 @@ class SearchLoader extends Component {
             nextPage={this.nextPage.bind(this)}
             setPage={this.setPage.bind(this)}
             totalPages={this.state.totalPages}
-            dataType={this.state.dataType}
-            searchField={this.state.searchField}
+            filters={this.state.filters}
+            field={this.state.field}
             q={this.state.q}
-            dateRange={this.state.dateRange}
             view={this.state.view}
             updateFormState={this.updateFormState}
+            searchPage={this.props.siteDetails.searchPage}
           />
         </div>
       );
