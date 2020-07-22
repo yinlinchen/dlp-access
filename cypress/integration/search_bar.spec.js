@@ -4,6 +4,7 @@ describe('Search by title by hitting enter key', () => {
     cy.get('select')
       .select('title');
     cy.get('input').type('Additions{enter}').trigger('input');
+    cy.wait(1000);
   });
 
   it('returns resulting objects with the title searched', () => {
