@@ -4,7 +4,7 @@ A Multi-Tenant Serverless Website built with GraphQL, React, AWS Amplify, AWS Ap
 We have a [Live Demo](https://vtdlp-demo.cloud.lib.vt.edu/) site! We also have several University Libraries sites. [International Archive of Women in Architecture (IAWA)](https://iawa.lib.vt.edu/) is one of them.
 
 ## Features
-* Full text search
+* Keyword and Full-text search
 * Faceted search for selected fields (configurable!)
 * Supports
   * Mirador viewer
@@ -33,7 +33,7 @@ This application utilizes two DynamoDB tables:
 * Each type has many properties, see [Data Models](docs/data_model.md)
 
 ## Techniques
-* AppSync: We use AppSync to handle the communication with backend DynamoDB and ElasiticSearch. We provides some initial [query examples](docs/appsync.md).
+* AppSync: We use AppSync to handle the communication with backend DynamoDB and ElasiticSearch. Please see the initial [examples](docs/appsync.md). This [file](src/graphql/queries.js) elaborates all the operations currently in use.
 * DynamoDB: We use DynamoDB tables to store all the metadata.
 * ElasticSearch: We use ElasticSearch to enable full-text and faceted search.
 * IIIF Images: We use [aws-batch-iiif-generator](https://github.com/vt-digital-libraries-platform/aws-batch-iiif-generator) to generate IIIF tiles and manifest in AWS.
@@ -76,7 +76,7 @@ This application utilizes two DynamoDB tables:
 ## Amplify Environment variables
 We assign each site with a unique ```REACT_APP_REP_TYPE``` and each site fetches its site configuration from ```REACT_APP_CONFIG_PATH```.
 
-Take [IAWA](https://iawa.lib.vt.edu/) for example. This settings of this site shows below:
+As an example, the site of [IAWA](https://iawa.lib.vt.edu/) takes these settings below:
 ```
 REACT_APP_REP_TYPE=IAWA
 REACT_APP_CONFIG_PATH="https://vtdlp-dev-site-data.s3.amazonaws.com"
@@ -87,12 +87,12 @@ REACT_APP_CONFIG_PATH="https://vtdlp-dev-site-data.s3.amazonaws.com"
 You can see various examples in the [VTDLP-siteconfig](https://github.com/VTUL/VTDLP-siteconfig).
 
 ## Site custom images and HTML files
-We put custom static images (such as site cover image) and HTML files (such as about page) in a S3 bucket with Cloudfront setup.
+We put custom static images (e.g., site cover image) and HTML files (e.g, about page) in a S3 bucket with Cloudfront setup.
 
 You can see various examples in the [VTDLP-sitecontent](https://github.com/VTUL/VTDLP-sitecontent).
 
 ## Running the tests
-* This project is setup an end-to-end tests using [Cypress.io](https://www.cypress.io/) framework
+* An end-to-end testing framework using [Cypress.io](https://www.cypress.io/) has been setup for this project.
 <img src="https://img.cloud.lib.vt.edu/images/e2e.png" width="80%"/>
 
 * To test locally:
@@ -119,7 +119,7 @@ amplify delete
 * Email: digital-libraries@vt.edu
 
 ## Releases and Contributing
-We have a 30 day release cycle (We do Sprint!). Please let us know if you encounter a bug by filing an issue. We appreciate all contributions. 
+We have a 30 day release cycle (We do Sprints!). Please let us know if you encounter a bug by filing an issue. We appreciate all contributions.
 
 If you are planning to contribute back bug-fixes, please do so without any further discussion. 
 
