@@ -41,6 +41,20 @@ This application utilizes two DynamoDB tables:
 ## Launching the app
 [![amplifybutton](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/VTUL/dlp-access)
 
+### Deploy the app using AWS CLI
+* Create a branch with a backend environment
+```
+aws amplify create-branch --app-id=AmplifyAppId --branch-name=GitHubBranchName --backend-environment-arn=BackendEnvARN
+```
+* Deploy the app
+```
+aws amplify start-job --app-id=AmplifyAppId --branch-name=GitHubBranchName --job-type=RELEASE
+```
+* Get Backend Environment Arn
+```
+aws amplify list-backend-environments --app-id=AmplifyAppId
+```
+
 ### Run locally with the Amplify CLI
 0. Prerequisites
   ```sh
