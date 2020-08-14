@@ -32,7 +32,10 @@ class Collapsible extends Component {
 
   handleCheckboxChange = changeEvent => {
     const { name } = changeEvent.target;
-    if (this.props.filterField === "category") {
+    if (
+      this.props.filterField === "category" ||
+      this.props.filterField === "collection"
+    ) {
       if (
         this.props.filters &&
         this.props.filters[this.props.filterField] === name
@@ -124,14 +127,14 @@ class Collapsible extends Component {
             <FontAwesomeIcon
               icon={faAngleDoubleRight}
               size="1x"
-              color="#75787b"
+              color="var(--darker-gray)"
               className="float-right"
             />
           ) : (
             <FontAwesomeIcon
               icon={faAngleDoubleDown}
               size="1x"
-              color="#75787b"
+              color="var(--darker-gray)"
               className="float-right"
             />
           )}

@@ -1,9 +1,12 @@
 describe('Search by title by hitting enter key', () => {
   beforeEach(() => {
-    cy.visit('/search');
+    cy.visit('/search?field=title&q=building&view=Gallery');
+    cy.get('input')
+      .clear()
     cy.get('select')
       .select('title');
     cy.get('input').type('Additions{enter}').trigger('input');
+    cy.wait(1000);
   });
 
   it('returns resulting objects with the title searched', () => {
@@ -17,7 +20,7 @@ describe('Search by title by hitting enter key', () => {
       .children()
       .should('have.length', 10);
 
-    cy.get('#content > div.search-results-section > div.row > :nth-child(1) > div.card > div.card-body > a > h5')
+    cy.get('#content > div.search-results-section > div.row > :nth-child(1) > div.card > div.card-body > a > h3')
       .invoke('text')
       .should('contains', "Additions");
   });
@@ -62,7 +65,7 @@ describe('Search by all fields by hitting enter key', () => {
       .clear()
       .type('Diazotypes (copies){enter}')
       .trigger('input');
-    
+    cy.wait(1000);
   });
 
   it('returns resulting objects with full text search', () => {

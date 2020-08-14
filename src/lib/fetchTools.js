@@ -44,14 +44,10 @@ export const fetchSiteDetails = async (component, siteName) => {
   });
 };
 
-export function getHTML(basePath, copyObj, component) {
+export function getHTML(basePath, copyURL, component) {
   let copy = null;
   try {
-    if (copyObj.type === "string") {
-      copy = copyObj.value;
-    } else if (copyObj.type === "file") {
-      fetchCopyHTML(basePath, copyObj, component);
-    }
+    fetchCopyHTML(basePath, copyURL, component);
   } catch (error) {
     console.error("Error setting copy for component");
   }
@@ -60,16 +56,16 @@ export function getHTML(basePath, copyObj, component) {
   }
 }
 
-const fetchCopyHTML = async (basePath, copyObj, component) => {
+const fetchCopyHTML = async (basePath, copyURL, component) => {
   let data = null;
   try {
-    data = sessionStorage.getItem(copyObj.value);
+    data = sessionStorage.getItem(copyURL);
   } catch (error) {
-    console.log(`${copyObj.value} not in sessionStorage`);
+    console.log(`${copyURL} not in sessionStorage`);
   }
   if (data === null) {
     try {
-      const copyLink = `${basePath}/${copyObj.value}`;
+      const copyLink = `${basePath}/${copyURL}`;
       console.log(copyLink);
       console.log(`fetching copy from: ${copyLink}`);
       const response = await fetch(copyLink);
@@ -82,7 +78,7 @@ const fetchCopyHTML = async (basePath, copyObj, component) => {
     }
   }
   if (data !== null) {
-    sessionStorage.setItem(copyObj.value, data);
+    sessionStorage.setItem(copyURL, data);
     component.setState({ copy: data });
   }
 };
@@ -154,6 +150,14 @@ export const fetchSearchResults = async (
       delete filter["allFields"];
     } else if (key === "category") {
       category = filter.category;
+    } else if (key === "collection") {
+      if (filter[key] === "Leonard J. Currie Slides") {
+        filters["identifier"] = { matchPhrasePrefix: "LJC_" };
+      } else {
+        let parent_collection_id = await getCollectionIDByTitle(filter[key]);
+        filters["parent_collection"] = { eq: parent_collection_id };
+      }
+      objectFilter = archiveFilter;
     } else if (key === "title" || key === "description") {
       filters[key] = { matchPhrase: filter[key] };
     } else if (Array.isArray(filter[key])) {
@@ -189,8 +193,10 @@ export const fetchSearchResults = async (
   if (category === "collection") {
     const item_fields = ["format", "medium", "resource_type", "tags"];
     if (
-      filters.hasOwnProperty("and") &&
-      item_fields.some(e => Object.keys(filter).indexOf(e) > -1)
+      filters.hasOwnProperty("parent_collection") ||
+      filters.hasOwnProperty("identifier") ||
+      (filters.hasOwnProperty("and") &&
+        item_fields.some(e => Object.keys(filter).indexOf(e) > -1))
     ) {
       searchResults = {
         items: [],
@@ -240,4 +246,25 @@ const fetchObjects = async (
     })
   );
   return Objects;
+};
+
+const getCollectionIDByTitle = async title => {
+  const Results = await API.graphql(
+    graphqlOperation(queries.searchCollections, {
+      order: "ASC",
+      limit: 1,
+      filter: {
+        title: {
+          eq: title
+        }
+      }
+    })
+  );
+  let id = null;
+  try {
+    id = Results.data.searchCollections.items[0].id;
+  } catch (error) {
+    console.error(`Error getting id for collection title: ${title}`);
+  }
+  return id;
 };

@@ -45,7 +45,9 @@ class HomePage extends Component {
           <div className="home-featured-image-wrapper">
             <FeaturedStaticImage staticImage={staticImage} />
             <div id="home-site-title-wrapper">
-              <a href="/">{this.props.siteDetails.siteName}</a>
+              <h1>
+                <a href="/">{this.props.siteDetails.siteName}</a>
+              </h1>
             </div>
           </div>
           <div className="home-search-wrapper">
@@ -57,6 +59,18 @@ class HomePage extends Component {
             />
           </div>
           <HomeStatement homeStatement={homeStatement} />
+          <div className="home-nav-links">
+            <a href="/search">
+              <button type="button" className="btn btn-outline">
+                View All Items
+              </button>
+            </a>
+            <a href="/collections">
+              <button type="button" className="btn btn-outline">
+                View All Collections
+              </button>
+            </a>
+          </div>
           <FeaturedItems featuredItems={featuredItems} />
           <MultimediaSection mediaSection={mediaSection} />
           <SiteSponsors sponsors={sponsors} />

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import ItemListView from "../search/ItemListView";
 import GalleryView from "../search/GalleryView";
 import ResultsNumberDropdown from "../../components/ResultsNumberDropdown";
+import FilterDropdown from "../../components/FilterDropdown";
+import SortbyDropdown from "../../components/SortbyDropdown";
 import Pagination from "../../components/Pagination";
 import ViewBar from "../../components/ViewBar";
 
@@ -45,8 +47,17 @@ class CollectionsListPage extends Component {
         </div>
         <div className="container">
           <div className="row justify-content-center">
-            <div className="col-12 navbar navbar-light justify-content-between">
-              <div></div>
+            <div className="navbar navbar-light justify-content-between">
+              <div className="collection-filters">
+                <FilterDropdown
+                  siteFilter={this.props.browseCollections.filter}
+                  updateFormState={this.props.updateFormState}
+                />
+                <SortbyDropdown
+                  siteSort={this.props.browseCollections.sort}
+                  updateFormState={this.props.updateFormState}
+                />
+              </div>
               <div className="form-inline collection-view-options">
                 <ViewBar
                   view={this.props.view}
