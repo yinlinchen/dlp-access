@@ -37,7 +37,13 @@
     },
     "categories": {
       "function": {
-        "collectionTitleEdit": {}
+        "collectionTitleEdit": {},
+        "iawav2658176f3PostConfirmation": {
+          "GROUP": "Admin"
+        }
+      },
+      "auth": {
+        "iawav2658176f3": {}
       }
     }
   }

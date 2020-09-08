@@ -1,27 +1,71 @@
 {
-	"api": {
-		"collectionarchives": {
-			"service": "AppSync",
-			"providerPlugin": "awscloudformation",
-			"output": {
-				"securityType": "API_KEY"
-			}
-		}
-	},
-	"function": {
-		"collectionTitleEdit": {
-			"build": true,
-			"providerPlugin": "awscloudformation",
-			"service": "Lambda",
-			"dependsOn": [
-				{
-					"category": "api",
-					"resourceName": "collectionarchives",
-					"attributes": [
-						"GraphQLAPIIdOutput"
-					]
-				}
-			]
-		}
-	}
+  "api": {
+    "collectionarchives": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "securityType": "API_KEY"
+      }
+    }
+  },
+  "function": {
+    "collectionTitleEdit": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "collectionarchives",
+          "attributes": [
+            "GraphQLAPIIdOutput"
+          ]
+        }
+      ]
+    },
+    "iawav2658176f3PostConfirmation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "auth": {
+    "iawav2658176f3": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "iawav2658176f3PostConfirmation",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        }
+      ]
+    },
+    "userPoolGroups": {
+      "service": "Cognito-UserPool-Groups",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "iawav2658176f3",
+          "attributes": [
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID",
+            "IdentityPoolId"
+          ]
+        }
+      ]
+    }
+  },
+  "storage": {
+    "Collectionmap": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
+  }
 }
