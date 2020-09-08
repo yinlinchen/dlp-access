@@ -102,7 +102,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-iawav2-dev-154638-deployment",
-          "S3Key": "amplify-builds/createCollectionHeirarchy-2b393974686a4d624778-build.zip"
+          "S3Key": "amplify-builds/createCollectionHeirarchy-68746a36426d36694c6f-build.zip"
         }
       }
     },

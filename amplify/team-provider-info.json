@@ -43,7 +43,8 @@
         }
       },
       "auth": {
-        "iawav2658176f3": {}
+        "iawav2658176f3": {},
+        "userPoolGroups": {}
       }
     }
   }
