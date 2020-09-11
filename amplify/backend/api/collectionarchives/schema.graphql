@@ -111,6 +111,7 @@ type Archive implements Object
   visibility: Boolean!
   thumbnail_path: String
   manifest_url: String!
+  heirarchy_path: [String!]
   create_date: String!
   modified_date: String!
   collection: Collection @connection(name: "CollectionArchives")
