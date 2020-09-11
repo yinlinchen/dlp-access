@@ -1,4 +1,4 @@
-name: 'Amplify PR Preview'
+name: 'Amplify PR Closed'
 on:
   pull_request:
     branches:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    if: contains(github.event.pull_request.labels.*.name, 'Ready to merge')
+    if: contains(github.event.pull_request.labels.*.name, 'Ready for review')
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -16,10 +16,9 @@ jobs:
       id: setenvname
       run: |
         # use GITHUB_HEAD_REF that is set to PR source branch
-        # also remove -_ from branch name and limit length to 10 for amplify env restriction
-        echo "##[set-output name=setbranchname;]$(echo ${GITHUB_HEAD_REF//[-_]/} | cut -c-10)"
+        echo "##[set-output name=setbranchname;]$(echo ${GITHUB_HEAD_REF} | cut -c-10)"
 
-    - name: deploy PR preview
+    - name: cleanup PR preview branch
       uses: yinlinchen/amplify-preview-actions@0.2
       with:
         branch_name: ${{ steps.setenvname.outputs.setbranchname }}
@@ -30,3 +29,4 @@ jobs:
         AmplifyAppId: ${{ secrets.AmplifyAppId }}
         BackendEnvARN: ${{ secrets.BackendEnvARN }}
         AWS_REGION: 'us-east-1'
+
