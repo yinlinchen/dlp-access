@@ -70,6 +70,8 @@ type Collectionmap
     id: ID!
     collection_id: String!
     map_object: String!
+    create_date: String!
+    modified_date: String!
     collection: Collection @connection(name: "CollectionCollectionMap")
   }
 

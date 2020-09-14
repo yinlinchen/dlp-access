@@ -51,6 +51,8 @@ export const searchObjects = /* GraphQL */ `
             id
             collection_id
             map_object
+            create_date
+            modified_date
             createdAt
             updatedAt
           }
@@ -158,6 +160,8 @@ export const fulltextCollections = /* GraphQL */ `
           id
           collection_id
           map_object
+          create_date
+          modified_date
           createdAt
           updatedAt
         }
@@ -294,6 +298,8 @@ export const getCollection = /* GraphQL */ `
         id
         collection_id
         map_object
+        create_date
+        modified_date
         collection {
           id
           title
@@ -412,6 +418,8 @@ export const listCollections = /* GraphQL */ `
           id
           collection_id
           map_object
+          create_date
+          modified_date
           createdAt
           updatedAt
         }
@@ -431,6 +439,8 @@ export const getCollectionmap = /* GraphQL */ `
       id
       collection_id
       map_object
+      create_date
+      modified_date
       collection {
         id
         title
@@ -463,6 +473,8 @@ export const getCollectionmap = /* GraphQL */ `
           id
           collection_id
           map_object
+          create_date
+          modified_date
           createdAt
           updatedAt
         }
@@ -488,6 +500,8 @@ export const listCollectionmaps = /* GraphQL */ `
         id
         collection_id
         map_object
+        create_date
+        modified_date
         collection {
           id
           title
@@ -594,6 +608,8 @@ export const getArchive = /* GraphQL */ `
           id
           collection_id
           map_object
+          create_date
+          modified_date
           createdAt
           updatedAt
         }
@@ -734,6 +750,8 @@ export const collectionByIdentifier = /* GraphQL */ `
           id
           collection_id
           map_object
+          create_date
+          modified_date
           createdAt
           updatedAt
         }
@@ -879,6 +897,8 @@ export const searchCollections = /* GraphQL */ `
           id
           collection_id
           map_object
+          create_date
+          modified_date
           createdAt
           updatedAt
         }
@@ -910,6 +930,8 @@ export const searchCollectionmaps = /* GraphQL */ `
         id
         collection_id
         map_object
+        create_date
+        modified_date
         collection {
           id
           title

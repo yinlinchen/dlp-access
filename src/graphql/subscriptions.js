@@ -35,6 +35,8 @@ export const onCreateCollection = /* GraphQL */ `
         id
         collection_id
         map_object
+        create_date
+        modified_date
         collection {
           id
           title
@@ -148,6 +150,8 @@ export const onUpdateCollection = /* GraphQL */ `
         id
         collection_id
         map_object
+        create_date
+        modified_date
         collection {
           id
           title
@@ -261,6 +265,8 @@ export const onDeleteCollection = /* GraphQL */ `
         id
         collection_id
         map_object
+        create_date
+        modified_date
         collection {
           id
           title
@@ -346,6 +352,8 @@ export const onCreateCollectionmap = /* GraphQL */ `
       id
       collection_id
       map_object
+      create_date
+      modified_date
       collection {
         id
         title
@@ -378,6 +386,8 @@ export const onCreateCollectionmap = /* GraphQL */ `
           id
           collection_id
           map_object
+          create_date
+          modified_date
           createdAt
           updatedAt
         }
@@ -398,6 +408,8 @@ export const onUpdateCollectionmap = /* GraphQL */ `
       id
       collection_id
       map_object
+      create_date
+      modified_date
       collection {
         id
         title
@@ -430,6 +442,8 @@ export const onUpdateCollectionmap = /* GraphQL */ `
           id
           collection_id
           map_object
+          create_date
+          modified_date
           createdAt
           updatedAt
         }
@@ -450,6 +464,8 @@ export const onDeleteCollectionmap = /* GraphQL */ `
       id
       collection_id
       map_object
+      create_date
+      modified_date
       collection {
         id
         title
@@ -482,6 +498,8 @@ export const onDeleteCollectionmap = /* GraphQL */ `
           id
           collection_id
           map_object
+          create_date
+          modified_date
           createdAt
           updatedAt
         }
@@ -564,6 +582,8 @@ export const onCreateArchive = /* GraphQL */ `
           id
           collection_id
           map_object
+          create_date
+          modified_date
           createdAt
           updatedAt
         }
@@ -646,6 +666,8 @@ export const onUpdateArchive = /* GraphQL */ `
           id
           collection_id
           map_object
+          create_date
+          modified_date
           createdAt
           updatedAt
         }
@@ -728,6 +750,8 @@ export const onDeleteArchive = /* GraphQL */ `
           id
           collection_id
           map_object
+          create_date
+          modified_date
           createdAt
           updatedAt
         }
