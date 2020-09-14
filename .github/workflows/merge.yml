@@ -19,7 +19,7 @@ jobs:
         echo "##[set-output name=setbranchname;]$(echo ${GITHUB_HEAD_REF})"
 
     - name: cleanup PR preview branch
-      uses: yinlinchen/amplify-preview-actions@0.2
+      uses: yinlinchen/amplify-preview-actions@master
       with:
         branch_name: ${{ steps.setenvname.outputs.setbranchname }}
         amplify_command: delete
