@@ -72,5 +72,30 @@
         "createCollectionHeirarchy": {}
       }
     }
+  },
+  "leearchive": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-iawav2-leearchive-132616-authRole",
+      "UnauthRoleArn": "arn:aws:iam::909117335741:role/amplify-iawav2-leearchive-132616-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::909117335741:role/amplify-iawav2-leearchive-132616-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-iawav2-leearchive-132616-deployment",
+      "UnauthRoleName": "amplify-iawav2-leearchive-132616-unauthRole",
+      "StackName": "amplify-iawav2-leearchive-132616",
+      "StackId": "arn:aws:cloudformation:us-east-1:909117335741:stack/amplify-iawav2-leearchive-132616/90e67520-f778-11ea-b456-0a637f9cba95",
+      "AmplifyAppId": "d26d0l4icugiij"
+    },
+    "categories": {
+      "auth": {
+        "iawav2658176f3": {},
+        "userPoolGroups": {}
+      },
+      "function": {
+        "collectionTitleEdit": {},
+        "iawav2658176f3PostConfirmation": {},
+        "createCollectionMap": {},
+        "createCollectionHeirarchy": {}
+      }
+    }
   }
 }
