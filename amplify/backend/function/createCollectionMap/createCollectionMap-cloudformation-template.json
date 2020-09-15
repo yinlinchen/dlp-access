@@ -135,7 +135,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-iawav2-leearchive-132616-deployment",
-          "S3Key": "amplify-builds/createCollectionMap-615949354b7577617452-build.zip"
+          "S3Key": "amplify-builds/createCollectionMap-61456956587458666648-build.zip"
         }
       }
     },
