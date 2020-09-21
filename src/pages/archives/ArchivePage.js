@@ -17,29 +17,6 @@ import { searchArchives } from "../../graphql/queries";
 
 import "../../css/ArchivePage.css";
 
-const KeyArray = [
-  "identifier",
-  "belongs_to",
-  "bibliographic_citation",
-  "contributor",
-  "creator",
-  "custom_key",
-  "format",
-  "language",
-  "location",
-  "medium",
-  "resource_type",
-  "related_url",
-  "provenance",
-  "repository",
-  "reference",
-  "rights_holder",
-  "rights_statement",
-  "source",
-  "start_date",
-  "tags"
-];
-
 class ArchivePage extends Component {
   constructor(props) {
     super(props);
@@ -215,22 +192,36 @@ class ArchivePage extends Component {
 
                 <div className="item-image-section">
                   <div className="breadcrumbs-wrapper">
-                    <Breadcrumbs category={"Archives"} record={item} />
+                    <nav aria-label="Collection breadcrumbs">
+                      <Breadcrumbs category={"Archives"} record={item} />
+                    </nav>
                   </div>
                   <div className="row">
-                    <div className="col-sm-12">{this.mediaDisplay(item)}</div>
+                    <div
+                      className="col-sm-12"
+                      role="region"
+                      aria-label="Item media"
+                    >
+                      {this.mediaDisplay(item)}
+                    </div>
                   </div>
                 </div>
-                <div className="row item-details-section">
+                <div
+                  className="row item-details-section"
+                  role="region"
+                  aria-label="Item details"
+                >
                   <div className="col-lg-6 details-section-description">
                     <h1>{item.title}</h1>
                     {addNewlineInDesc(item.description)}
                   </div>
                   <div className="col-lg-6 details-section-metadata">
-                    <table>
+                    <table aria-label="Item Metadata">
                       <tbody>
                         <RenderItemsDetailed
-                          keyArray={KeyArray}
+                          keyArray={
+                            this.props.siteDetails.displayedAttributes.archive
+                          }
                           item={item}
                           languages={this.state.languages}
                         />

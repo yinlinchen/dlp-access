@@ -3,6 +3,7 @@ import { fetchSearchResults } from "../../lib/fetchTools";
 import Collapsible from "../../components/Collapsible";
 import { NavLink } from "react-router-dom";
 import qs from "query-string";
+import FocusLock from "react-focus-lock";
 import "../../css/ListPages.css";
 import "../../css/SearchResult.css";
 
@@ -11,10 +12,6 @@ class SearchFacets extends Component {
     super(props);
     this._isMounted = false;
   }
-
-  hideModal = () => {
-    this.props.updateModal();
-  };
 
   componentWillMount() {
     const facetFields = this.loadfacetFields();
@@ -35,7 +32,24 @@ class SearchFacets extends Component {
     if (this.props !== prevProps) {
       this.loadFacets();
     }
+
+    if (this.props.isActive) {
+      document.addEventListener("keydown", this.keyListener);
+    } else {
+      document.removeEventListener("keydown", this.keyListener);
+    }
   }
+
+  hideModal = () => {
+    this.props.updateModal();
+  };
+
+  keyListener = e => {
+    if (e.keyCode === 27) {
+      this.hideModal();
+    }
+  };
+
   searchInput = () => {
     if (this.props.field && this.props.q) {
       return { [this.props.field]: this.props.q };
@@ -114,50 +128,73 @@ class SearchFacets extends Component {
 
   render() {
     const facetFields = this.loadfacetFields();
+    const FocusTrapIfActive = this.props.isActive ? FocusLock : React.Fragment;
     return (
-      <div className={this.props.isActive ? "facet-modal-wrapper" : null}>
-        <div className="facet-wrapper" role="group" aria-labelledby="filters">
-          <h2 className="facet-heading" id="filters">
-            Filter My Results
-          </h2>
-          <div className="facet-fields" data-cy="filter-collapsibles">
-            {facetFields.map((field, idx) => (
-              <Collapsible
-                filters={this.props.filters}
-                filterField={field.name}
-                updateFormState={this.props.updateFormState}
-                facetNodes={this.state[`${field.name}List`]}
-                key={idx}
-              />
-            ))}
+      <div
+        className={this.props.isActive ? "facet-modal-wrapper" : null}
+        role={this.props.isActive ? "dialog" : null}
+        aria-modal={this.props.isActive}
+      >
+        <FocusTrapIfActive>
+          <div
+            className="facet-wrapper"
+            role="region"
+            aria-labelledby="filters"
+          >
+            <h2 className="facet-heading" id="filters">
+              Filter My Results
+            </h2>
             <div
-              className="facet-modal-buttons"
-              style={
-                this.props.isActive ? { display: "flex" } : { display: "none" }
-              }
+              className="facet-fields"
+              data-cy="filter-collapsibles"
+              role="group"
+              aria-label="filters"
             >
-              <NavLink
-                to={`/search/?${qs.stringify(this.props.defaultSearch)}`}
+              {facetFields.map((field, idx) => (
+                <Collapsible
+                  filters={this.props.filters}
+                  filterField={field.name}
+                  updateFormState={this.props.updateFormState}
+                  facetNodes={this.state[`${field.name}List`]}
+                  key={idx}
+                />
+              ))}
+              <div
+                className="facet-modal-buttons"
+                style={
+                  this.props.isActive
+                    ? { display: "flex" }
+                    : { display: "none" }
+                }
               >
-                Clear
-              </NavLink>
-              <button
-                type="button"
-                className="apply-filters"
-                onClick={this.hideModal}
-              >
-                Apply Filters
-              </button>
-              <NavLink
-                to={`/search/?${qs.stringify(this.props.defaultSearch)}`}
-                onClick={this.hideModal}
-              >
-                <i className="fas fa-times"></i>
-                <span className="sr-only">Close</span>
-              </NavLink>
+                <NavLink
+                  to={`/search/?${qs.stringify(this.props.defaultSearch)}`}
+                  role="button"
+                  tabIndex="0"
+                >
+                  Clear
+                </NavLink>
+                <button
+                  type="button"
+                  className="apply-filters"
+                  onClick={this.hideModal}
+                >
+                  Apply Filters
+                </button>
+                <NavLink
+                  to={`/search/?${qs.stringify(this.props.defaultSearch)}`}
+                  onClick={this.hideModal}
+                  role="button"
+                  tabIndex="0"
+                  data-autofocus
+                >
+                  <i className="fas fa-times"></i>
+                  <span className="sr-only">Close</span>
+                </NavLink>
+              </div>
             </div>
           </div>
-        </div>
+        </FocusTrapIfActive>
       </div>
     );
   }

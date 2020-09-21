@@ -48,12 +48,8 @@ export function dateFormatted(item) {
 
 export function collectionSizeText(collection) {
   let subCollections = null;
-  if (collection.subCollections) {
-    subCollections =
-      collection.subCollections.total != null
-        ? collection.subCollections.total
-        : 0;
-  }
+  subCollections =
+    collection.subCollection_total != null ? collection.subCollection_total : 0;
   let archives = collection.archives || 0;
   return (
     <div>
@@ -159,16 +155,18 @@ const MoreLink = ({ category, item }) => {
 };
 
 const RenderAttribute = ({ item, attribute, languages }) => {
-  if (textFormat(item, attribute, languages)) {
-    let value_style = attribute === "identifier" ? "identifier" : "";
+  if (textFormat(item, attribute.field, languages)) {
+    let value_style = attribute.field === "identifier" ? "identifier" : "";
     return (
       <div className="collection-detail">
-        <table>
+        <table aria-label="Item Metadata">
           <tbody>
             <tr>
-              <td className="collection-detail-key">{labelAttr(attribute)}:</td>
+              <th className="collection-detail-key" scope="row">
+                {attribute.label}:
+              </th>
               <td className={`collection-detail-value ${value_style}`}>
-                {textFormat(item, attribute, languages)}
+                {textFormat(item, attribute.field, languages)}
               </td>
             </tr>
           </tbody>
@@ -181,23 +179,25 @@ const RenderAttribute = ({ item, attribute, languages }) => {
 };
 
 const RenderAttrDetailed = ({ item, attribute, languages, type }) => {
-  if (textFormat(item, attribute, languages)) {
-    let value_style = attribute === "identifier" ? "identifier" : "";
+  if (textFormat(item, attribute.field, languages)) {
+    let value_style = attribute.field === "identifier" ? "identifier" : "";
     if (type === "table") {
       return (
         <tr>
-          <td className="collection-detail-key">{labelAttr(attribute)}</td>
+          <th className="collection-detail-key" scope="row">
+            {attribute.label}
+          </th>
           <td className={`collection-detail-value ${value_style}`}>
-            {textFormat(item, attribute, languages)}
+            {textFormat(item, attribute.field, languages)}
           </td>
         </tr>
       );
     } else if (type === "grid") {
       return (
         <div className="collection-detail-entry">
-          <div className="collection-detail-key">{labelAttr(attribute)}</div>
+          <div className="collection-detail-key">{attribute.label}</div>
           <div className={`collection-detail-value ${value_style}`}>
-            {textFormat(item, attribute, languages)}
+            {textFormat(item, attribute.field, languages)}
           </div>
         </div>
       );

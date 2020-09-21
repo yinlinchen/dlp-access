@@ -1,0 +1,14 @@
+[
+    {
+        "groupName": "SiteAdmin",
+        "precedence": 1
+    },
+    {
+        "groupName": "Editor",
+        "precedence": 2
+    },
+    {
+        "groupName": "Admin",
+        "precedence": 3
+    }
+]

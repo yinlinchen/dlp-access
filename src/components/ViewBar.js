@@ -18,12 +18,13 @@ class ViewBar extends Component {
         <button
           type="button"
           key={index}
-          className="btn btn-outline-light"
+          className="btn"
           data-toggle="tooltip"
           title={`${buttonType} view`}
           aria-label={`${buttonType} view`}
           onClick={() => this.updateView(buttonType)}
           active={(this.state.view === buttonType).toString()}
+          aria-pressed={(this.state.view === buttonType).toString()}
         >
           <FontAwesomeIcon
             icon={
@@ -35,12 +36,17 @@ class ViewBar extends Component {
             }
             size="lg"
             style={{ color: "var(--themeHighlightColor" }}
+            aria-hidden="true"
           />
         </button>
       );
     });
     return (
-      <div className="btn-group" aria-label="View Options">
+      <div
+        className="btn-group"
+        role="group"
+        aria-roledescription="View Options"
+      >
         {buttons}
       </div>
     );

@@ -104,11 +104,23 @@ class Collapsible extends Component {
     const DisplayAllLess = () => {
       if (this.props.facetNodes.length > 5) {
         return this.partialListLength() > 5 ? (
-          <button className="less" data-cy="show-less-button">
+          <button
+            type="button"
+            className="less"
+            data-cy="show-less-button"
+            aria-expanded="true"
+            aria-controls={`${this.props.filterField}-list`}
+          >
             Show Less
           </button>
         ) : (
-          <button className="more" data-cy="show-all-button">
+          <button
+            type="button"
+            className="more"
+            data-cy="show-all-button"
+            aria-expanded="false"
+            aria-controls={`${this.props.filterField}-list`}
+          >
             Show All
           </button>
         );
@@ -122,7 +134,15 @@ class Collapsible extends Component {
           className="facet-title"
           data-cy="filter-collapsible"
         >
-          {labelAttr(this.props.filterField)}
+          <h3>
+            <button
+              type="button"
+              aria-expanded={this.state.expanded}
+              id={this.props.filterField}
+            >
+              {labelAttr(this.props.filterField)}
+            </button>
+          </h3>
           {this.state.expanded ? (
             <FontAwesomeIcon
               icon={faAngleDoubleRight}
@@ -141,7 +161,12 @@ class Collapsible extends Component {
         </div>
         {this.state.expanded ? (
           <div>
-            <div className={`facet-listing ${this.scrollableClassName()}`}>
+            <div
+              className={`facet-listing ${this.scrollableClassName()}`}
+              id={`${this.props.filterField}-list`}
+              aria-labelledby={this.props.filterField}
+              role="group"
+            >
               {this.props.facetNodes
                 .slice(0, this.partialListLength())
                 .map(value => (
@@ -151,6 +176,7 @@ class Collapsible extends Component {
                     selected={value["selected"]}
                     onCheckboxChange={this.handleCheckboxChange}
                     key={value["label"]}
+                    filter={this.props.filterField}
                   />
                 ))}
             </div>
