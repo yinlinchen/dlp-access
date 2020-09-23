@@ -41,15 +41,15 @@
     },
     "Resources": {
     
-        "SiteAdminGroup": {
+        "AdminGroup": {
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
-              "GroupName" : "SiteAdmin",
+              "GroupName" : "Admin",
               "Precedence" : 1,
               
               "RoleArn" : {
                 "Fn::GetAtt": [
-                    "SiteAdminGroupRole",
+                    "AdminGroupRole",
                     "Arn"
                 ]
               },
@@ -60,7 +60,7 @@
             }
         },
         
-        "SiteAdminGroupRole": {
+        "AdminGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "RoleName":{
@@ -70,7 +70,7 @@
                           {
                             "Ref": "authiawav2658176f3UserPoolId"
                           },
-                          "-SiteAdminGroupRole"
+                          "-AdminGroupRole"
                         ]
                     ]
                 },
@@ -149,15 +149,15 @@
         },
      
     
-        "AdminGroup": {
+        "SiteAdminGroup": {
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
-              "GroupName" : "Admin",
+              "GroupName" : "SiteAdmin",
               "Precedence" : 3,
               
               "RoleArn" : {
                 "Fn::GetAtt": [
-                    "AdminGroupRole",
+                    "SiteAdminGroupRole",
                     "Arn"
                 ]
               },
@@ -168,7 +168,7 @@
             }
         },
         
-        "AdminGroupRole": {
+        "SiteAdminGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "RoleName":{
@@ -178,7 +178,7 @@
                           {
                             "Ref": "authiawav2658176f3UserPoolId"
                           },
-                          "-AdminGroupRole"
+                          "-SiteAdminGroupRole"
                         ]
                     ]
                 },
@@ -403,10 +403,10 @@
     
     "Outputs": {
       
-        "SiteAdminGroupRole": {
+        "AdminGroupRole": {
             "Value": {
                 "Fn::GetAtt": [
-                    "SiteAdminGroupRole",
+                    "AdminGroupRole",
                     "Arn"
                 ]
             }
@@ -425,10 +425,10 @@
         },
         
       
-        "AdminGroupRole": {
+        "SiteAdminGroupRole": {
             "Value": {
                 "Fn::GetAtt": [
-                    "AdminGroupRole",
+                    "SiteAdminGroupRole",
                     "Arn"
                 ]
             }
