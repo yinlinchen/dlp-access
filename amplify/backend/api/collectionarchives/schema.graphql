@@ -118,6 +118,16 @@ type Archive implements Object
   modified_date: String!
   collection: Collection @connection(name: "CollectionArchives")
 }
+
+type Site
+  @model
+  @key(fields: ["siteId"], name: "SiteId", queryField: "siteBySiteId") {
+  id: ID!
+  siteId: String!
+  siteTitle: String!
+  siteName: String!
+}
+
 type Query {
   searchObjects(
     allFields: String

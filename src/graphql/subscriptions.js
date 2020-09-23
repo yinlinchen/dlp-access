@@ -766,3 +766,39 @@ export const onDeleteArchive = /* GraphQL */ `
     }
   }
 `;
+export const onCreateSite = /* GraphQL */ `
+  subscription OnCreateSite {
+    onCreateSite {
+      id
+      siteId
+      siteTitle
+      siteName
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateSite = /* GraphQL */ `
+  subscription OnUpdateSite {
+    onUpdateSite {
+      id
+      siteId
+      siteTitle
+      siteName
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteSite = /* GraphQL */ `
+  subscription OnDeleteSite {
+    onDeleteSite {
+      id
+      siteId
+      siteTitle
+      siteName
+      createdAt
+      updatedAt
+    }
+  }
+`;

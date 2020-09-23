@@ -766,3 +766,39 @@ export const deleteArchive = /* GraphQL */ `
     }
   }
 `;
+export const createSite = /* GraphQL */ `
+  mutation CreateSite($input: CreateSiteInput!) {
+    createSite(input: $input) {
+      id
+      siteId
+      siteTitle
+      siteName
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateSite = /* GraphQL */ `
+  mutation UpdateSite($input: UpdateSiteInput!) {
+    updateSite(input: $input) {
+      id
+      siteId
+      siteTitle
+      siteName
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteSite = /* GraphQL */ `
+  mutation DeleteSite($input: DeleteSiteInput!) {
+    deleteSite(input: $input) {
+      id
+      siteId
+      siteTitle
+      siteName
+      createdAt
+      updatedAt
+    }
+  }
+`;

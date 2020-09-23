@@ -703,6 +703,37 @@ export const listArchives = /* GraphQL */ `
     }
   }
 `;
+export const getSite = /* GraphQL */ `
+  query GetSite($id: ID!) {
+    getSite(id: $id) {
+      id
+      siteId
+      siteTitle
+      siteName
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listSites = /* GraphQL */ `
+  query ListSites(
+    $filter: ModelSiteFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSites(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        siteId
+        siteTitle
+        siteName
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const collectionByIdentifier = /* GraphQL */ `
   query CollectionByIdentifier(
     $identifier: String
@@ -845,6 +876,33 @@ export const archiveByIdentifier = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const siteBySiteId = /* GraphQL */ `
+  query SiteBySiteId(
+    $siteId: String
+    $sortDirection: ModelSortDirection
+    $filter: ModelSiteFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    siteBySiteId(
+      siteId: $siteId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        siteId
+        siteTitle
+        siteName
         createdAt
         updatedAt
       }
