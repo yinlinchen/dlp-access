@@ -4,7 +4,23 @@
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
-        "securityType": "API_KEY"
+        "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authiawav2658176f3"
+              }
+            }
+          ],
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 360,
+              "description": "dlp-access key"
+            }
+          }
+        }
       }
     }
   },

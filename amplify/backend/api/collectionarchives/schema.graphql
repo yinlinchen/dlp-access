@@ -121,7 +121,11 @@ type Archive implements Object
 
 type Site
   @model
-  @key(fields: ["siteId"], name: "SiteId", queryField: "siteBySiteId") {
+  @key(fields: ["siteId"], name: "SiteId", queryField: "siteBySiteId")
+  @auth(rules: [
+    { allow: public, operations: [read] }
+    { allow: groups, groups: ["SiteAdmin"] }
+    ]) {
   id: ID!
   siteId: String!
   siteTitle: String!
