@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import SubCollectionsLoader from "./SubCollectionsLoader.js";
-import CollectionItemsLoader from "./CollectionItemsLoader.js";
-import Breadcrumbs from "../../components/Breadcrumbs.js";
+import SubCollectionsLoader from "./SubCollectionsLoader";
+import CollectionItemsLoader from "./CollectionItemsLoader";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import CollectionTopContent from "../../components/CollectionTopContent";
 import {
   RenderItemsDetailed,
   addNewlineInDesc
@@ -19,32 +20,26 @@ class CollectionsShowPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collection: {},
+      collection: null,
       languages: null,
       descriptionTruncated: true,
       subDescriptionTruncated: true,
       description: "",
       title: "",
       thumbnail_path: "",
+      creator: "",
+      modified_date: "",
       titleList: []
     };
     this.onMoreLessClick = this.onMoreLessClick.bind(this);
   }
 
-  creatorDates(props) {
-    let collection = props.collection;
-    if (collection.creator) {
-      return <span className="creator">Created by: {collection.creator}</span>;
-    } else {
-      return <span></span>;
-    }
-  }
-
   handleZeroItems(collection) {
+    let numberStatement = "";
     if (collection > 0) {
-      return collection + " items";
+      numberStatement = collection + " items";
     }
-    return "";
+    return numberStatement;
   }
 
   updateSubCollections(component, collection, subCollections) {
@@ -67,12 +62,10 @@ class CollectionsShowPage extends Component {
 
   async setTopLevelAttributes(attributes) {
     let attributeResults = {};
-    if (this.state.collection.parent_collection) {
-      attributeResults = await this.getTopLevelAttributes(
-        this.props.collection,
-        attributes
-      );
-    }
+    attributeResults = await this.getTopLevelAttributes(
+      this.props.collection,
+      attributes
+    );
     this.setState(attributeResults, function() {
       this.render();
     });
@@ -85,14 +78,6 @@ class CollectionsShowPage extends Component {
       attributeResults[key] = parentData[key];
     }
     return attributeResults;
-  }
-
-  collectionImg() {
-    return this.state.thumbnail_path || this.state.collection.thumbnail_path;
-  }
-
-  collectionTitle() {
-    return this.state.title || this.state.collection.title;
   }
 
   subCollectionTitle() {
@@ -174,15 +159,6 @@ class CollectionsShowPage extends Component {
     });
   }
 
-  getDescription() {
-    let description =
-      this.state.description || this.state.collection.description;
-    if (description && this.state.descriptionTruncated) {
-      description = description.substr(0, TRUNCATION_LENGTH);
-    }
-    return addNewlineInDesc(description);
-  }
-
   setTitleList(titleList) {
     this.setState({ titleList: titleList });
   }
@@ -204,16 +180,19 @@ class CollectionsShowPage extends Component {
       },
       function() {
         fetchLanguages(this, "abbr");
-        const topLevelAttributes = ["title", "description", "thumbnail_path"];
+        const topLevelAttributes = [
+          "title",
+          "description",
+          "thumbnail_path",
+          "creator",
+          "modified_date"
+        ];
         this.setTopLevelAttributes(topLevelAttributes);
       }
     );
   }
 
   render() {
-    const topLevelDesc =
-      this.state.description || this.state.collection.description;
-
     if (this.state.languages && this.state.collection) {
       return (
         <div>
@@ -226,38 +205,15 @@ class CollectionsShowPage extends Component {
               />
             </nav>
           </div>
-          <div
-            className="top-content-row row"
-            role="region"
-            aria-labelledby="collection-page-title"
-          >
-            <div className="collection-img-col col-sm-4">
-              <img src={this.collectionImg()} alt="" />
-            </div>
-            <div className="collection-details-col col-sm-8">
-              <h1 className="collection-title" id="collection-page-title">
-                {this.collectionTitle()}
-              </h1>
-              <div className="post-heading">
-                <this.creatorDates collection={this.state.collection} />
-                <span className="last-updated">
-                  Last updated: {this.state.collection.modified_date}
-                </span>
-              </div>
-              <div
-                className={`description ${
-                  this.state.descriptionTruncated ? "trunc" : "full"
-                }`}
-                id="collection-description"
-              >
-                <div>
-                  <h2 className="introduction">Introduction</h2>
-                  {this.getDescription()}{" "}
-                  {this.moreLessButtons(topLevelDesc, "top-level")}
-                </div>
-              </div>
-            </div>
-          </div>
+
+          <CollectionTopContent
+            collectionImg={this.state.thumbnail_path}
+            collectionTitle={this.state.title}
+            modified_date={this.state.modified_date}
+            description={this.state.description}
+            TRUNCATION_LENGTH={TRUNCATION_LENGTH}
+            creator={this.state.creator}
+          />
 
           <div className="container">
             <div className="mid-content-row row">
@@ -272,6 +228,7 @@ class CollectionsShowPage extends Component {
                 >
                   {this.metadataTitle()}
                 </h2>
+
                 <div className="details-section-content-grid">
                   {this.subCollectionDescription()}
                   <table aria-label="Collection Metadata">
@@ -288,7 +245,6 @@ class CollectionsShowPage extends Component {
                   </table>
                 </div>
               </div>
-
               <div
                 className="col-12 col-lg-4 subcollections-section"
                 role="region"
@@ -311,7 +267,7 @@ class CollectionsShowPage extends Component {
         </div>
       );
     } else {
-      return <></>;
+      return null;
     }
   }
 }

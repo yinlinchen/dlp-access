@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ScrollToTop from "./lib/ScrollToTop";
+import RouteListener from "./lib/RouteListener";
 import { fetchSiteDetails } from "./lib/fetchTools";
 import AnalyticsConfig from "./components/AnalyticsConfig";
 import Header from "./components/Header";
@@ -24,8 +25,13 @@ class App extends Component {
     this.state = {
       siteDetails: null,
       site: null,
-      paginationClick: null
+      paginationClick: null,
+      path: ""
     };
+  }
+
+  setPathname(pathName, context) {
+    context.setState({ path: pathName });
   }
 
   async loadSite() {
@@ -57,12 +63,14 @@ class App extends Component {
       const customRoutes = buildRoutes(this.state.siteDetails, this.state.site);
       return (
         <Router>
+          <RouteListener setPathname={this.setPathname} context={this} />
           <AnalyticsConfig analyticsID={this.state.siteDetails.analyticsID} />
           <ScrollToTop paginationClick={this.state.paginationClick} />
           <Header
             siteDetails={this.state.siteDetails}
             site={this.state.site}
             location={window.location}
+            path={this.state.path}
           />
           <main style={{ minHeight: "500px", padding: "1em 1em 0 1em" }}>
             <div id="content-wrapper" className="container p-0">

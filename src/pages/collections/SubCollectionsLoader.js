@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 import { API, graphqlOperation } from "aws-amplify";
 import { getCollectionmap } from "../../graphql/queries";
 import TreeView from "@material-ui/lab/TreeView";
@@ -74,8 +75,8 @@ class SubCollectionsLoader extends Component {
   }
 
   buildLabel(node) {
-    const target = `${window.location.protocol}//${window.location.host}/collection/${node.custom_key}`;
-    return <a href={target}>{node.name}</a>;
+    const target = `/collection/${node.custom_key}`;
+    return <NavLink to={target}>{node.name}</NavLink>;
   }
 
   updateParentSubcollections(collection, subCollections) {
