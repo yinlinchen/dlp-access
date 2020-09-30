@@ -51,7 +51,7 @@ class Breadcrumbs extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props !== prevProps) {
+    if (this.props.record.id !== prevProps.record.id) {
       this.buildList();
     }
   }

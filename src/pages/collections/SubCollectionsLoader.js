@@ -87,11 +87,11 @@ class SubCollectionsLoader extends Component {
     );
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props !== prevProps) {
-      this.loadMap();
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (this.props !== prevProps) {
+  //     this.loadMap();
+  //   }
+  // }
 
   componentDidMount() {
     this.loadMap();

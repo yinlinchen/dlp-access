@@ -9,7 +9,7 @@ export default function ScrollToTop(props) {
     const body = document.body;
     window.setTimeout(function() {
       body.scrollTo(0, 0);
-    }, 100);
+    }, 10);
   }, [location.pathname, search, props.paginationClick]);
 
   return null;
