@@ -11,7 +11,7 @@ import HomePage from "./pages/HomePage";
 import SiteAdmin from "./pages/admin/SiteAdmin";
 
 import CollectionsListLoader from "./pages/collections/CollectionsListLoader";
-import CollectionsShowLoader from "./pages/collections/CollectionsShowLoader";
+import CollectionsShowPage from "./pages/collections/CollectionsShowPage";
 
 import SearchLoader from "./pages/search/SearchLoader";
 import ArchivePage from "./pages/archives/ArchivePage";
@@ -100,7 +100,7 @@ class App extends Component {
                 <Route
                   path="/collection/:customKey"
                   render={props => (
-                    <CollectionsShowLoader
+                    <CollectionsShowPage
                       siteDetails={this.state.siteDetails}
                       site={this.state.site}
                       customKey={props.match.params.customKey}

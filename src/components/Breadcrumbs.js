@@ -50,6 +50,12 @@ class Breadcrumbs extends Component {
     });
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      this.buildList();
+    }
+  }
+
   componentDidMount() {
     this.buildList();
   }

@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { API, graphqlOperation } from "aws-amplify";
+import { searchCollections } from "../../graphql/queries";
 import SubCollectionsLoader from "./SubCollectionsLoader";
 import CollectionItemsLoader from "./CollectionItemsLoader";
 import Breadcrumbs from "../../components/Breadcrumbs";
@@ -34,6 +36,39 @@ class CollectionsShowPage extends Component {
     this.onMoreLessClick = this.onMoreLessClick.bind(this);
   }
 
+  async getCollection(customKey) {
+    const options = {
+      order: "ASC",
+      limit: 1,
+      filter: {
+        custom_key: {
+          eq: `ark:/53696/${customKey}`
+        }
+      }
+    };
+    const response = await API.graphql(
+      graphqlOperation(searchCollections, options)
+    );
+    let collection = null;
+    try {
+      collection = response.data.searchCollections.items[0];
+    } catch (error) {
+      console.error(`Error fetching collection: ${customKey}`);
+    }
+    if (collection) {
+      this.setState({ collection: collection }, function() {
+        const topLevelAttributes = [
+          "title",
+          "description",
+          "thumbnail_path",
+          "creator",
+          "modified_date"
+        ];
+        this.setTopLevelAttributes(topLevelAttributes);
+      });
+    }
+  }
+
   handleZeroItems(collection) {
     let numberStatement = "";
     if (collection > 0) {
@@ -63,7 +98,7 @@ class CollectionsShowPage extends Component {
   async setTopLevelAttributes(attributes) {
     let attributeResults = {};
     attributeResults = await this.getTopLevelAttributes(
-      this.props.collection,
+      this.state.collection,
       attributes
     );
     this.setState(attributeResults, function() {
@@ -173,23 +208,15 @@ class CollectionsShowPage extends Component {
     return title;
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      this.getCollection(this.props.customKey);
+    }
+  }
+
   componentDidMount() {
-    this.setState(
-      {
-        collection: this.props.collection
-      },
-      function() {
-        fetchLanguages(this, "abbr");
-        const topLevelAttributes = [
-          "title",
-          "description",
-          "thumbnail_path",
-          "creator",
-          "modified_date"
-        ];
-        this.setTopLevelAttributes(topLevelAttributes);
-      }
-    );
+    fetchLanguages(this, "abbr");
+    this.getCollection(this.props.customKey);
   }
 
   render() {
