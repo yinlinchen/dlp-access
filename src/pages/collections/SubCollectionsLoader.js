@@ -36,12 +36,16 @@ class SubCollectionsLoader extends Component {
       } catch (error) {
         console.error("Error fetching collection tree map");
       }
-      this.setState({ collectionMap: JSON.parse(map) }, function() {
-        this.updateParentSubcollections(
-          this.props.collection,
-          JSON.parse(map).children
-        );
-      });
+      if (map) {
+        const mapObj = JSON.parse(map);
+        const sorted = this.sortMap(mapObj);
+        this.setState({ collectionMap: sorted }, function() {
+          this.updateParentSubcollections(
+            this.props.collection,
+            sorted.children
+          );
+        });
+      }
     }
   }
 
@@ -58,6 +62,21 @@ class SubCollectionsLoader extends Component {
     this.setState({ mapID: mapID }, function() {
       this.loadMap();
     });
+  }
+
+  sortMap(map) {
+    const sort = function(node, context) {
+      if (Array.isArray(node.children)) {
+        const tempChildren = node.children.slice();
+        node.children = context.sortChildren(tempChildren);
+        for (const child in node.children) {
+          sort(node.children[child], context);
+        }
+      }
+    };
+    const temp = JSON.parse(JSON.stringify(map));
+    sort(temp, this);
+    return temp;
   }
 
   sortChildren(children) {
@@ -86,12 +105,6 @@ class SubCollectionsLoader extends Component {
       subCollections
     );
   }
-
-  // componentDidUpdate(prevProps) {
-  //   if (this.props !== prevProps) {
-  //     this.loadMap();
-  //   }
-  // }
 
   componentDidMount() {
     this.loadMap();
@@ -132,7 +145,7 @@ class SubCollectionsLoader extends Component {
           label={this.buildLabel(nodes)}
         >
           {Array.isArray(nodes.children)
-            ? this.sortChildren(nodes.children).map(node => renderTree(node))
+            ? nodes.children.map(node => renderTree(node))
             : null}
         </TreeItem>
       );
