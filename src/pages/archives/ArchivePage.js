@@ -15,6 +15,7 @@ import {
 import { fetchLanguages } from "../../lib/fetchTools";
 import { searchArchives } from "../../graphql/queries";
 import RelatedItems from "../../components/RelatedItems";
+import Citation from "../../components/Citation";
 
 import "../../css/ArchivePage.css";
 
@@ -217,6 +218,7 @@ class ArchivePage extends Component {
                     {addNewlineInDesc(item.description)}
                   </div>
                   <div className="col-lg-6 details-section-metadata">
+                    <Citation item={item} />
                     <table aria-label="Item Metadata">
                       <tbody>
                         <RenderItemsDetailed
