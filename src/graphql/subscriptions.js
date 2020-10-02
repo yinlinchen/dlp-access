@@ -770,9 +770,18 @@ export const onCreateSite = /* GraphQL */ `
   subscription OnCreateSite {
     onCreateSite {
       id
+      analyticsID
+      assetBasePath
+      browseCollections
+      contact
+      displayedAttributes
+      homePage
+      searchPage
+      siteColor
       siteId
-      siteTitle
       siteName
+      sitePages
+      siteTitle
       createdAt
       updatedAt
     }
@@ -782,9 +791,18 @@ export const onUpdateSite = /* GraphQL */ `
   subscription OnUpdateSite {
     onUpdateSite {
       id
+      analyticsID
+      assetBasePath
+      browseCollections
+      contact
+      displayedAttributes
+      homePage
+      searchPage
+      siteColor
       siteId
-      siteTitle
       siteName
+      sitePages
+      siteTitle
       createdAt
       updatedAt
     }
@@ -794,9 +812,54 @@ export const onDeleteSite = /* GraphQL */ `
   subscription OnDeleteSite {
     onDeleteSite {
       id
+      analyticsID
+      assetBasePath
+      browseCollections
+      contact
+      displayedAttributes
+      homePage
+      searchPage
+      siteColor
       siteId
-      siteTitle
       siteName
+      sitePages
+      siteTitle
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateHistory = /* GraphQL */ `
+  subscription OnCreateHistory {
+    onCreateHistory {
+      id
+      userEmail
+      siteID
+      event
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateHistory = /* GraphQL */ `
+  subscription OnUpdateHistory {
+    onUpdateHistory {
+      id
+      userEmail
+      siteID
+      event
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteHistory = /* GraphQL */ `
+  subscription OnDeleteHistory {
+    onDeleteHistory {
+      id
+      userEmail
+      siteID
+      event
       createdAt
       updatedAt
     }
