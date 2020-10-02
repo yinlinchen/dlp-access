@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { API, graphqlOperation } from "aws-amplify";
 import { searchCollections } from "../../graphql/queries";
+import SiteTitle from "../../components/SiteTitle";
 import SubCollectionsLoader from "./SubCollectionsLoader";
 import CollectionItemsLoader from "./CollectionItemsLoader";
 import Breadcrumbs from "../../components/Breadcrumbs";
@@ -80,13 +81,16 @@ class CollectionsShowPage extends Component {
   updateSubCollections(component, collection, subCollections) {
     collection.subCollection_total =
       subCollections != null ? subCollections.length : 0;
-
     component.setCollectionState(collection);
   }
 
   updateCollectionArchives(component, collection, items) {
     collection.archives = items.total;
     component.setCollectionState(collection);
+  }
+
+  subCollectionClicked(clicked, context) {
+    context.setState({ navClicked: clicked });
   }
 
   setCollectionState(collection) {
@@ -223,6 +227,10 @@ class CollectionsShowPage extends Component {
     if (this.state.languages && this.state.collection) {
       return (
         <div>
+          <SiteTitle
+            siteTitle={this.props.site.siteTitle}
+            pageTitle={this.state.collection.title}
+          />
           <div className="breadcrumbs-wrapper">
             <nav aria-label="Collection breadcrumbs">
               <Breadcrumbs
@@ -281,6 +289,7 @@ class CollectionsShowPage extends Component {
                   parent={this}
                   collection={this.state.collection}
                   updateSubCollections={this.updateSubCollections}
+                  subCollectionClicked={this.subCollectionClicked}
                 />
               </div>
             </div>

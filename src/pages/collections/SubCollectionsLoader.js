@@ -106,6 +106,12 @@ class SubCollectionsLoader extends Component {
     );
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.collection.id !== prevProps.collection.id) {
+      this.loadMap();
+    }
+  }
+
   componentDidMount() {
     this.loadMap();
   }
@@ -163,8 +169,8 @@ class SubCollectionsLoader extends Component {
           <TreeView
             defaultCollapseIcon={<MinusSquare />}
             defaultExpandIcon={<PlusSquare />}
-            defaultExpanded={this.props.collection.heirarchy_path}
-            defaultSelected={[this.props.collection.id]}
+            expanded={this.props.collection.heirarchy_path}
+            selected={[this.props.collection.id]}
           >
             {renderTree(this.state.collectionMap)}
           </TreeView>
