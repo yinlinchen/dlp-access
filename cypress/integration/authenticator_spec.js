@@ -1,13 +1,13 @@
 const USERNAME = "devtest";
-const PASSWORD = "access2020";
+const PASSWORD = Cypress.env('password');
 
 describe("Authenticator:", function() {
     beforeEach(function() {
       cy.visit("/siteAdmin");
     });
  
-    describe("Sign In:", () => {
-      it("allows a user to signin", () => {
+    describe("Sign in and Sign out:", () => {
+      it("allows a user to signin and signout", () => {
         cy.get("amplify-authenticator")
           .find(selectors.usernameInput, {
             includeShadowDom: true,
@@ -28,7 +28,6 @@ describe("Authenticator:", function() {
           .find("button[type='submit']", { includeShadowDom: true })
           .click({ force: true });
         
-        cy.wait(5000);
         cy.get("amplify-sign-out")
           .find(selectors.signOutButton, { includeShadowDom: true })
           .contains("Sign Out").click({ force: true });
