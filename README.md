@@ -113,13 +113,13 @@ You can see various examples in the [VTDLP-sitecontent](https://github.com/VTUL/
 
   0. Put your configuration json files to ```public/site_data/```
   1. Start local server using ```REACT_APP_REP_TYPE=IAWA REACT_APP_CONFIG_PATH="http://localhost:3000/site_data/" npm start```
-  2. Launch the Cypress app ```yarn run cypress open -c experimentalShadowDomSupport=true```
+  2. Launch the Cypress app ```CYPRESS_password=secret yarn run cypress open -c experimentalShadowDomSupport=true```
 
 * To test using config files in the S3 bucket
 
   0. Put your configuration json files to a S3 bucket and enable CORS and make the config file public. 
   1. Start local server using ```REACT_APP_REP_TYPE=IAWA REACT_APP_CONFIG_PATH="https://vtdlp-dev-site-data.s3.amazonaws.com" npm start```
-  2. Launch the Cypress app ```yarn run cypress open -c experimentalShadowDomSupport=true```
+  2. Launch the Cypress app ```CYPRESS_password=secret yarn run cypress open -c experimentalShadowDomSupport=true```
 
 ## Cleanup
 If you'd like to tear down the project & delete all of the resources created by this project, you can run the following:
