@@ -5,12 +5,14 @@ import { updatedDiff } from "deep-object-diff";
 import { API, Auth } from "aws-amplify";
 import { getSite } from "../../lib/fetchTools";
 import * as mutations from "../../graphql/mutations";
+import { ContactForm, ContactFields } from "./Contacts";
 
 const initialFormState = {
   analyticsID: "",
   siteColor: "",
   siteName: "",
-  siteTitle: ""
+  siteTitle: "",
+  contact: []
 };
 
 class SiteForm extends Component {
@@ -31,7 +33,12 @@ class SiteForm extends Component {
         analyticsID: site.analyticsID || "",
         siteColor: site.siteColor || "",
         siteName: site.siteName,
-        siteTitle: site.siteTitle
+        siteTitle: site.siteTitle,
+        contact: site.contact.length
+          ? site.contact.map(contact => {
+              return JSON.parse(contact);
+            })
+          : []
       };
       this.setState({
         formState: siteInfo,
@@ -54,13 +61,22 @@ class SiteForm extends Component {
     });
   };
 
+  formatData = siteInfo => {
+    let site = siteInfo;
+    site.contact = site.contact.map(contact => {
+      return JSON.stringify(contact);
+    });
+    return site;
+  };
+
   handleSubmit = async () => {
     const { siteTitle, siteName } = this.state.formState;
     if (!siteTitle || !siteName) return;
 
     this.setState({ viewState: "viewSite" });
     const siteID = this.state.site.id;
-    const siteInfo = { id: siteID, ...this.state.formState };
+    let siteInfo = { id: siteID, ...this.state.formState };
+    siteInfo = this.formatData(siteInfo);
     await API.graphql({
       query: mutations.updateSite,
       variables: { input: siteInfo },
@@ -94,11 +110,70 @@ class SiteForm extends Component {
     this.setState({ viewState: value });
   };
 
+  updateContactValue = event => {
+    const { name, value, dataset } = event.target;
+    const index = dataset.index;
+    this.setState(prevState => {
+      let contactArray = [...prevState.formState.contact];
+      let contact = { ...contactArray[index], [name]: value };
+      contactArray[index] = contact;
+      return { formState: { ...prevState.formState, contact: contactArray } };
+    });
+  };
+
+  contactFields = () => {
+    const fields = this.state.formState.contact.map((obj, index) => {
+      return (
+        <div key={`field_${index}`}>
+          <p>Contact {index + 1}</p>
+          <p>Title: {obj.title}</p>
+          <p>Email: {obj.email}</p>
+          <p>Group: {obj.group}</p>
+          <p>Department: {obj.department}</p>
+          <p>Street Address: {obj.streetAddress}</p>
+          <p>City, State, Zip: {obj.cityStateZip}</p>
+          <p>Phone: {obj.phone}</p>
+        </div>
+      );
+    });
+    return fields;
+  };
+
+  addContact = () => {
+    this.setState(prevState => {
+      let contactArray = [...prevState.formState.contact];
+      let newContact = {
+        title: "",
+        email: "",
+        group: "",
+        department: "",
+        streetAddress: "",
+        cityStateZip: "",
+        phone: ""
+      };
+      contactArray.push(newContact);
+      return {
+        formState: { ...prevState.formState, contact: contactArray }
+      };
+    });
+  };
+
+  removeContact = event => {
+    const index = event.target.dataset.index;
+    this.setState(prevState => {
+      let contactArray = [...prevState.formState.contact];
+      contactArray.splice(index, 1);
+      return {
+        formState: { ...prevState.formState, contact: contactArray }
+      };
+    });
+  };
+
   editSiteForm = () => {
     return (
       <div>
         <h2>{`Edit Site with SiteId: ${process.env.REACT_APP_REP_TYPE.toLowerCase()}`}</h2>
-        <Form onSubmit={this.handleSubmit}>
+        <Form>
           <Form.Input
             label="Analytics ID"
             value={this.state.formState.analyticsID}
@@ -127,8 +202,14 @@ class SiteForm extends Component {
             placeholder="Enter Site Title"
             onChange={this.updateInputValue}
           />
-          <Form.Button>Update Site</Form.Button>
+          <ContactForm
+            contactList={this.state.formState.contact}
+            updateContactValue={this.updateContactValue}
+            addContact={this.addContact}
+            removeContact={this.removeContact}
+          />
         </Form>
+        <button onClick={this.handleSubmit}>Update Site</button>
       </div>
     );
   };
@@ -143,6 +224,8 @@ class SiteForm extends Component {
             <p>Site Color: {this.state.formState.siteColor}</p>
             <p>Site Name: {this.state.formState.siteName}</p>
             <p>Site Title: {this.state.formState.siteTitle}</p>
+            <p>Contacts</p>
+            <ContactFields contactList={this.state.formState.contact} />
           </div>
         </div>
       );
