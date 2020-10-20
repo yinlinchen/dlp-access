@@ -2,7 +2,7 @@ const USERNAME = "devtest";
 const PASSWORD = Cypress.env("password");
 
 describe("Displays and updates contact configurations", () => {
-  it("Logs in to admin site", () => {
+  beforeEach(() => {
     cy.visit("/siteAdmin");
     cy.get("amplify-authenticator")
       .find(selectors.usernameInput, {
@@ -57,10 +57,10 @@ describe("Displays and updates contact configurations", () => {
     });
   });
 
-  after("User signout:", () => {
-  cy.get("amplify-sign-out")
-    .find(selectors.signOutButton, { includeShadowDom: true })
-    .contains("Sign Out").click({ force: true });
+  afterEach("User signout:", () => {
+    cy.get("amplify-sign-out")
+      .find(selectors.signOutButton, { includeShadowDom: true })
+      .contains("Sign Out").click({ force: true });
   })
 });
 
