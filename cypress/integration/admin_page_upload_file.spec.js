@@ -25,7 +25,7 @@ describe("Upload Site Content test", () => {
         .click({ force: true });
 
       cy.get("#content-wrapper > div > div > ul")
-        .find(":nth-child(2) > a")
+        .find(":nth-child(3) > a")
         .contains("Upload Site Content")
         .click()
       cy.url().should("include", "/siteAdmin")
