@@ -82,7 +82,7 @@ class Header extends Component {
                     </li>
                   </ol>
 
-                  <SiteNavigationLinks siteDetails={this.props.siteDetails} />
+                  <SiteNavigationLinks site={this.props.site} />
                 </div>
               </nav>{" "}
               {/* !-- end vt_nav --> */}
@@ -102,7 +102,6 @@ class Header extends Component {
           <nav aria-label="Site breadcrumbs" className="vt-page-path row">
             <div className="gateway">
               <HeaderBreadcrumbs
-                siteDetails={this.props.siteDetails}
                 site={this.props.site}
                 location={this.props.location}
               />

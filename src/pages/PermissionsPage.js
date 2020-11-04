@@ -13,7 +13,7 @@ class PermissionsPage extends Component {
   }
 
   componentDidMount() {
-    const htmlUrl = this.props.siteDetails.sitePages[this.props.parentKey]
+    const htmlUrl = JSON.parse(this.props.site.sitePages)[this.props.parentKey]
       .data_url;
     getFile(htmlUrl, "html", this);
   }
@@ -21,7 +21,8 @@ class PermissionsPage extends Component {
   render() {
     let download = "";
     try {
-      download = this.props.siteDetails.sitePages.terms.assets.download;
+      download = JSON.parse(this.props.site.sitePages)[this.props.parentKey]
+        .assets.download;
     } catch (error) {
       console.log("no download link specified");
     }
@@ -47,7 +48,7 @@ class PermissionsPage extends Component {
           </div>
           <div className="col-md-4 contact-section-wrapper">
             <ContactSection
-              siteDetails={this.props.siteDetails}
+              siteDetails={this.props.site}
               site={this.props.site}
             />
             {download ? (

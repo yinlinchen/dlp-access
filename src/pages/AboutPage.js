@@ -14,7 +14,7 @@ class AboutPage extends Component {
   }
 
   componentDidMount() {
-    const htmlUrl = this.props.siteDetails.sitePages[this.props.parentKey]
+    const htmlUrl = JSON.parse(this.props.site.sitePages)[this.props.parentKey]
       .data_url;
     getFile(htmlUrl, "html", this);
   }
@@ -34,7 +34,7 @@ class AboutPage extends Component {
         </div>
         <div className="col-md-4 contact-section-wrapper">
           <ContactSection site={this.props.site} />
-          {this.props.siteDetails.sitePages.terms ? (
+          {JSON.parse(this.props.site.sitePages)["terms"] ? (
             <a href="/permissions" className="about-terms-link">
               Permissions
             </a>

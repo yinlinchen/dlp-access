@@ -37,12 +37,12 @@ class MiradorViewer extends Component {
       showAddFromURLBox: false
     };
     if (
-      this.props.siteDetails.miradorOptions &&
-      this.props.siteDetails.miradorOptions.windowObjects
+      this.props.site.miradorOptions &&
+      this.props.site.miradorOptions.windowObjects
     ) {
       config.windowObjects[0] = Object.assign(
         config.windowObjects[0],
-        this.props.siteDetails.miradorOptions.windowObjects
+        this.props.site.miradorOptions.windowObjects
       );
     }
     return config;
@@ -61,11 +61,11 @@ class MiradorViewer extends Component {
 
   setOptionState(option) {
     if (
-      this.props.siteDetails.miradorOptions &&
-      option in this.props.siteDetails.miradorOptions
+      this.props.site.miradorOptions &&
+      option in this.props.site.miradorOptions
     ) {
       let stateObj = {};
-      stateObj[option] = this.props.siteDetails.miradorOptions[option];
+      stateObj[option] = this.props.site.miradorOptions[option];
 
       this.setState(stateObj, function() {
         this.setOptionVisibility();

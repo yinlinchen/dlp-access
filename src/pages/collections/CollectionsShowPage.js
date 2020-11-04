@@ -266,7 +266,9 @@ class CollectionsShowPage extends Component {
                     <tbody>
                       <RenderItemsDetailed
                         keyArray={
-                          this.props.siteDetails.displayedAttributes.collection
+                          JSON.parse(this.props.site.displayedAttributes)[
+                            "collection"
+                          ]
                         }
                         item={this.state.collection}
                         languages={this.state.languages}

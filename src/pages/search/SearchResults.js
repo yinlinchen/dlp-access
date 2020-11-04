@@ -165,7 +165,7 @@ class SearchResults extends Component {
                   isActive={this.state.isActive}
                   updateModal={this.updateModal}
                   defaultSearch={defaultSearch}
-                  searchFacets={this.props.searchPage.facets}
+                  searchFacets={this.props.searchFacets}
                   languages={this.state.languages}
                 />
               </div>

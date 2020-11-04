@@ -185,6 +185,16 @@ class SearchLoader extends Component {
 
   render() {
     if (this.state.items !== null) {
+      let searchPageInfo = JSON.parse(this.props.site.searchPage);
+      var facetsData = [];
+      Object.keys(searchPageInfo.facets).forEach(function(key) {
+        var value = searchPageInfo.facets[key];
+        value["name"] = key;
+        facetsData.push(value);
+      });
+
+      facetsData = facetsData.sort((a, b) => a.label.localeCompare(b.label));
+
       return (
         <div>
           <SiteTitle siteTitle={this.props.site.siteTitle} pageTitle="Search" />
@@ -203,7 +213,7 @@ class SearchLoader extends Component {
             q={this.state.q}
             view={this.state.view}
             updateFormState={this.updateFormState}
-            searchPage={this.props.siteDetails.searchPage}
+            searchFacets={facetsData}
           />
         </div>
       );

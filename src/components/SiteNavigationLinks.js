@@ -11,9 +11,16 @@ class SiteNavigationLinks extends Component {
 
   buildListItems() {
     let listItems = [];
-    for (const [key, page] of Object.entries(
-      this.props.siteDetails.sitePages
-    )) {
+    let sitePageItems = JSON.parse(this.props.site.sitePages);
+
+    const sitePages = {};
+    Object.keys(sitePageItems)
+      .sort()
+      .forEach(function(key) {
+        sitePages[key] = sitePageItems[key];
+      });
+
+    for (const [key, page] of Object.entries(sitePages)) {
       listItems.push(this.topLevelItem(key, page));
     }
     return listItems;

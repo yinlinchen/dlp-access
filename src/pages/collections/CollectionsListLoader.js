@@ -120,7 +120,7 @@ class CollectionsListLoader extends Component {
             view={this.state.view}
             updateFormState={this.updateFormState}
             scrollUp={this.props.scrollUp}
-            browseCollections={this.props.siteDetails.browseCollections}
+            browseCollections={JSON.parse(this.props.site.browseCollections)}
           />
         </div>
       );
