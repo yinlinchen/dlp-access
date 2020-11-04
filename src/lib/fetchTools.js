@@ -1,49 +1,6 @@
 import { API, graphqlOperation, Storage } from "aws-amplify";
 import * as queries from "../graphql/queries";
 
-export const fetchSiteDetails = async (component, siteName) => {
-  let response = null;
-  let data = null;
-  try {
-    data = JSON.parse(
-      sessionStorage.getItem(`${siteName.toLowerCase()}_config`)
-    );
-  } catch (error) {
-    console.log("Site details not in storage");
-  }
-  if (data === null) {
-    console.log("Fetching site details");
-    try {
-      response = await fetch(
-        `${process.env.REACT_APP_CONFIG_PATH}/${siteName.toLowerCase()}.json`
-      );
-      data = await response.json();
-    } catch (error) {
-      console.error(`Error fetching config file`);
-      console.error(error);
-    }
-    if (data === null) {
-      try {
-        response = await fetch(
-          `${process.env.REACT_APP_CONFIG_PATH}/default.json`
-        );
-        data = await response.json();
-      } catch (error) {
-        console.error("Error fetching default.json");
-        console.error(error);
-      }
-    } else {
-      sessionStorage.setItem(
-        `${siteName.toLowerCase()}_config`,
-        JSON.stringify(data)
-      );
-    }
-  }
-  component.setState({
-    siteDetails: data
-  });
-};
-
 export function getFile(copyURL, type, component) {
   try {
     fetchCopyFile(copyURL, type, component);

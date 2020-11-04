@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ScrollToTop from "./lib/ScrollToTop";
 import RouteListener from "./lib/RouteListener";
-import { fetchSiteDetails } from "./lib/fetchTools";
 import AnalyticsConfig from "./components/AnalyticsConfig";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -23,7 +22,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      siteDetails: null,
       site: null,
       paginationClick: null,
       path: ""
@@ -53,21 +51,19 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetchSiteDetails(this, process.env.REACT_APP_REP_TYPE);
     this.loadSite();
   }
 
   render() {
-    if (this.state.siteDetails && this.state.site) {
+    if (this.state.site) {
       this.setColor(this.state.site.siteColor);
-      const customRoutes = buildRoutes(this.state.siteDetails, this.state.site);
+      const customRoutes = buildRoutes(this.state.site);
       return (
         <Router>
           <RouteListener setPathname={this.setPathname} context={this} />
           <AnalyticsConfig analyticsID={this.state.site.analyticsID} />
           <ScrollToTop paginationClick={this.state.paginationClick} />
           <Header
-            siteDetails={this.state.siteDetails}
             site={this.state.site}
             location={window.location}
             path={this.state.path}
@@ -79,12 +75,7 @@ class App extends Component {
                 <Route
                   path="/"
                   exact
-                  render={props => (
-                    <HomePage
-                      siteDetails={this.state.siteDetails}
-                      site={this.state.site}
-                    />
-                  )}
+                  render={props => <HomePage site={this.state.site} />}
                 />
                 <Route
                   path="/collections"
@@ -92,7 +83,6 @@ class App extends Component {
                   render={props => (
                     <CollectionsListLoader
                       scrollUp={this.setPaginationClick.bind(this)}
-                      siteDetails={this.state.siteDetails}
                       site={this.state.site}
                     />
                   )}
@@ -101,7 +91,6 @@ class App extends Component {
                   path="/collection/:customKey"
                   render={props => (
                     <CollectionsShowPage
-                      siteDetails={this.state.siteDetails}
                       site={this.state.site}
                       customKey={props.match.params.customKey}
                     />
@@ -113,7 +102,6 @@ class App extends Component {
                   render={props => (
                     <SearchLoader
                       scrollUp={this.setPaginationClick.bind(this)}
-                      siteDetails={this.state.siteDetails}
                       site={this.state.site}
                     />
                   )}
@@ -123,7 +111,6 @@ class App extends Component {
                   exact
                   render={props => (
                     <ArchivePage
-                      siteDetails={this.state.siteDetails}
                       site={this.state.site}
                       customKey={props.match.params.customKey}
                     />

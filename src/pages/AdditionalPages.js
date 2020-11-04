@@ -10,7 +10,7 @@ class AdditionalPages extends Component {
   }
 
   componentDidMount() {
-    let copyObj = this.props.siteDetails.sitePages[this.props.parentKey];
+    let copyObj = JSON.parse(this.props.site.sitePages)[this.props.parentKey];
     if (copyObj.children && this.props.childKey) {
       copyObj = copyObj.children[this.props.childKey];
     }
