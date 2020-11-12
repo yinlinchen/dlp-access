@@ -17,7 +17,7 @@ describe('About link', () => {
     cy.get('#vt_nav > div.linkWrapper > button')
       .click();
     cy.get('#vt_main_nav > li:nth-child(4) .link-wrapper a')
-      .should('be', 'visible')
+      .should('be.visible')
       .click();
     cy.get('#content-wrapper > div > div.col-12.about-heading > h1')
       .invoke('text')
