@@ -136,6 +136,7 @@ type Site
   contact: [AWSJSON!]!
   displayedAttributes: AWSJSON!
   homePage: AWSJSON!
+  lang: String
   searchPage: AWSJSON!
   siteColor: String
   siteId: String!

@@ -1070,6 +1070,7 @@ export const getSite = /* GraphQL */ `
       contact
       displayedAttributes
       homePage
+      lang
       searchPage
       siteColor
       siteId
@@ -1096,6 +1097,7 @@ export const listSites = /* GraphQL */ `
         contact
         displayedAttributes
         homePage
+        lang
         searchPage
         siteColor
         siteId
@@ -1132,6 +1134,7 @@ export const siteBySiteId = /* GraphQL */ `
         contact
         displayedAttributes
         homePage
+        lang
         searchPage
         siteColor
         siteId

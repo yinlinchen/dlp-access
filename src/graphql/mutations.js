@@ -782,6 +782,7 @@ export const createSite = /* GraphQL */ `
       contact
       displayedAttributes
       homePage
+      lang
       searchPage
       siteColor
       siteId
@@ -803,6 +804,7 @@ export const updateSite = /* GraphQL */ `
       contact
       displayedAttributes
       homePage
+      lang
       searchPage
       siteColor
       siteId
@@ -824,6 +826,7 @@ export const deleteSite = /* GraphQL */ `
       contact
       displayedAttributes
       homePage
+      lang
       searchPage
       siteColor
       siteId
