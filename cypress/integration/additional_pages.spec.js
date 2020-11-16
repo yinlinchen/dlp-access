@@ -7,7 +7,7 @@ describe('Site nav menu', () => {
       .should('not.be.visible');
       cy.get('#vt_main_nav > li:nth-child(4) .link-wrapper a')
         .invoke('text')
-        .should('contain', "ABOUT")
+        .should('contain', "ABOUT");
   });
 });
 

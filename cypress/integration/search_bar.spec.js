@@ -77,6 +77,6 @@ describe('Search by all fields by hitting enter key', () => {
 
     cy.get('#content > div.search-results-section > div.row')
       .children()
-      .should('have.length', 10)
+      .should('have.length', 10);
   });
 });
