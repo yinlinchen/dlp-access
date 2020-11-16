@@ -1,5 +1,5 @@
 beforeEach(() => {
-  cy.visit('/collections')
+  cy.visit('/collections');
 })
 
 describe('Filter collections by subject', () => {
@@ -9,13 +9,13 @@ describe('Filter collections by subject', () => {
       .find('div.collection-filters > :nth-child(1) > div.selection')
       .click()
       .contains(subject)
-      .click()
+      .click();
     cy.get('#content-wrapper')
       .find('.row')
       .children('.gallery-item')
       .should('have.length', 6)
       .first() 
-      .contains('Dorothee Stelzer King Architectural Collection, 1950-2008 (Ms2013-023)')
+      .contains('Dorothee Stelzer King Architectural Collection, 1950-2008 (Ms2013-023)');
   })
 })
 
@@ -23,15 +23,15 @@ describe('Sort collections', () => {
   it('displays the collections in ascending order of title by default', () => {
     cy.get('#content-wrapper')
       .find('div.collection-filters > :nth-child(2) > div.selection')
-      .as('sortSelection')
+      .as('sortSelection');
     cy.get('@sortSelection')
       .find('div.text')
-      .contains('Title (A-Z)')
+      .contains('Title (A-Z)');
     cy.get('#content-wrapper')
       .find('.row')
       .children('.gallery-item')
       .first() 
-      .contains('Alberta Pfeiffer Architectural Collection, 1929-1976 (Ms1988-017)')
+      .contains('Alberta Pfeiffer Architectural Collection, 1929-1976 (Ms1988-017)');
   })
 
   it('displays the collections in descending order of title if selected ', () => {
@@ -40,20 +40,20 @@ describe('Sort collections', () => {
       .as('sortSelection')
       .click()
       .find('div.menu > :nth-child(2)')
-      .as('titleDesc')
+      .as('titleDesc');
     cy.get('@titleDesc')
       .find('span')
       .contains('Title')
-      .click()
+      .click();
     cy.get('@sortSelection')
       .find('div.text')
-      .contains('Title (Z-A)')
-    cy.wait(1000)
+      .contains('Title (Z-A)');
+    cy.wait(1000);
     cy.get('#content-wrapper')
       .find('.row')
       .children('.gallery-item')
       .first() 
-      .contains('Paula Treder Architectural Collection, 1969-1972 (Ms2005-002)')
+      .contains('Paula Treder Architectural Collection, 1969-1972 (Ms2005-002)');
   })
 
   it('displays the collections in the order of newest date if selected ', () => {
@@ -62,19 +62,19 @@ describe('Sort collections', () => {
       .as('sortSelection')
       .click()
       .find('div.menu > :nth-child(3)')
-      .as('dateDesc')
+      .as('dateDesc');
     cy.get('@dateDesc')
       .find('span')
       .contains('Date')
-      .click()
+      .click();
     cy.get("@sortSelection")
       .find("div.text")
       .contains("Date (Newest first)");
-    cy.wait(1000)
+    cy.wait(1000);
     cy.get('#content-wrapper')
       .find('.row')
       .children('.gallery-item')
       .first() 
-      .contains('Paula Treder Architectural Collection, 1969-1972 (Ms2005-002)')
+      .contains('Paula Treder Architectural Collection, 1969-1972 (Ms2005-002)');
   })
 })

@@ -27,40 +27,40 @@ describe("Update Homepage fields and revert", function() {
     cy.get("#content-wrapper > div > div > ul")
       .find(":nth-child(4) > a")
       .contains("Homepage Top Config")
-      .click()
-    cy.url().should("include", "/siteAdmin")
+      .click();
+    cy.url().should("include", "/siteAdmin");
   })
  
   it("Update Homepage statement heading", () => {
     cy.get("input[value='edit']").parent().click();
     cy.get("input[name='homeStatementHeading']").clear().type("Heading test");
     cy.contains("Update Config").click();
-    cy.contains("Heading: Heading test").should('be.visible');
     cy.wait(1000);
+    cy.contains("Heading: Heading test").should('be.visible');
   })
 
   it("Change Homepage statement heading back", () => {
     cy.get("input[value='edit']").parent().click();
     cy.get("input[name='homeStatementHeading']").clear().type("Welcome");
     cy.contains("Update Config").click();
-    cy.contains("Heading: Welcome").should('be.visible');
     cy.wait(1000);
+    cy.contains("Heading: Welcome").should('be.visible');
   })
 
   it("Update Show title", () => {
     cy.get("input[value='edit']").parent().click();
     cy.get("input[name='staticImageShowTitle']").uncheck();
     cy.contains("Update Config").click();
-    cy.contains("Show title: false").should('be.visible');
     cy.wait(1000);
+    cy.contains("Show title: false").should('be.visible');
   })
 
   it("Change Show title back", () => {
     cy.get("input[value='edit']").parent().click();
     cy.get("input[name='staticImageShowTitle']").check();
     cy.contains("Update Config").click();
-    cy.contains("Show title: true").should('be.visible');
     cy.wait(1000);
+    cy.contains("Show title: true").should('be.visible');
   })
 
   it("displays successful upload", () => {
@@ -68,12 +68,12 @@ describe("Update Homepage fields and revert", function() {
     const imgPath = "sitecontent/cover_image1.jpg"
     cy.get("input[type=file]").eq(0).attachFile(imgPath).trigger('change', { force: true });
     cy.get("div.fileUploadField > button.uploadButton")
-      .click({ force: true })
+      .click({ force: true });
       
     cy.get('[data-test="upload-message"]')
       .should('have.attr', 'style', 'color: green;')
       .invoke("text")
-      .should("include", "uploaded successfully")
+      .should("include", "uploaded successfully");
   })
 
   afterEach("User signout:", () => {

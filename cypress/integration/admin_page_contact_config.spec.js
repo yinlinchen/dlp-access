@@ -41,7 +41,8 @@ describe("Displays and updates contact configurations", () => {
     it("Updates contact fields", () => {
       cy.get("input[value='editSite']").parent().click();
       cy.get("#c0_title").clear().type("Director");
-      cy.contains("Update Site").click()
+      cy.contains("Update Site").click();
+      cy.wait(1000);
       cy.contains("Title: Director").should("be.visible");
     })
   
@@ -53,6 +54,7 @@ describe("Displays and updates contact configurations", () => {
         .clear()
         .type("IAWA Archivist");
       cy.contains("Update Site").click();
+      cy.wait(1000);
       cy.contains("Title: IAWA Archivist").should("be.visible");
     });
   });

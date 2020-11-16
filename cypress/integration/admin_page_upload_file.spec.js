@@ -27,8 +27,8 @@ describe("Upload Site Content test", () => {
       cy.get("#content-wrapper > div > div > ul")
         .find(":nth-child(3) > a")
         .contains("Upload Site Content")
-        .click()
-      cy.url().should("include", "/siteAdmin")
+        .click();
+      cy.url().should("include", "/siteAdmin");
     })
  
     describe("Upload an HTML file", () => {
@@ -36,11 +36,11 @@ describe("Upload Site Content test", () => {
         const htmlPath = "sitecontent/about1.html"
         cy.get("input[type=file]").eq(0).attachFile(htmlPath).trigger('change', { force: true });
         cy.get("form > div > button")
-          .click({ force: true })
+          .click({ force: true });
         cy.get('[data-test="upload-message"]')
           .should('have.attr', 'style', 'color: green;')
           .invoke("text")
-          .should("include", "uploaded successfully")
+          .should("include", "uploaded successfully");
       })
     })
 
@@ -49,12 +49,12 @@ describe("Upload Site Content test", () => {
         const imgPath = "sitecontent/cover_image1.jpg"
         cy.get("input[type=file]").eq(0).attachFile(imgPath).trigger('change', { force: true });
         cy.get("form > div > button")
-          .click({ force: true })
+          .click({ force: true });
           
         cy.get('[data-test="upload-message"]')
           .should('have.attr', 'style', 'color: green;')
           .invoke("text")
-          .should("include", "uploaded successfully")
+          .should("include", "uploaded successfully");
       })
     })
 
@@ -66,7 +66,7 @@ describe("Upload Site Content test", () => {
         cy.get('[data-test="upload-message"]')
           .should("have.attr", "style", "color: red;")
           .invoke("text")
-          .should("equal", "Please upload image or HTML file only!!")
+          .should("equal", "Please upload image or HTML file only!!");
       })
     })
 

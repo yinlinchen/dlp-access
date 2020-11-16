@@ -51,7 +51,8 @@ describe("Displays and updates sitepages configurations", () => {
         .first()
         .clear()
         .type("Object Type");
-      cy.contains("Update Search Facets").click()
+      cy.contains("Update Search Facets").click();
+      cy.wait(1000);
       cy.contains("Label: Object Type").should("be.visible");
     })
 
@@ -64,6 +65,7 @@ describe("Displays and updates sitepages configurations", () => {
         .clear()
         .type("Category");
       cy.contains("Update Search Facets").click();
+      cy.wait(1000);
       cy.contains("Label: Category").should("be.visible");
     });
   });
@@ -75,7 +77,8 @@ describe("Displays and updates sitepages configurations", () => {
         .first()
         .clear()
         .type("Pfeiffer, Alberta, 1899-1993");
-      cy.contains("Update Search Facets").click()
+      cy.contains("Update Search Facets").click();
+      cy.wait(1000);
       cy.contains("Pfeiffer, Alberta, 1899-1993").should("be.visible");
     })
 
@@ -88,6 +91,7 @@ describe("Displays and updates sitepages configurations", () => {
         .clear()
         .type("Pfeiffer, Alberta, 1899-1994");
       cy.contains("Update Search Facets").click();
+      cy.wait(1000);
       cy.contains("Pfeiffer, Alberta, 1899-1994").should("be.visible");
     });
   });
@@ -102,7 +106,8 @@ describe("Displays and updates sitepages configurations", () => {
         .first()
         .clear()
         .type("Department of the Army");
-      cy.contains("Update Search Facets").click()
+      cy.contains("Update Search Facets").click();
+      cy.wait(1000);
       cy.contains("Department of the Army").should("be.visible");
     })
 
@@ -114,6 +119,7 @@ describe("Displays and updates sitepages configurations", () => {
         .contains("X")
         .click()
       cy.contains("Update Search Facets").click();
+      cy.wait(1000);
       cy.contains("Department of the Army").should("not.be.visible");
     });
   });
@@ -135,6 +141,7 @@ describe("Displays and updates sitepages configurations", () => {
         .clear()
         .type("Alberta Pfeiffer Architectural Collection, 1929-1976 (Ms1988-017)");
       cy.contains("Update Search Facets").click();
+      cy.wait(1000);
       cy.contains("Facet Field: collection").should("be.visible");
       cy.contains("Label: Collection Type").should("be.visible");
       cy.contains("Alberta Pfeiffer Architectural Collection, 1929-1976 (Ms1988-017)").should("be.visible");
@@ -148,6 +155,7 @@ describe("Displays and updates sitepages configurations", () => {
         .contains("Delete Facet Field")
         .click()
       cy.contains("Update Search Facets").click();
+      cy.wait(1000);
       cy.contains("Facet Field: collection").should("not.be.visible");
       cy.contains("Label: Collection Type").should("not.be.visible");
       cy.contains("Alberta Pfeiffer Architectural Collection, 1929-1976 (Ms1988-017)").should("not.be.visible");

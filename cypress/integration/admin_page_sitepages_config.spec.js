@@ -52,7 +52,7 @@ describe("Displays and updates sitepages configurations", () => {
         .first()
         .clear()
         .type("testID");
-      cy.contains("Update Site").click()
+      cy.contains("Update Site").click();
       cy.contains("Page ID: testID ").should("be.visible");
     })
   
