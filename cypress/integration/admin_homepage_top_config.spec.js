@@ -28,6 +28,7 @@ describe("Update Homepage fields and revert", function() {
       .find(":nth-child(4) > a")
       .contains("Homepage Top Config")
       .click();
+    cy.wait(500);
     cy.url().should("include", "/siteAdmin");
   })
  
@@ -65,7 +66,7 @@ describe("Update Homepage fields and revert", function() {
 
   it("displays successful upload", () => {
     cy.get("input[value='edit']").parent().click();
-    const imgPath = "sitecontent/cover_image1.jpg"
+    const imgPath = "sitecontent/cover_image1.jpg";
     cy.get("input[type=file]").eq(0).attachFile(imgPath).trigger('change', { force: true });
     cy.get("div.fileUploadField > button.uploadButton")
       .click({ force: true });

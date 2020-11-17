@@ -27,8 +27,9 @@ describe("Displays and updates sitepages configurations", () => {
     cy.get("#content-wrapper > div > div > ul")
       .find(":nth-child(5) > a")
       .contains("Search Facets Config")
-      .click()
-    cy.url().should("include", "/siteAdmin")
+      .click();
+    cy.wait(500);
+    cy.url().should("include", "/siteAdmin");
   });
 
   describe("Displays search facet fields", () => {
@@ -97,7 +98,7 @@ describe("Displays and updates sitepages configurations", () => {
   });
 
   describe("Adds creator facet's value and removes it", () => {
-    it("Updates creator facet's value", () => {
+    it("Adds creator facet's value", () => {
       cy.get("input[value='edit']").parent().click();
       cy.contains("Add Value")
         .first()
@@ -117,14 +118,14 @@ describe("Displays and updates sitepages configurations", () => {
         .click();
       cy.get("#content-wrapper > div > div > div > form > section:nth-child(2) > fieldset > ul > li:nth-child(13)")
         .contains("X")
-        .click()
+        .click();
       cy.contains("Update Search Facets").click();
       cy.wait(1000);
       cy.contains("Department of the Army").should("not.be.visible");
     });
   });
 
-  describe("Add a new facet field and remove it", () => {
+  describe("Adds a new facet field and removes it", () => {
     it("Adds a new search facet field", () => {
       cy.get("input[value='edit']").parent().click();
       cy.get("select").select("collection");
@@ -135,7 +136,7 @@ describe("Displays and updates sitepages configurations", () => {
         .type("Collection Type");
       cy.get("#content-wrapper > div > div > div > form > section:nth-child(9) > fieldset")
         .contains("Add Value")
-        .click()
+        .click();
       cy.get("input[name='collection_value_0']")
         .first()
         .clear()
@@ -153,7 +154,7 @@ describe("Displays and updates sitepages configurations", () => {
         .click();
       cy.get("#content-wrapper > div > div > div > form > section:nth-child(2)")
         .contains("Delete Facet Field")
-        .click()
+        .click();
       cy.contains("Update Search Facets").click();
       cy.wait(1000);
       cy.contains("Facet Field: collection").should("not.be.visible");
