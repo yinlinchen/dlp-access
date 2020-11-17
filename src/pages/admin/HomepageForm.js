@@ -6,16 +6,18 @@ import { API, Auth } from "aws-amplify";
 import { getSite } from "../../lib/fetchTools";
 import * as mutations from "../../graphql/mutations";
 import FileUploadField from "./FileUploadField";
+import { SponsorForm, Sponsors } from "./SponsorFields";
 
 const initialFormState = {
   staticImageSrc: "",
   staticImageAltText: "",
   staticImageShowTitle: false,
   homeStatementHeading: "",
-  homeStatement: ""
+  homeStatement: "",
+  sponsors: []
 };
 
-class HomepageTop extends Component {
+class HomepageForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,6 +27,44 @@ class HomepageTop extends Component {
       site: null
     };
   }
+
+  updateSponsorValue = event => {
+    const { name, value, dataset } = event.target;
+    const index = dataset.index;
+    this.setState(prevState => {
+      let sponsorArray = [...prevState.formState.sponsors];
+      let sponsor = { ...sponsorArray[index], [name]: value };
+      sponsorArray[index] = sponsor;
+      return { formState: { ...prevState.formState, sponsors: sponsorArray } };
+    });
+  };
+
+  addSponsor = () => {
+    this.setState(prevState => {
+      let sponsorArray = [...prevState.formState.sponsors];
+      let index = sponsorArray.length + 1;
+      let newSponsor = {
+        alt: "",
+        img: `https://img.cloud.lib.vt.edu/sites/images/iawa/sponsor${index}.png`,
+        link: ""
+      };
+      sponsorArray.push(newSponsor);
+      return {
+        formState: { ...prevState.formState, sponsors: sponsorArray }
+      };
+    });
+  };
+
+  removeSponsor = event => {
+    const index = event.target.dataset.index;
+    this.setState(prevState => {
+      let sponsorArray = [...prevState.formState.sponsors];
+      sponsorArray.splice(index, 1);
+      return {
+        formState: { ...prevState.formState, sponsors: sponsorArray }
+      };
+    });
+  };
 
   async loadSite() {
     const site = await getSite();
@@ -37,7 +77,8 @@ class HomepageTop extends Component {
           staticImageAltText: homepage.staticImage.altText || "",
           staticImageShowTitle: homepage.staticImage.showTitle || false,
           homeStatementHeading: homepage.homeStatement.heading || "",
-          homeStatement: homepage.homeStatement.statement
+          homeStatement: homepage.homeStatement.statement,
+          sponsors: homepage.sponsors || []
         };
       } catch (error) {
         console.error(error);
@@ -79,7 +120,7 @@ class HomepageTop extends Component {
     homePage.staticImage.src = this.state.formState.staticImageSrc;
     homePage.staticImage.altText = this.state.formState.staticImageAltText;
     homePage.staticImage.showTitle = this.state.formState.staticImageShowTitle;
-
+    homePage.sponsors = this.state.formState.sponsors;
     let siteInfo = { id: siteID, homePage: JSON.stringify(homePage) };
     await API.graphql({
       query: mutations.updateSite,
@@ -129,7 +170,7 @@ class HomepageTop extends Component {
       <div>
         <h2>{`Edit Homepage Top with SiteId: ${process.env.REACT_APP_REP_TYPE.toLowerCase()}`}</h2>
         <Form>
-          <section>
+          <section className="homepage-statement">
             <h3>Homepage Statement</h3>
             <Form.Input
               label="Heading"
@@ -146,7 +187,7 @@ class HomepageTop extends Component {
               onChange={this.updateInputValue}
             />
           </section>
-          <section>
+          <section className="static-image">
             <h3>Static Image</h3>
             <FileUploadField
               context={this}
@@ -155,7 +196,7 @@ class HomepageTop extends Component {
               name="staticImageSrc"
               placeholder="Enter Src"
               site={this.state.site}
-              setStaticImgSrc={this.setStaticImgSrc.bind(this)}
+              setSrc={this.setStaticImgSrc.bind(this)}
             />
             <Form.Input
               label="Alt Text"
@@ -176,6 +217,14 @@ class HomepageTop extends Component {
             </label>
           </section>
         </Form>
+        <SponsorForm
+          sponsorsList={this.state.formState.sponsors}
+          updateSponsorValue={this.updateSponsorValue}
+          addSponsor={this.addSponsor}
+          removeSponsor={this.removeSponsor}
+          site={this.state.site}
+          context={this}
+        />
         <button className="submit" onClick={this.handleSubmit}>
           Update Config
         </button>
@@ -220,6 +269,8 @@ class HomepageTop extends Component {
               <span className="key">Show title:</span>{" "}
               {this.showTitleFormatted()}
             </p>
+            <h3>Sponsors</h3>
+            <Sponsors sponsorsList={this.state.formState.sponsors} />
           </div>
         </div>
       );
@@ -260,4 +311,4 @@ class HomepageTop extends Component {
   }
 }
 
-export default withAuthenticator(HomepageTop);
+export default withAuthenticator(HomepageForm);
