@@ -174,12 +174,14 @@ class SearchLoader extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props !== prevProps) {
+      fetchLanguages(this, this.props.site, "name", this.loadItems);
       this.loadItems();
     }
   }
 
   componentDidMount() {
-    fetchLanguages(this, "name", this.loadItems);
+    console.log(this.props);
+    fetchLanguages(this, this.props.site, "name", this.loadItems);
     this.loadItems();
   }
 
@@ -199,6 +201,7 @@ class SearchLoader extends Component {
         <div>
           <SiteTitle siteTitle={this.props.site.siteTitle} pageTitle="Search" />
           <SearchResults
+            site={this.props.site}
             items={this.state.items}
             total={this.state.total}
             page={this.state.page}

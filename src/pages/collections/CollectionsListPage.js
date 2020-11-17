@@ -83,6 +83,7 @@ class CollectionsListPage extends Component {
               if (this.props.view === "Gallery") {
                 return (
                   <GalleryView
+                    site={this.props.site}
                     key={collection.id}
                     item={collection}
                     category="collection"
@@ -92,6 +93,7 @@ class CollectionsListPage extends Component {
               } else {
                 return (
                   <ItemListView
+                    site={this.props.site}
                     key={collection.id}
                     item={collection}
                     category="collection"
