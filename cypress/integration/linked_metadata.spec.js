@@ -4,7 +4,7 @@ describe('Archive metadata', () => {
     cy.get('[data-cy=multi-field-span] a')
       .eq(2)
       .click();
-    cy.url()
+    cy.url({ timeout: 2000 })
       .should('eq', 'http://localhost:3000/search/?category=archive&creator=Chadeayne%2C%20Olive%2C%201904-2001&field=title&q=&view=Gallery');
   });
 });
@@ -15,7 +15,7 @@ describe('Collection metadata', () => {
     cy.get('[data-cy=multi-field-span] a')
       .eq(1)
       .click();
-    cy.url()
+    cy.url({ timeout: 2000 })
       .should('eq', 'http://localhost:3000/search/?category=collection&field=title&language=en&q=&view=Gallery');
   });
 });

@@ -16,10 +16,10 @@ describe('About link', () => {
     cy.visit('/');
     cy.get('#vt_nav > div.linkWrapper > button')
       .click();
-    cy.get('#vt_main_nav > li:nth-child(4) .link-wrapper a')
+    cy.get('#vt_main_nav > li:nth-child(4) .link-wrapper a', { timeout: 2000 })
       .should('be.visible')
       .click();
-    cy.get('#content-wrapper > div > div.col-12.about-heading > h1')
+    cy.get('#content-wrapper > div > div.col-12.about-heading > h1', { timeout: 2000 })
       .invoke('text')
       .should('contain', 'About');
   });

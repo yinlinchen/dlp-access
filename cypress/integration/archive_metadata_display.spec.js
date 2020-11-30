@@ -12,7 +12,7 @@ describe('A single Archive Show page metadata section', () => {
       .should('equal', 'Identifier');
     cy.get('@metadataSection')
       .find(':nth-child(1) > td.collection-detail-value').click();
-    cy.url().should('include', '/archive/hs59hv2z');
+    cy.url({ timeout: 2000 }).should('include', '/archive/hs59hv2z');
   })
 
   it('displays the custom key field and its corresponding value', () => {

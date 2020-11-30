@@ -28,7 +28,7 @@ describe("Authenticator:", function() {
           .find("button[type='submit']", { includeShadowDom: true })
           .click({ force: true });
         
-        cy.get("amplify-sign-out")
+        cy.get("amplify-sign-out", { timeout: 2000 })
           .find(selectors.signOutButton, { includeShadowDom: true })
           .contains("Sign Out").click({ force: true });
       });

@@ -28,8 +28,7 @@ describe("Upload Site Content test", () => {
         .find(":nth-child(3) > a")
         .contains("Upload Site Content")
         .click();
-      cy.wait(500);
-      cy.url().should("include", "/siteAdmin");
+      cy.url({ timeout: 2000 }).should("include", "/siteAdmin");
     })
  
     describe("Upload an HTML file", () => {
@@ -38,7 +37,7 @@ describe("Upload Site Content test", () => {
         cy.get("input[type=file]").eq(0).attachFile(htmlPath).trigger('change', { force: true });
         cy.get("form > div > button")
           .click({ force: true });
-        cy.get('[data-test="upload-message"]')
+        cy.get('[data-test="upload-message"]', { timeout: 5000 })
           .should('have.attr', 'style', 'color: green;')
           .invoke("text")
           .should("include", "uploaded successfully");
@@ -52,7 +51,7 @@ describe("Upload Site Content test", () => {
         cy.get("form > div > button")
           .click({ force: true });
           
-        cy.get('[data-test="upload-message"]')
+        cy.get('[data-test="upload-message"]', { timeout: 5000 })
           .should('have.attr', 'style', 'color: green;')
           .invoke("text")
           .should("include", "uploaded successfully");

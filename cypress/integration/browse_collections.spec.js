@@ -17,7 +17,7 @@ describe('Browse collections page', () => {
       .as('firstCollection')
       .contains('Alberta Pfeiffer Architectural Collection, 1929-1976 (Ms1988-017)');
     cy.get('@firstCollection').click();
-    cy.url()
+    cy.url({ timeout: 2000 })
       .should('include', '/collection/vb765t25');
     cy.contains('Ms1988_017_Pfeiffer');
   })
@@ -35,7 +35,7 @@ describe('Browse collections page', () => {
       .click()
       .contains('50')
       .click();
-    cy.get('#content-wrapper')
+    cy.get('#content-wrapper', { timeout: 2000 })
       .find('.row')
       .children('.gallery-item')
       .should('have.length', 11);

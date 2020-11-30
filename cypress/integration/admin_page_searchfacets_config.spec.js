@@ -28,8 +28,7 @@ describe("Displays and updates sitepages configurations", () => {
       .find(":nth-child(5) > a")
       .contains("Search Facets Config")
       .click();
-    cy.wait(500);
-    cy.url().should("include", "/siteAdmin");
+    cy.url({ timeout: 2000 }).should("include", "/siteAdmin");
   });
 
   describe("Displays search facet fields", () => {
@@ -37,7 +36,7 @@ describe("Displays and updates sitepages configurations", () => {
       cy.get("input[value='view']")
         .parent()
         .click();
-      cy.contains("Facet Field: category").should("be.visible");
+      cy.contains("Facet Field: category", { timeout: 2000 }).should("be.visible");
       cy.contains("Label: Category").should("be.visible");
       cy.contains("Values:").should("be.visible");
       cy.contains("collection").should("be.visible");
@@ -48,102 +47,95 @@ describe("Displays and updates sitepages configurations", () => {
   describe("Updates category facet's label and changes it back", () => {
     it("Updates search facet's label", () => {
       cy.get("input[value='edit']").parent().click();
-      cy.get("input[name='category_label']")
+      cy.get("input[name='category_label']", { timeout: 2000 })
         .first()
         .clear()
         .type("Object Type");
       cy.contains("Update Search Facets").click();
-      cy.wait(1000);
-      cy.contains("Label: Object Type").should("be.visible");
+      cy.contains("Label: Object Type", { timeout: 2000 }).should("be.visible");
     })
 
     it("Reverses update", () => {
       cy.get("input[value='edit']")
         .parent()
         .click();
-      cy.get("input[name='category_label']")
+      cy.get("input[name='category_label']", { timeout: 2000 })
         .first()
         .clear()
         .type("Category");
       cy.contains("Update Search Facets").click();
-      cy.wait(1000);
-      cy.contains("Label: Category").should("be.visible");
+      cy.contains("Label: Category", { timeout: 2000 }).should("be.visible");
     });
   });
 
   describe("Updates creator facet's value and changes it back", () => {
     it("Updates creator facet's value", () => {
       cy.get("input[value='edit']").parent().click();
-      cy.get("input[name='creator_value_0']")
+      cy.get("input[name='creator_value_0']", { timeout: 2000 })
         .first()
         .clear()
         .type("Pfeiffer, Alberta, 1899-1993");
       cy.contains("Update Search Facets").click();
-      cy.wait(1000);
-      cy.contains("Pfeiffer, Alberta, 1899-1993").should("be.visible");
+      cy.contains("Pfeiffer, Alberta, 1899-1993", { timeout: 2000 }).should("be.visible");
     })
 
     it("Reverses update", () => {
       cy.get("input[value='edit']")
         .parent()
         .click();
-      cy.get("input[name='creator_value_0']")
+      cy.get("input[name='creator_value_0']", { timeout: 2000 })
         .first()
         .clear()
         .type("Pfeiffer, Alberta, 1899-1994");
       cy.contains("Update Search Facets").click();
-      cy.wait(1000);
-      cy.contains("Pfeiffer, Alberta, 1899-1994").should("be.visible");
+      cy.contains("Pfeiffer, Alberta, 1899-1994", { timeout: 2000 }).should("be.visible");
     });
   });
 
   describe("Adds creator facet's value and removes it", () => {
     it("Adds creator facet's value", () => {
       cy.get("input[value='edit']").parent().click();
-      cy.contains("Add Value")
+      cy.contains("Add Value", { timeout: 2000 })
         .first()
         .click();
-      cy.get("input[name='creator_value_12']")
+      cy.get("input[name='creator_value_12']", { timeout: 2000 })
         .first()
         .clear()
         .type("Department of the Army");
       cy.contains("Update Search Facets").click();
-      cy.wait(1000);
-      cy.contains("Department of the Army").should("be.visible");
+      cy.contains("Department of the Army", { timeout: 2000 }).should("be.visible");
     })
 
     it("Removes the added creator value", () => {
       cy.get("input[value='edit']")
         .parent()
         .click();
-      cy.get("#content-wrapper > div > div > div > form > section:nth-child(2) > fieldset > ul > li:nth-child(13)")
+      cy.get("#content-wrapper > div > div > div > form > section:nth-child(2) > fieldset > ul > li:nth-child(13)", { timeout: 2000 })
         .contains("X")
         .click();
-      cy.contains("Update Search Facets").click();
-      cy.wait(1000);
-      cy.contains("Department of the Army").should("not.be.visible");
+      cy.contains("Update Search Facets", { timeout: 2000 }).click();
+      cy.contains("Department of the Army", { timeout: 2000 }).should("not.be.visible");
     });
   });
 
   describe("Adds a new facet field and removes it", () => {
     it("Adds a new search facet field", () => {
       cy.get("input[value='edit']").parent().click();
-      cy.get("select").select("collection");
+      cy.get("select", { timeout: 2000 }).select("collection");
       cy.contains("Add New Search Facet").click();
-      cy.get("input[name='collection_label']")
+      cy.get("input[name='collection_label']", { timeout: 2000 })
         .first()
         .clear()
         .type("Collection Type");
       cy.get("#content-wrapper > div > div > div > form > section:nth-child(9) > fieldset")
         .contains("Add Value")
         .click();
-      cy.get("input[name='collection_value_0']")
+      cy.get("input[name='collection_value_0']", { timeout: 2000 })
         .first()
         .clear()
         .type("Alberta Pfeiffer Architectural Collection, 1929-1976 (Ms1988-017)");
       cy.contains("Update Search Facets").click();
-      cy.wait(1000);
-      cy.contains("Facet Field: collection").should("be.visible");
+      cy.contains("Facet Field: collection", { timeout: 2000 }).should("be.visible");
       cy.contains("Label: Collection Type").should("be.visible");
       cy.contains("Alberta Pfeiffer Architectural Collection, 1929-1976 (Ms1988-017)").should("be.visible");
     })
@@ -152,12 +144,11 @@ describe("Displays and updates sitepages configurations", () => {
       cy.get("input[value='edit']")
         .parent()
         .click();
-      cy.get("#content-wrapper > div > div > div > form > section:nth-child(2)")
+      cy.get("#content-wrapper > div > div > div > form > section:nth-child(2)", { timeout: 2000 })
         .contains("Delete Facet Field")
         .click();
-      cy.contains("Update Search Facets").click();
-      cy.wait(1000);
-      cy.contains("Facet Field: collection").should("not.be.visible");
+      cy.contains("Update Search Facets", { timeout: 2000 }).click();
+      cy.contains("Facet Field: collection", { timeout: 2000 }).should("not.be.visible");
       cy.contains("Label: Collection Type").should("not.be.visible");
       cy.contains("Alberta Pfeiffer Architectural Collection, 1929-1976 (Ms1988-017)").should("not.be.visible");
     });

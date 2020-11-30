@@ -288,11 +288,12 @@ class BrowseCollectionsForm extends Component {
               <legend className="admin">{`Configuration for filter field: ${filterField}`}</legend>
               <h4>Values:</h4>
               <ul>
-                {this.state.browseCollections.filter.values.map(
-                  (value, idx) => {
-                    return this.editFilterValue(value, idx);
-                  }
-                )}
+                {this.state.browseCollections.filter.values &&
+                  this.state.browseCollections.filter.values.map(
+                    (value, idx) => {
+                      return this.editFilterValue(value, idx);
+                    }
+                  )}
               </ul>
               <button
                 type="button"

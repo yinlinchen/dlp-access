@@ -48,7 +48,7 @@ describe('Collapsible search filter field', () => {
         .should('not.be.visible');
     cy.get('[data-cy=filter-collapsibles] > :nth-child(6)')
         .click();
-    cy.get('[data-cy=filter-collapsibles] > :nth-child(6) > div > div.facet-listing')
+    cy.get('[data-cy=filter-collapsibles] > :nth-child(6) > div > div.facet-listing', { timeout: 5000 })
         .should('be.visible');
   });
 })

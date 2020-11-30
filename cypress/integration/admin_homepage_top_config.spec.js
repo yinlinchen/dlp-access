@@ -28,40 +28,35 @@ describe("Update Homepage fields and revert", function() {
       .find(":nth-child(4) > a")
       .contains("Homepage Config")
       .click()
-    cy.wait(500);
-    cy.url().should("include", "/siteAdmin");
+    cy.url({ timeout: 2000 }).should("include", "/siteAdmin");
   })
  
   it("Update Homepage statement heading", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='homeStatementHeading']").clear().type("Heading test");
+    cy.get("input[name='homeStatementHeading']", { timeout: 2000 }).clear().type("Heading test");
     cy.contains("Update Config").click();
-    cy.wait(1000);
-    cy.contains("Heading: Heading test").should('be.visible');
+    cy.contains("Heading: Heading test", { timeout: 2000 }).should('be.visible');
   })
 
   it("Change Homepage statement heading back", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='homeStatementHeading']").clear().type("Welcome");
+    cy.get("input[name='homeStatementHeading']", { timeout: 2000 }).clear().type("Welcome");
     cy.contains("Update Config").click();
-    cy.wait(1000);
-    cy.contains("Heading: Welcome").should('be.visible');
+    cy.contains("Heading: Welcome", { timeout: 2000 }).should('be.visible');
   })
 
   it("Update Show title", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='staticImageShowTitle']").uncheck();
-    cy.contains("Update Config").click();
-    cy.wait(1000);
-    cy.contains("Show title: false").should('be.visible');
+    cy.get("input[name='staticImageShowTitle']", { timeout: 5000 }).uncheck();
+    cy.contains("Update Config", { timeout: 5000 }).click();
+    cy.contains("Show title: false", { timeout: 5000 }).should('be.visible');
   })
 
   it("Change Show title back", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='staticImageShowTitle']").check();
-    cy.contains("Update Config").click();
-    cy.wait(1000);
-    cy.contains("Show title: true").should('be.visible');
+    cy.get("input[name='staticImageShowTitle']", { timeout: 2000 }).check();
+    cy.contains("Update Config", { timeout: 2000 }).click();
+    cy.contains("Show title: true", { timeout: 2000 }).should('be.visible');
   })
 
   it("displays successful upload", () => {
@@ -70,8 +65,7 @@ describe("Update Homepage fields and revert", function() {
     cy.get("input[type=file]").eq(0).attachFile(imgPath).trigger('change', { force: true });
     cy.get(".static-image > div.fileUploadField > button.uploadButton")
       .click({ force: true });
-      cy.wait(1000);
-    cy.get('[data-test="upload-message"]')
+    cy.get('[data-test="upload-message"]', { timeout: 2000 })
       .should('have.attr', 'style', 'color: green;')
       .invoke("text")
       .should("include", "uploaded successfully");

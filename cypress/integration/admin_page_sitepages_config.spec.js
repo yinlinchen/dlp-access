@@ -28,8 +28,7 @@ describe("Displays and updates sitepages configurations", () => {
       .find(":nth-child(2) > a")
       .contains("Site Pages Config")
       .click();
-    cy.wait(500);
-    cy.url().should("include", "/siteAdmin");
+    cy.url({ timeout: 2000 }).should("include", "/siteAdmin");
   });
 
   describe("Displays site pages fields", () => {
@@ -37,7 +36,7 @@ describe("Displays and updates sitepages configurations", () => {
       cy.get("input[value='view']")
         .parent()
         .click();
-      cy.contains("Page ID: terms").should("be.visible");
+      cy.contains("Page ID: terms", { timeout: 5000 }).should("be.visible");
       cy.contains("Component: PermissionsPage").should("be.visible");
       cy.contains("Assets:").should("be.visible");
       cy.contains("Local URL: /permissions").should("be.visible");
@@ -49,24 +48,24 @@ describe("Displays and updates sitepages configurations", () => {
   describe("Updates first page's ID and changes it back", () => {
     it("Updates site page's fields", () => {
       cy.get("input[value='edit']").parent().click();
-      cy.get("input[name='terms_pageName[]']")
+      cy.get("input[name='terms_pageName[]']", { timeout: 5000 })
         .first()
         .clear()
         .type("testID");
       cy.contains("Update Site").click();
-      cy.contains("Page ID: testID ").should("be.visible");
+      cy.contains("Page ID: testID ", { timeout: 2000 }).should("be.visible");
     })
   
     it("Reverses update", () => {
       cy.get("input[value='edit']")
         .parent()
         .click();
-      cy.get("input[name='testID_pageName[]']")
+      cy.get("input[name='testID_pageName[]']", { timeout: 2000 })
         .first()
         .clear()
         .type("terms");
       cy.contains("Update Site").click();
-      cy.contains("Page ID: terms").should("be.visible");
+      cy.contains("Page ID: terms", { timeout: 2000 }).should("be.visible");
     });
   });
 
