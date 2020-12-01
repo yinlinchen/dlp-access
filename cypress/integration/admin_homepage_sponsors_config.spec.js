@@ -28,8 +28,7 @@ describe("Update sponsors fields and revert", function () {
             .find(":nth-child(4) > a")
             .contains("Homepage Config")
             .click();
-        cy.wait(500);
-        cy.url().should("include", "/siteAdmin");
+        cy.url({ timeout: 2000 }).should("include", "/siteAdmin");
     });
 
     it("Updates first sponsor URL", () => {
@@ -40,8 +39,7 @@ describe("Update sponsors fields and revert", function () {
             .clear()
             .type("https://www.lib.vt.edu");
         cy.contains("Update Config").click();
-        cy.wait(500);
-        cy.contains("URL: https://www.lib.vt.edu").should("be.visible");
+        cy.contains("URL: https://www.lib.vt.edu", { timeout: 2000 }).should("be.visible");
     });
 
     it("Reverses update", () => {
@@ -52,18 +50,16 @@ describe("Update sponsors fields and revert", function () {
             .clear()
             .type("https://clir.org/");
         cy.contains("Update Config").click();
-        cy.wait(500);
-        cy.contains("URL: https://clir.org/").should("be.visible");
+        cy.contains("URL: https://clir.org/", { timeout: 2000 }).should("be.visible");
     });
 
     it("Updates existing sponsor image", () => {
         cy.get("input[value='edit']")
             .parent()
             .click();
-        cy.wait(500);
         const imgPath = "sitecontent/sponsor1.png";
         cy.get(
-            "#sponsor0_form > section > div.fileUploadField > input[type=file]"
+            "#sponsor0_form > section > div.fileUploadField > input[type=file]", { timeout: 2000 }
         )
             .eq(0)
             .attachFile(imgPath)
@@ -71,7 +67,7 @@ describe("Update sponsors fields and revert", function () {
         cy.get("#sponsor0_form > section > div.fileUploadField > button.uploadButton").click({ force: true });
 
         cy.get(
-            '#sponsor0_form > section > div.fileUploadField > [data-test="upload-message"]'
+            '#sponsor0_form > section > div.fileUploadField > [data-test="upload-message"]', { timeout: 2000 }
         )
             .should("have.attr", "style", "color: green;")
             .invoke("text")
@@ -83,9 +79,9 @@ describe("Update sponsors fields and revert", function () {
             .parent()
             .click();
         const imgPath = "sitecontent/sponsor3.png";
-        cy.get("button[aria-label='Add sponsor']").click();
+        cy.get("button[aria-label='Add sponsor']", { timeout: 2000 }).click();
         cy.get(
-            "#sponsor2_form > section > div.fileUploadField > input[type=file]"
+            "#sponsor2_form > section > div.fileUploadField > input[type=file]", { timeout: 2000 }
         )
             .eq(0)
             .attachFile(imgPath)
@@ -93,11 +89,10 @@ describe("Update sponsors fields and revert", function () {
         cy.get(
             "#sponsor2_form > section > div.fileUploadField > button.uploadButton"
         ).click({ force: true });
-        cy.wait(500);
-        cy.get("#s2_alt").type("Virginia Tech");
+        cy.get("#s2_alt", { timeout: 2000 }).type("Virginia Tech");
         cy.get("#s2_link").type("https://lib.vt.edu");
         cy.contains("Update Config").click();
-        cy.contains("Sponsor 3").should("be.visible");
+        cy.contains("Sponsor 3", { timeout: 2000 }).should("be.visible");
         cy.contains(
             "Source: https://img.cloud.lib.vt.edu/sites/images/iawa/sponsor3.png"
         ).should("be.visible");
@@ -110,11 +105,10 @@ describe("Update sponsors fields and revert", function () {
             .parent()
             .click();
         cy.get(
-            "#sponsor2_form > section > button"
+            "#sponsor2_form > section > button", { timeout: 2000 }
         ).click()
         cy.contains("Update Config").click();
-        cy.wait(500);
-        cy.contains("Sponsor 3").should("not.exist");
+        cy.contains("Sponsor 3", { timeout: 2000 }).should("not.exist");
     })
 
     afterEach("User signout:", () => {

@@ -27,18 +27,16 @@ describe("Update Site title and change it back", function() {
  
   it("Update Site title", () => {
     cy.get("input[value='editSite']").parent().click();
-    cy.get("input[name='siteTitle']").clear().type("IAWA1");
+    cy.get("input[name='siteTitle']", { timeout: 2000 }).clear().type("IAWA1");
     cy.contains("Update Site").click();
-    cy.contains("Site Title: IAWA1").should('be.visible');
-    cy.wait(1000);
+    cy.contains("Site Title: IAWA1", { timeout: 2000 }).should('be.visible');
   })
 
   it("Change title back", () => {
     cy.get("input[value='editSite']").parent().click();
-    cy.get("input[name='siteTitle']").clear().type("IAWA");
+    cy.get("input[name='siteTitle']", { timeout: 2000 }).clear().type("IAWA");
     cy.contains("Update Site").click();
-    cy.contains("Site Title: IAWA").should('be.visible');
-    cy.wait(1000);
+    cy.contains("Site Title: IAWA", { timeout: 2000 }).should('be.visible');
   })
 
   afterEach("User signout:", () => {
