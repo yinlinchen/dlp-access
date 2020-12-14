@@ -162,7 +162,7 @@ class SubCollectionsLoader extends Component {
               className="subcollection-header"
               id="collection-subcollections-section"
             >
-              Subcollections
+              Collection Organization
             </h3>
           </div>
 
