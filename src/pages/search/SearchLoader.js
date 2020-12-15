@@ -180,7 +180,6 @@ class SearchLoader extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
     fetchLanguages(this, this.props.site, "name", this.loadItems);
     this.loadItems();
   }
