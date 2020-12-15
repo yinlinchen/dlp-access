@@ -101,8 +101,8 @@
         "Runtime": "nodejs10.x",
         "Timeout": "25",
         "Code": {
-          "S3Bucket": "amplify-iawav2-newdev-125018-deployment",
-          "S3Key": "amplify-builds/iawav2658176f3PostConfirmation-6178482f307052356832-build.zip"
+          "S3Bucket": "amplify-iawav2-basic-133856-deployment",
+          "S3Key": "amplify-builds/iawav2658176f3PostConfirmation-4c4335617a694279356f-build.zip"
         }
       }
     },
