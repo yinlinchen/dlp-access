@@ -16,11 +16,7 @@ class CollectionsListPage extends Component {
       if (this.props.isSearch) {
         return <CollectionsPaginationDisplay atBottom={false} />;
       } else {
-        return (
-          <h1 className="list-type">
-            About Our <span>Collections</span>
-          </h1>
-        );
+        return <h1 className="list-type">About Our Collections</h1>;
       }
     };
 
@@ -87,6 +83,7 @@ class CollectionsListPage extends Component {
               if (this.props.view === "Gallery") {
                 return (
                   <GalleryView
+                    site={this.props.site}
                     key={collection.id}
                     item={collection}
                     category="collection"
@@ -96,6 +93,7 @@ class CollectionsListPage extends Component {
               } else {
                 return (
                   <ItemListView
+                    site={this.props.site}
                     key={collection.id}
                     item={collection}
                     category="collection"
@@ -106,7 +104,9 @@ class CollectionsListPage extends Component {
             })}
           </div>
         </div>
-        <CollectionsPaginationDisplay atBottom={true} />
+        <div aria-live="polite">
+          <CollectionsPaginationDisplay atBottom={true} />
+        </div>
       </div>
     );
   }

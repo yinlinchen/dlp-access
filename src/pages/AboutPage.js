@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import SiteTitle from "../components/SiteTitle";
 import ContactSection from "../components/ContactSection";
-import { getHTML } from "../lib/fetchTools";
+import { getFile } from "../lib/fetchTools";
 
 import "../css/AboutPage.css";
+
 class AboutPage extends Component {
   constructor(props) {
     super(props);
@@ -13,24 +14,17 @@ class AboutPage extends Component {
   }
 
   componentDidMount() {
-    getHTML(
-      this.props.siteDetails.assetBasePath,
-      this.props.siteDetails.sitePages[this.props.parentKey].data_url,
-      this
-    );
+    const htmlUrl = JSON.parse(this.props.site.sitePages)[this.props.parentKey]
+      .data_url;
+    getFile(htmlUrl, "html", this);
   }
 
   render() {
     return (
       <div className="row about-page-wrapper">
         <div className="col-12 about-heading">
-          <SiteTitle
-            siteTitle={this.props.siteDetails.siteTitle}
-            pageTitle="About"
-          />
-          <h1 id="about-heading">
-            About <span>{this.props.siteDetails.siteTitle}</span>
-          </h1>
+          <SiteTitle siteTitle={this.props.site.siteTitle} pageTitle="About" />
+          <h1 id="about-heading">About {this.props.site.siteTitle}</h1>
         </div>
         <div className="col-md-8" role="region" aria-labelledby="about-heading">
           <div
@@ -39,8 +33,8 @@ class AboutPage extends Component {
           ></div>
         </div>
         <div className="col-md-4 contact-section-wrapper">
-          <ContactSection siteDetails={this.props.siteDetails} />
-          {this.props.siteDetails.sitePages.terms ? (
+          <ContactSection site={this.props.site} />
+          {JSON.parse(this.props.site.sitePages)["terms"] ? (
             <a href="/permissions" className="about-terms-link">
               Permissions
             </a>

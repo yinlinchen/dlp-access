@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 import { API, graphqlOperation } from "aws-amplify";
-import { getCollection, getCollectionmap } from "../../graphql/queries";
+import { getCollectionmap } from "../../graphql/queries";
 import TreeView from "@material-ui/lab/TreeView";
 import TreeItem from "@material-ui/lab/TreeItem";
 import SvgIcon from "@material-ui/core/SvgIcon";
+import { getTopLevelParentForCollection } from "../../lib/fetchTools";
 
 class SubCollectionsLoader extends Component {
   constructor(props) {
@@ -34,12 +36,16 @@ class SubCollectionsLoader extends Component {
       } catch (error) {
         console.error("Error fetching collection tree map");
       }
-      this.setState({ collectionMap: JSON.parse(map) }, function() {
-        this.updateParentSubcollections(
-          this.props.collection,
-          JSON.parse(map).children
-        );
-      });
+      if (map) {
+        const mapObj = JSON.parse(map);
+        const sorted = this.sortMap(mapObj);
+        this.setState({ collectionMap: sorted }, function() {
+          this.updateParentSubcollections(
+            this.props.collection,
+            sorted.children
+          );
+        });
+      }
     }
   }
 
@@ -48,35 +54,29 @@ class SubCollectionsLoader extends Component {
     if (this.props.collection.collectionmap_id) {
       mapID = this.props.collection.collectionmap_id;
     } else {
-      let parentID = this.props.collection.parent_collection[0];
-      while (mapID == null && parentID) {
-        let parent = await this.getParent(parentID);
-        let parentData = parent.data.getCollection;
-        if (parentData.parent_collection) {
-          parentID = parentData.parent_collection[0];
-        } else {
-          parentID = null;
-        }
-        if (parentData.collectionmap_id) {
-          mapID = parentData.collectionmap_id;
-        }
-      }
-    }
-    if (mapID == null) {
-      mapID = false;
+      const topLevelParent = await getTopLevelParentForCollection(
+        this.props.collection
+      );
+      mapID = topLevelParent.collectionmap_id;
     }
     this.setState({ mapID: mapID }, function() {
       this.loadMap();
     });
   }
 
-  async getParent(parent_id) {
-    const parent_collection = await API.graphql(
-      graphqlOperation(getCollection, {
-        id: parent_id
-      })
-    );
-    return parent_collection;
+  sortMap(map) {
+    const sort = function(node, context) {
+      if (Array.isArray(node.children)) {
+        const tempChildren = node.children.slice();
+        node.children = context.sortChildren(tempChildren);
+        for (const child in node.children) {
+          sort(node.children[child], context);
+        }
+      }
+    };
+    const temp = JSON.parse(JSON.stringify(map));
+    sort(temp, this);
+    return temp;
   }
 
   sortChildren(children) {
@@ -94,8 +94,8 @@ class SubCollectionsLoader extends Component {
   }
 
   buildLabel(node) {
-    const target = `${window.location.protocol}//${window.location.host}/collection/${node.custom_key}`;
-    return <a href={target}>{node.name}</a>;
+    const target = `/collection/${node.custom_key}`;
+    return <NavLink to={target}>{node.name}</NavLink>;
   }
 
   updateParentSubcollections(collection, subCollections) {
@@ -104,6 +104,12 @@ class SubCollectionsLoader extends Component {
       collection,
       subCollections
     );
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.collection.id !== prevProps.collection.id) {
+      this.loadMap();
+    }
   }
 
   componentDidMount() {
@@ -145,7 +151,7 @@ class SubCollectionsLoader extends Component {
           label={this.buildLabel(nodes)}
         >
           {Array.isArray(nodes.children)
-            ? this.sortChildren(nodes.children).map(node => renderTree(node))
+            ? nodes.children.map(node => renderTree(node))
             : null}
         </TreeItem>
       );
@@ -156,15 +162,15 @@ class SubCollectionsLoader extends Component {
               className="subcollection-header"
               id="collection-subcollections-section"
             >
-              Subcollections
+              Collection Organization
             </h3>
           </div>
 
           <TreeView
             defaultCollapseIcon={<MinusSquare />}
             defaultExpandIcon={<PlusSquare />}
-            defaultExpanded={this.props.collection.heirarchy_path}
-            defaultSelected={[this.props.collection.id]}
+            expanded={this.props.collection.heirarchy_path}
+            selected={[this.props.collection.id]}
           >
             {renderTree(this.state.collectionMap)}
           </TreeView>

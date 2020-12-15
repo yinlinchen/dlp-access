@@ -100,6 +100,26 @@ class Collapsible extends Component {
     }
   }
 
+  collapsibleArrow = () => {
+    if (this.props.facetNodes.length) {
+      return this.state.expanded ? (
+        <FontAwesomeIcon
+          icon={faAngleDoubleRight}
+          size="1x"
+          color="var(--darker-gray)"
+          className="float-right"
+        />
+      ) : (
+        <FontAwesomeIcon
+          icon={faAngleDoubleDown}
+          size="1x"
+          color="var(--darker-gray)"
+          className="float-right"
+        />
+      );
+    } else return <></>;
+  };
+
   render() {
     const DisplayAllLess = () => {
       if (this.props.facetNodes.length > 5) {
@@ -140,24 +160,10 @@ class Collapsible extends Component {
               aria-expanded={this.state.expanded}
               id={this.props.filterField}
             >
-              {labelAttr(this.props.filterField)}
+              {this.props.filterLabel}
             </button>
           </h3>
-          {this.state.expanded ? (
-            <FontAwesomeIcon
-              icon={faAngleDoubleRight}
-              size="1x"
-              color="var(--darker-gray)"
-              className="float-right"
-            />
-          ) : (
-            <FontAwesomeIcon
-              icon={faAngleDoubleDown}
-              size="1x"
-              color="var(--darker-gray)"
-              className="float-right"
-            />
-          )}
+          {this.collapsibleArrow()}
         </div>
         {this.state.expanded ? (
           <div>
@@ -171,7 +177,11 @@ class Collapsible extends Component {
                 .slice(0, this.partialListLength())
                 .map(value => (
                   <Checkbox
-                    label={`${labelAttr(value["label"])} (${value["count"]})`}
+                    label={`${labelAttr(
+                      value["label"],
+                      this.props.filterField,
+                      this.props.languages
+                    )} (${value["count"]})`}
                     name={value["label"]}
                     selected={value["selected"]}
                     onCheckboxChange={this.handleCheckboxChange}

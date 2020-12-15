@@ -46,6 +46,18 @@ export default class MediaElement extends Component {
     }
   }
 
+  audioImg() {
+    return (
+      <div className="audio-img-wrapper">
+        <img
+          className="audio-img"
+          src={this.props.poster}
+          alt={this.props.title}
+        />
+      </div>
+    );
+  }
+
   render() {
     const props = this.props,
       sources = JSON.parse(props.sources),
@@ -81,6 +93,11 @@ export default class MediaElement extends Component {
           : `<audio id="${props.id}" width="${props.width}" controls>
           ${mediaBody}
         </audio>`;
-    return <div dangerouslySetInnerHTML={{ __html: mediaHtml }}></div>;
+    return (
+      <div>
+        {props.mediaType === "audio" && this.audioImg()}
+        <div dangerouslySetInnerHTML={{ __html: mediaHtml }}></div>
+      </div>
+    );
   }
 }

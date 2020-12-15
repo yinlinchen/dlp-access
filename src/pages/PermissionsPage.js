@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import SiteTitle from "../components/SiteTitle";
 import ContactSection from "../components/ContactSection";
-import { getHTML } from "../lib/fetchTools";
+import { getFile } from "../lib/fetchTools";
 
 import "../css/TermsPage.css";
 class PermissionsPage extends Component {
@@ -13,17 +13,16 @@ class PermissionsPage extends Component {
   }
 
   componentDidMount() {
-    getHTML(
-      this.props.siteDetails.assetBasePath,
-      this.props.siteDetails.sitePages[this.props.parentKey].data_url,
-      this
-    );
+    const htmlUrl = JSON.parse(this.props.site.sitePages)[this.props.parentKey]
+      .data_url;
+    getFile(htmlUrl, "html", this);
   }
 
   render() {
     let download = "";
     try {
-      download = this.props.siteDetails.sitePages.terms.assets.download;
+      download = JSON.parse(this.props.site.sitePages)[this.props.parentKey]
+        .assets.download;
     } catch (error) {
       console.log("no download link specified");
     }
@@ -32,7 +31,7 @@ class PermissionsPage extends Component {
         <div className="row terms-page-wrapper">
           <div className="col-12 terms-heading">
             <SiteTitle
-              siteTitle={this.props.siteDetails.siteTitle}
+              siteTitle={this.props.site.siteTitle}
               pageTitle="Permissions"
             />
             <h1 id="permissions-heading">Permissions</h1>
@@ -48,7 +47,10 @@ class PermissionsPage extends Component {
             ></div>
           </div>
           <div className="col-md-4 contact-section-wrapper">
-            <ContactSection siteDetails={this.props.siteDetails} />
+            <ContactSection
+              siteDetails={this.props.site}
+              site={this.props.site}
+            />
             {download ? (
               <div role="region" aria-labelledby="terms-downloads-section">
                 <h2

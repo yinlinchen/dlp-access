@@ -105,10 +105,11 @@ class CollectionsListLoader extends Component {
       return (
         <div>
           <SiteTitle
-            siteTitle={this.props.siteDetails.siteTitle}
+            siteTitle={this.props.site.siteTitle}
             pageTitle="Collections"
           />
           <CollectionsListPage
+            site={this.props.site}
             collections={this.state.collections}
             total={this.state.total}
             page={this.state.page}
@@ -120,7 +121,7 @@ class CollectionsListLoader extends Component {
             view={this.state.view}
             updateFormState={this.updateFormState}
             scrollUp={this.props.scrollUp}
-            browseCollections={this.props.siteDetails.browseCollections}
+            browseCollections={JSON.parse(this.props.site.browseCollections)}
           />
         </div>
       );

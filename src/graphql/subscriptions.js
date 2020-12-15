@@ -83,6 +83,7 @@ export const onCreateCollection = /* GraphQL */ `
           circa
           start_date
           end_date
+          subject
           rights_statement
           language
           resource_type
@@ -198,6 +199,7 @@ export const onUpdateCollection = /* GraphQL */ `
           circa
           start_date
           end_date
+          subject
           rights_statement
           language
           resource_type
@@ -313,6 +315,7 @@ export const onDeleteCollection = /* GraphQL */ `
           circa
           start_date
           end_date
+          subject
           rights_statement
           language
           resource_type
@@ -527,6 +530,7 @@ export const onCreateArchive = /* GraphQL */ `
       circa
       start_date
       end_date
+      subject
       rights_statement
       language
       resource_type
@@ -611,6 +615,7 @@ export const onUpdateArchive = /* GraphQL */ `
       circa
       start_date
       end_date
+      subject
       rights_statement
       language
       resource_type
@@ -695,6 +700,7 @@ export const onDeleteArchive = /* GraphQL */ `
       circa
       start_date
       end_date
+      subject
       rights_statement
       language
       resource_type
@@ -761,6 +767,108 @@ export const onDeleteArchive = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateSite = /* GraphQL */ `
+  subscription OnCreateSite {
+    onCreateSite {
+      id
+      analyticsID
+      assetBasePath
+      browseCollections
+      contact
+      displayedAttributes
+      homePage
+      lang
+      searchPage
+      siteColor
+      siteId
+      siteName
+      sitePages
+      siteTitle
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateSite = /* GraphQL */ `
+  subscription OnUpdateSite {
+    onUpdateSite {
+      id
+      analyticsID
+      assetBasePath
+      browseCollections
+      contact
+      displayedAttributes
+      homePage
+      lang
+      searchPage
+      siteColor
+      siteId
+      siteName
+      sitePages
+      siteTitle
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteSite = /* GraphQL */ `
+  subscription OnDeleteSite {
+    onDeleteSite {
+      id
+      analyticsID
+      assetBasePath
+      browseCollections
+      contact
+      displayedAttributes
+      homePage
+      lang
+      searchPage
+      siteColor
+      siteId
+      siteName
+      sitePages
+      siteTitle
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateHistory = /* GraphQL */ `
+  subscription OnCreateHistory {
+    onCreateHistory {
+      id
+      userEmail
+      siteID
+      event
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateHistory = /* GraphQL */ `
+  subscription OnUpdateHistory {
+    onUpdateHistory {
+      id
+      userEmail
+      siteID
+      event
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteHistory = /* GraphQL */ `
+  subscription OnDeleteHistory {
+    onDeleteHistory {
+      id
+      userEmail
+      siteID
+      event
       createdAt
       updatedAt
     }

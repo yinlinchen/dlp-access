@@ -1,39 +1,37 @@
-describe('Multi-selectable checkboxes correspond to mulitple facet values of a facet field', () => {
+describe('Search facet checkboxes correspond to the facet values of a facet field', () => {
   beforeEach(() => {
-    cy.visit('/search?field=title&q=building&view=Gallery');
+    cy.visit('/search');
     cy.get('[data-cy=filter-collapsibles] > :nth-child(6)')
-      .click()
-    cy.wait(12000)
-    cy.get('[data-cy=filter-collapsibles] > :nth-child(6) > div > div.facet-listing > :nth-child(2) input')
-      .should('not.have.class', 'checked')
+      .click();
+    cy.wait(20000);
   })
 
   it('allows to select one of the checkboxes', () => {
     cy.get('[data-cy=filter-collapsibles] > :nth-child(6) > div > div.facet-listing > :nth-child(2) input')
-      .check()
+      .check();
     cy.url()
       .should('contain', 'medium=Colored+pencil');
     cy.get('[data-cy=search-filter-field-value-pairs]')
       .invoke('text')
-      .should('contain', 'medium › Colored pencil')
+      .should('contain', 'medium', 'Colored pencil');
   })
 
   it('allows to select more than one checkboxes', () => {
     cy.get('[data-cy=filter-collapsibles] > :nth-child(6) > div > div.facet-listing > :nth-child(2) input')
-      .check()
+      .check();
     cy.get('[data-cy=filter-collapsibles] > :nth-child(6) > div > div.all-less')
-      .click()
+      .click();
     cy.get('[data-cy=filter-collapsibles] > :nth-child(6) > div > div.facet-listing > :nth-child(6) input').scrollIntoView()
-      .should('be.visible')
+      .should('be.visible');
     cy.get('[data-cy=filter-collapsibles] > :nth-child(6) > div > div.facet-listing > :nth-child(6) input')
-      .check()
+      .check();
 
     cy.url()
       .should('contain', 'medium=Colored+pencil')
-      .and('contain', 'medium=Marker+pen')
+      .and('contain', 'medium=Photographic+Print+-+Black+and+White');
     cy.get('[data-cy=search-filter-field-value-pairs]')
       .invoke('text')
-      .should('contain', 'medium › Colored pencil')
-      .and('contain', 'medium › Marker pen')
+      .should('contain', 'medium', 'Colored pencil')
+      .and('contain', 'medium', 'Photographic Print - Black and White');
   })
 })

@@ -7,10 +7,10 @@ describe('Object category options are mutually exclusive facet checkboxes', () =
 
   it('sets category to all if none of the checkboxes being selected', () => {
     cy.get('[data-cy=filter-collapsibles] > :nth-child(1) > div > div.facet-listing > :nth-child(1) input')
-      .should('not.have.class', 'checked')
+      .should('not.have.class', 'checked');
   });
 
-  it('sets one categoyr if one of the checkboxes being selected', () => {
+  it('sets one categoy if one of the checkboxes being selected', () => {
     cy.get('[data-cy=filter-collapsibles] > :nth-child(1) > div > div.facet-listing > :nth-child(1) input')
       .check();
 
@@ -18,7 +18,7 @@ describe('Object category options are mutually exclusive facet checkboxes', () =
       .should('contain', 'category=collection');
     cy.get("[data-cy=search-filter-field-value-pairs]")
       .invoke("text")
-      .should("contain", "category › collection");
+      .should("contain", "category", "collection");
   });
 
   it('prevents from selecting more than one categories(checkboxes)', () => {
@@ -32,7 +32,7 @@ describe('Object category options are mutually exclusive facet checkboxes', () =
         .should('not.contain', 'category=collection');
     cy.get("[data-cy=search-filter-field-value-pairs]")
       .invoke("text")
-      .should("contain", "category › archive")
-      .should("not.contain", "category › collection");
+      .should("contain", "category", "archive")
+      .should("not.contain", "collection");
   });
 });

@@ -4,6 +4,7 @@ import { Connect } from "aws-amplify-react";
 import PDFViewer from "../../components/PDFViewer";
 import KalturaPlayer from "../../components/KalturaPlayer";
 import MiradorViewer from "../../components/MiradorViewer";
+import { OBJModel } from "react-3d-viewer";
 import MediaElement from "../../components/MediaElement";
 import SearchBar from "../../components/SearchBar";
 import Breadcrumbs from "../../components/Breadcrumbs.js";
@@ -14,6 +15,8 @@ import {
 } from "../../lib/MetadataRenderer";
 import { fetchLanguages } from "../../lib/fetchTools";
 import { searchArchives } from "../../graphql/queries";
+import RelatedItems from "../../components/RelatedItems";
+import Citation from "../../components/Citation";
 
 import "../../css/ArchivePage.css";
 
@@ -73,7 +76,11 @@ class ArchivePage extends Component {
     return url.match(/\.(json)$/) != null;
   }
 
-  buildTrack(url) {
+  is3DURL(url) {
+    return url.match(/\.(obj|OBJ)$/) != null;
+  }
+
+  buildTrack(url, thumbnail_path) {
     const nameExt = this.fileNameFromUrl(url);
     const name = nameExt.split(".")[0];
 
@@ -82,6 +89,7 @@ class ArchivePage extends Component {
     track["label"] = "English";
     track["src"] = url.replace(nameExt, name + ".srt");
     track["srclang"] = "en";
+    track["poster"] = thumbnail_path;
     return track;
   }
 
@@ -90,19 +98,23 @@ class ArchivePage extends Component {
     let config = {};
     let tracks = [];
     if (this.isJsonURL(item.manifest_url)) {
-      display = (
-        <MiradorViewer item={item} siteDetails={this.props.siteDetails} />
-      );
+      display = <MiradorViewer item={item} site={this.props.site} />;
     } else if (this.isImgURL(item.manifest_url)) {
       display = (
         <img className="item-img" src={item.manifest_url} alt={item.title} />
       );
     } else if (this.isAudioURL(item.manifest_url)) {
-      const track = this.buildTrack(item.manifest_url);
+      const track = this.buildTrack(item.manifest_url, item.thumbnail_path);
       tracks.push(track);
-      display = this.mediaElement(item.manifest_url, "audio", config, tracks);
+      display = this.mediaElement(
+        item.manifest_url,
+        "audio",
+        config,
+        tracks,
+        item.title
+      );
     } else if (this.isVideoURL(item.manifest_url)) {
-      const track = this.buildTrack(item.manifest_url);
+      const track = this.buildTrack(item.manifest_url, item.thumbnail_path);
       tracks.push(track);
       display = this.mediaElement(item.manifest_url, "video", config, tracks);
     } else if (this.isKalturaURL(item.manifest_url)) {
@@ -110,6 +122,12 @@ class ArchivePage extends Component {
     } else if (this.isPdfURL(item.manifest_url)) {
       display = (
         <PDFViewer manifest_url={item.manifest_url} title={item.title} />
+      );
+    } else if (this.is3DURL(item.manifest_url)) {
+      display = (
+        <div className="obj-wrapper">
+          <OBJModel src={item.manifest_url} texPath="" />
+        </div>
       );
     } else {
       display = <></>;
@@ -126,9 +144,8 @@ class ArchivePage extends Component {
     return url.pathname.split("/").reverse()[0];
   }
 
-  mediaElement(src, type, config, tracks) {
+  mediaElement(src, type, config, tracks, title = "") {
     const filename = this.fileNameFromUrl(src);
-    console.log(filename);
     const typeString = `${type}/${this.fileExtensionFromFileName(filename)}`;
     const srcArray = [{ src: src, type: typeString }];
     return (
@@ -139,16 +156,17 @@ class ArchivePage extends Component {
         controls
         width="100%"
         height="640"
-        poster=""
+        poster={tracks[0].poster}
         sources={JSON.stringify(srcArray)}
         options={JSON.stringify(config)}
         tracks={JSON.stringify(tracks)}
+        title={title}
       />
     );
   }
 
   componentDidMount() {
-    fetchLanguages(this, "abbr");
+    fetchLanguages(this, this.props.site, "abbr");
   }
 
   render() {
@@ -179,7 +197,7 @@ class ArchivePage extends Component {
             return (
               <div className="item-page-wrapper">
                 <SiteTitle
-                  siteTitle={this.props.siteDetails.siteTitle}
+                  siteTitle={this.props.site.siteTitle}
                   pageTitle={item.title}
                 />
                 <SearchBar
@@ -212,15 +230,18 @@ class ArchivePage extends Component {
                   aria-label="Item details"
                 >
                   <div className="col-lg-6 details-section-description">
-                    <h1>{item.title}</h1>
+                    <h2>{item.title}</h2>
                     {addNewlineInDesc(item.description)}
                   </div>
                   <div className="col-lg-6 details-section-metadata">
+                    <Citation item={item} />
                     <table aria-label="Item Metadata">
                       <tbody>
                         <RenderItemsDetailed
                           keyArray={
-                            this.props.siteDetails.displayedAttributes.archive
+                            JSON.parse(this.props.site.displayedAttributes)[
+                              "archive"
+                            ]
                           }
                           item={item}
                           languages={this.state.languages}
@@ -229,6 +250,7 @@ class ArchivePage extends Component {
                     </table>
                   </div>
                 </div>
+                <RelatedItems collection={item} />
               </div>
             );
           } else {

@@ -3,13 +3,14 @@ import qs from "query-string";
 import "../css/ListPages.css";
 import ReactHtmlParser from "react-html-parser";
 
-export function labelAttr(attr) {
+export function labelAttr(attr, filter, languages) {
   if (attr === "resource_type") return "Type";
   else if (attr === "rights_statement") return "Rights";
   else if (attr === "custom_key") return "Permanent Link";
   else if (attr === "related_url") return "Relation";
   else if (attr === "start_date") return "Date";
   else if (attr === "archive") return "Item";
+  else if (filter === "language") return (attr = languages[attr]);
   else return (attr.charAt(0).toUpperCase() + attr.slice(1)).replace("_", " ");
 }
 
@@ -126,7 +127,7 @@ function textFormat(item, attr, languages) {
     return htmlParsedValue(item[attr]);
   } else if (attr === "custom_key") {
     return htmlParsedValue(
-      `<a href="http://idn.lib.vt.edu/${item.custom_key}">idn.lib.vt.edu/${item.custom_key}</a>`
+      `<a href="http://idn.lib.vt.edu/${item.custom_key}">https://idn.lib.vt.edu/${item.custom_key}</a>`
     );
   } else if (attr === "description") {
     return <MoreLink category={category} item={item} />;

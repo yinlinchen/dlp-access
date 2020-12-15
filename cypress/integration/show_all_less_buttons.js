@@ -3,7 +3,7 @@ describe('Search Facet field with more than 5 selectable values', () => {
     cy.visit('/search');
     cy.get('[data-cy=filter-collapsibles] > :nth-child(6)')
       .click();
-    cy.wait(12000);
+    cy.wait(20000);
   });
   
   it('displays the first 5 facet values', () => {
@@ -12,7 +12,7 @@ describe('Search Facet field with more than 5 selectable values', () => {
     
     cy.get('[data-cy=filter-collapsibles] > :nth-child(6) > div > div.facet-listing')
       .children()
-      .should('have.length', 5)
+      .should('have.length', 5);
   });
   
   it('displays all facet values if all button is clicked', () => {
@@ -22,12 +22,12 @@ describe('Search Facet field with more than 5 selectable values', () => {
       .click();
     cy.get('[data-cy=filter-collapsibles] > :nth-child(6) > div > div.facet-listing')
       .children()
-      .should('have.length', 17)
+      .should('have.length', 9);
     cy.get('[data-cy=filter-collapsibles] > :nth-child(6) > div > div.facet-listing')
-      .should('have.class', 'scroll')
-    cy.get('[data-cy=filter-collapsibles] > :nth-child(6) > div > div.facet-listing > :nth-child(17) input')
+      .should('have.class', 'scroll');
+    cy.get('[data-cy=filter-collapsibles] > :nth-child(6) > div > div.facet-listing > :nth-child(9) input')
       .should('not.be.visible');
-    cy.get('[data-cy=filter-collapsibles] > :nth-child(6) > div > div.facet-listing > :nth-child(17) input').scrollIntoView()
+    cy.get('[data-cy=filter-collapsibles] > :nth-child(6) > div > div.facet-listing > :nth-child(9) input').scrollIntoView()
       .should('be.visible');
   });
 })

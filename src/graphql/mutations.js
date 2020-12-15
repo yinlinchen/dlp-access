@@ -83,6 +83,7 @@ export const createCollection = /* GraphQL */ `
           circa
           start_date
           end_date
+          subject
           rights_statement
           language
           resource_type
@@ -198,6 +199,7 @@ export const updateCollection = /* GraphQL */ `
           circa
           start_date
           end_date
+          subject
           rights_statement
           language
           resource_type
@@ -313,6 +315,7 @@ export const deleteCollection = /* GraphQL */ `
           circa
           start_date
           end_date
+          subject
           rights_statement
           language
           resource_type
@@ -527,6 +530,7 @@ export const createArchive = /* GraphQL */ `
       circa
       start_date
       end_date
+      subject
       rights_statement
       language
       resource_type
@@ -611,6 +615,7 @@ export const updateArchive = /* GraphQL */ `
       circa
       start_date
       end_date
+      subject
       rights_statement
       language
       resource_type
@@ -695,6 +700,7 @@ export const deleteArchive = /* GraphQL */ `
       circa
       start_date
       end_date
+      subject
       rights_statement
       language
       resource_type
@@ -761,6 +767,108 @@ export const deleteArchive = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createSite = /* GraphQL */ `
+  mutation CreateSite($input: CreateSiteInput!) {
+    createSite(input: $input) {
+      id
+      analyticsID
+      assetBasePath
+      browseCollections
+      contact
+      displayedAttributes
+      homePage
+      lang
+      searchPage
+      siteColor
+      siteId
+      siteName
+      sitePages
+      siteTitle
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateSite = /* GraphQL */ `
+  mutation UpdateSite($input: UpdateSiteInput!) {
+    updateSite(input: $input) {
+      id
+      analyticsID
+      assetBasePath
+      browseCollections
+      contact
+      displayedAttributes
+      homePage
+      lang
+      searchPage
+      siteColor
+      siteId
+      siteName
+      sitePages
+      siteTitle
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteSite = /* GraphQL */ `
+  mutation DeleteSite($input: DeleteSiteInput!) {
+    deleteSite(input: $input) {
+      id
+      analyticsID
+      assetBasePath
+      browseCollections
+      contact
+      displayedAttributes
+      homePage
+      lang
+      searchPage
+      siteColor
+      siteId
+      siteName
+      sitePages
+      siteTitle
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createHistory = /* GraphQL */ `
+  mutation CreateHistory($input: CreateHistoryInput!) {
+    createHistory(input: $input) {
+      id
+      userEmail
+      siteID
+      event
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateHistory = /* GraphQL */ `
+  mutation UpdateHistory($input: UpdateHistoryInput!) {
+    updateHistory(input: $input) {
+      id
+      userEmail
+      siteID
+      event
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteHistory = /* GraphQL */ `
+  mutation DeleteHistory($input: DeleteHistoryInput!) {
+    deleteHistory(input: $input) {
+      id
+      userEmail
+      siteID
+      event
       createdAt
       updatedAt
     }

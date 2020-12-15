@@ -4,6 +4,7 @@ import Collapsible from "../../components/Collapsible";
 import { NavLink } from "react-router-dom";
 import qs from "query-string";
 import FocusLock from "react-focus-lock";
+
 import "../../css/ListPages.css";
 import "../../css/SearchResult.css";
 
@@ -139,24 +140,26 @@ class SearchFacets extends Component {
           <div
             className="facet-wrapper"
             role="region"
-            aria-labelledby="filters"
+            aria-labelledby="filters-heading"
           >
-            <h2 className="facet-heading" id="filters">
+            <h2 className="facet-heading" id="filters-heading">
               Filter My Results
             </h2>
             <div
               className="facet-fields"
               data-cy="filter-collapsibles"
               role="group"
-              aria-label="filters"
+              aria-label="Choose and apply filters"
             >
               {facetFields.map((field, idx) => (
                 <Collapsible
                   filters={this.props.filters}
                   filterField={field.name}
+                  filterLabel={field.label}
                   updateFormState={this.props.updateFormState}
                   facetNodes={this.state[`${field.name}List`]}
                   key={idx}
+                  languages={this.props.languages}
                 />
               ))}
               <div

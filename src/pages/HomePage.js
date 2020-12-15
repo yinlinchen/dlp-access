@@ -19,33 +19,29 @@ class HomePage extends Component {
     let sponsors = null;
     let collectionHighlights = null;
     try {
-      featuredItems = this.props.siteDetails.homePage.featuredItems;
-      homeStatement = this.props.siteDetails.homePage.homeStatement;
-      staticImage = this.props.siteDetails.homePage.staticImage;
-      mediaSection = this.props.siteDetails.homePage.mediaSection;
-      sponsors = this.props.siteDetails.homePage.sponsors;
-      collectionHighlights = this.props.siteDetails.homePage
-        .collectionHighlights;
+      const homePageInfo = JSON.parse(this.props.site.homePage);
+      featuredItems = homePageInfo["featuredItems"];
+      homeStatement = homePageInfo["homeStatement"];
+      staticImage = homePageInfo["staticImage"];
+      mediaSection = homePageInfo["mediaSection"];
+      sponsors = homePageInfo["sponsors"];
+      collectionHighlights = homePageInfo["collectionHighlights"];
     } catch (error) {
       console.error("Error setting config property");
     }
+    console.log(JSON.stringify(mediaSection));
     return (
       <>
-        <SiteTitle
-          siteTitle={this.props.siteDetails.siteTitle}
-          pageTitle="Home"
-        />
+        <SiteTitle siteTitle={this.props.site.siteTitle} pageTitle="Home" />
         <div
           className={
-            this.props.siteDetails.homePage.staticImage.showTitle
-              ? "home-wrapper"
-              : "home-wrapper-no-text"
+            staticImage.showTitle ? "home-wrapper" : "home-wrapper-no-text"
           }
         >
           <div className="home-featured-image-wrapper">
             <FeaturedStaticImage staticImage={staticImage} />
             <div id="home-site-title-wrapper">
-              <h1>{this.props.siteDetails.siteName}</h1>
+              <h1>{this.props.site.siteName}</h1>
             </div>
           </div>
           <div className="home-search-wrapper">

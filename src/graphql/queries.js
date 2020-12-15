@@ -8,7 +8,6 @@ export const searchObjects = /* GraphQL */ `
     $filter: SearchableObjectFilterInput
     $limit: Int
     $nextToken: String
-    $category: String
   ) {
     searchObjects(
       allFields: $allFields
@@ -16,7 +15,6 @@ export const searchObjects = /* GraphQL */ `
       filter: $filter
       limit: $limit
       nextToken: $nextToken
-      category: $category
     ) {
       items {
         id
@@ -28,6 +26,7 @@ export const searchObjects = /* GraphQL */ `
         circa
         start_date
         end_date
+        subject
         location
         rights_statement
         language
@@ -38,14 +37,13 @@ export const searchObjects = /* GraphQL */ `
         rights_holder
         custom_key
         visibility
+        heirarchy_path
         thumbnail_path
         parent_collection
         create_date
         modified_date
         ... on Collection {
-          subject
           collection_category
-          heirarchy_path
           collectionmap_id
           collectionmap {
             id
@@ -72,7 +70,6 @@ export const searchObjects = /* GraphQL */ `
           contributor
           item_category
           manifest_url
-          heirarchy_path
           collection {
             id
             title
@@ -202,6 +199,7 @@ export const fulltextArchives = /* GraphQL */ `
         circa
         start_date
         end_date
+        subject
         rights_statement
         language
         resource_type
@@ -346,6 +344,7 @@ export const getCollection = /* GraphQL */ `
           circa
           start_date
           end_date
+          subject
           rights_statement
           language
           resource_type
@@ -553,6 +552,7 @@ export const getArchive = /* GraphQL */ `
       circa
       start_date
       end_date
+      subject
       rights_statement
       language
       resource_type
@@ -642,6 +642,7 @@ export const listArchives = /* GraphQL */ `
         circa
         start_date
         end_date
+        subject
         rights_statement
         language
         resource_type
@@ -791,6 +792,7 @@ export const archiveByIdentifier = /* GraphQL */ `
         circa
         start_date
         end_date
+        subject
         rights_statement
         language
         resource_type
@@ -995,6 +997,7 @@ export const searchArchives = /* GraphQL */ `
         circa
         start_date
         end_date
+        subject
         rights_statement
         language
         resource_type
@@ -1054,6 +1057,125 @@ export const searchArchives = /* GraphQL */ `
       }
       nextToken
       total
+    }
+  }
+`;
+export const getSite = /* GraphQL */ `
+  query GetSite($id: ID!) {
+    getSite(id: $id) {
+      id
+      analyticsID
+      assetBasePath
+      browseCollections
+      contact
+      displayedAttributes
+      homePage
+      lang
+      searchPage
+      siteColor
+      siteId
+      siteName
+      sitePages
+      siteTitle
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listSites = /* GraphQL */ `
+  query ListSites(
+    $filter: ModelSiteFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSites(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        analyticsID
+        assetBasePath
+        browseCollections
+        contact
+        displayedAttributes
+        homePage
+        lang
+        searchPage
+        siteColor
+        siteId
+        siteName
+        sitePages
+        siteTitle
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const siteBySiteId = /* GraphQL */ `
+  query SiteBySiteId(
+    $siteId: String
+    $sortDirection: ModelSortDirection
+    $filter: ModelSiteFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    siteBySiteId(
+      siteId: $siteId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        analyticsID
+        assetBasePath
+        browseCollections
+        contact
+        displayedAttributes
+        homePage
+        lang
+        searchPage
+        siteColor
+        siteId
+        siteName
+        sitePages
+        siteTitle
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getHistory = /* GraphQL */ `
+  query GetHistory($id: ID!) {
+    getHistory(id: $id) {
+      id
+      userEmail
+      siteID
+      event
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listHistorys = /* GraphQL */ `
+  query ListHistorys(
+    $filter: ModelHistoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listHistorys(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userEmail
+        siteID
+        event
+        createdAt
+        updatedAt
+      }
+      nextToken
     }
   }
 `;

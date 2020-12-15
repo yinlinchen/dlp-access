@@ -1,75 +1,36 @@
-import { API, graphqlOperation } from "aws-amplify";
+import { API, graphqlOperation, Storage } from "aws-amplify";
 import * as queries from "../graphql/queries";
 
-export const fetchSiteDetails = async (component, siteName) => {
-  let response = null;
-  let data = null;
+export function getFile(copyURL, type, component) {
   try {
-    data = JSON.parse(
-      sessionStorage.getItem(`${siteName.toLowerCase()}_config`)
-    );
-  } catch (error) {
-    console.log("Site details not in storage");
-  }
-  if (data === null) {
-    console.log("Fetching site details");
-    try {
-      response = await fetch(
-        `${process.env.REACT_APP_CONFIG_PATH}/${siteName.toLowerCase()}.json`
-      );
-      data = await response.json();
-    } catch (error) {
-      console.error(`Error fetching config file`);
-      console.error(error);
-    }
-    if (data === null) {
-      try {
-        response = await fetch(
-          `${process.env.REACT_APP_CONFIG_PATH}/default.json`
-        );
-        data = await response.json();
-      } catch (error) {
-        console.error("Error fetching default.json");
-        console.error(error);
-      }
-    } else {
-      sessionStorage.setItem(
-        `${siteName.toLowerCase()}_config`,
-        JSON.stringify(data)
-      );
-    }
-  }
-  component.setState({
-    siteDetails: data
-  });
-};
-
-export function getHTML(basePath, copyURL, component) {
-  let copy = null;
-  try {
-    fetchCopyHTML(basePath, copyURL, component);
+    fetchCopyFile(copyURL, type, component);
   } catch (error) {
     console.error("Error setting copy for component");
   }
-  if (copy !== null) {
-    component.setState({ copy: copy });
-  }
 }
 
-const fetchCopyHTML = async (basePath, copyURL, component) => {
+const fetchCopyFile = async (copyURL, type, component) => {
   let data = null;
   try {
     data = sessionStorage.getItem(copyURL);
   } catch (error) {
     console.log(`${copyURL} not in sessionStorage`);
   }
-  if (data === null) {
+  if (!data) {
     try {
-      const copyLink = `${basePath}/${copyURL}`;
-      console.log(copyLink);
+      Storage.configure({
+        customPrefix: {
+          public: `public/sitecontent/${type}/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/`
+        }
+      });
+      const copyLink = await Storage.get(copyURL);
       console.log(`fetching copy from: ${copyLink}`);
-      const response = await fetch(copyLink);
-      data = await response.text();
+      if (type === "html") {
+        const response = await fetch(copyLink);
+        data = await response.text();
+      } else {
+        data = copyLink;
+      }
     } catch (error) {
       console.error(
         `Error fetching html for ${component.constructor.name} component`
@@ -77,13 +38,40 @@ const fetchCopyHTML = async (basePath, copyURL, component) => {
       console.error(error);
     }
   }
-  if (data !== null) {
+  if (data) {
     sessionStorage.setItem(copyURL, data);
     component.setState({ copy: data });
   }
 };
 
-export const fetchLanguages = async (component, key, callback) => {
+export const fetchAvailableDisplayedAttributes = async (site) => {
+  let data = null;
+  const keyName = `availableAttributes`;
+  try {
+    data = JSON.parse(sessionStorage.getItem(keyName));
+  } catch (error) {
+    console.log(`${keyName} not in sessionStorage`);
+  }
+  if (data === null) {
+    console.log(`fetching ${keyName}`);
+    let response = null;
+    try {
+      const htmlLink = `${site.lang}/${keyName}.json`;
+      response = await fetch(htmlLink);
+      data = await response.json();
+    } catch (error) {
+      console.error(`Error fetching ${keyName}`);
+      console.error(error);
+    }
+  }
+  if (data !== null) {
+    sessionStorage.setItem(keyName, JSON.stringify(data));
+    return data;
+  }
+
+}
+
+export const fetchLanguages = async (component, site, key, callback) => {
   let data = null;
   try {
     data = JSON.parse(sessionStorage.getItem(`lang_by_${key}`));
@@ -94,7 +82,7 @@ export const fetchLanguages = async (component, key, callback) => {
     console.log(`fetching by lang_by_${key}`);
     let response = null;
     try {
-      const htmlLink = `${process.env.REACT_APP_CONFIG_PATH}/language_codes_by_${key}.json`;
+      const htmlLink = `${site.lang}/language_codes_by_${key}.json`;
       response = await fetch(htmlLink);
       data = await response.json();
     } catch (error) {
@@ -151,13 +139,8 @@ export const fetchSearchResults = async (
     } else if (key === "category") {
       category = filter.category;
     } else if (key === "collection") {
-      if (filter[key] === "Leonard J. Currie Slides") {
-        filters["identifier"] = { matchPhrasePrefix: "LJC_" };
-      } else {
-        let parent_collection_id = await getCollectionIDByTitle(filter[key]);
-        filters["parent_collection"] = { eq: parent_collection_id };
-      }
-      objectFilter = archiveFilter;
+      let parent_collection_id = await getCollectionIDByTitle(filter[key]);
+      filters["heirarchy_path"] = { eq: parent_collection_id };
     } else if (key === "title" || key === "description") {
       filters[key] = { matchPhrase: filter[key] };
     } else if (Array.isArray(filter[key])) {
@@ -193,10 +176,8 @@ export const fetchSearchResults = async (
   if (category === "collection") {
     const item_fields = ["format", "medium", "resource_type", "tags"];
     if (
-      filters.hasOwnProperty("parent_collection") ||
-      filters.hasOwnProperty("identifier") ||
-      (filters.hasOwnProperty("and") &&
-        item_fields.some(e => Object.keys(filter).indexOf(e) > -1))
+      filters.hasOwnProperty("and") &&
+      item_fields.some(e => Object.keys(filter).indexOf(e) > -1)
     ) {
       searchResults = {
         items: [],
@@ -267,4 +248,76 @@ const getCollectionIDByTitle = async title => {
     console.error(`Error getting id for collection title: ${title}`);
   }
   return id;
+};
+
+export const getTopLevelParentForCollection = async collection => {
+  const topLevelId = collection.heirarchy_path[0];
+  let retVal = null;
+  const response = await API.graphql(
+    graphqlOperation(queries.getCollection, {
+      id: topLevelId
+    })
+  );
+  try {
+    retVal = response.data.getCollection;
+  } catch (error) {
+    console.error(`Error getting top level parent for: ${collection.id}`);
+  }
+  return retVal;
+};
+
+export const fetchHeirarchyPathMembers = async collection => {
+  let retVal = null;
+  const orArray = [];
+  for (var idx in collection.heirarchy_path) {
+    orArray.push({ id: { eq: collection.heirarchy_path[idx] } });
+  }
+  const response = await API.graphql(
+    graphqlOperation(queries.searchCollections, {
+      filter: { or: orArray }
+    })
+  );
+  try {
+    retVal = response.data.searchCollections.items;
+  } catch (error) {
+    console.error(`Error getting heirarchy path for: ${collection.id}`);
+  }
+
+  return retVal;
+};
+
+export const getSite = async () => {
+  const REP_TYPE = process.env.REACT_APP_REP_TYPE;
+  const apiData = await API.graphql({
+    query: queries.siteBySiteId,
+    variables: { siteId: REP_TYPE.toLowerCase(), limit: 1 }
+  });
+  const {
+    data: {
+      siteBySiteId: { items }
+    }
+  } = apiData;
+  const site = items[0];
+  return site;
+};
+
+export const getImgUrl = key => {
+  let data = null;
+  try {
+    data = sessionStorage.getItem(key);
+  } catch (error) {
+    console.log(`${key} not in sessionStorage`);
+  }
+  if (!data) {
+    Storage.configure({
+      customPrefix: {
+        public: `public/sitecontent/image/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/`
+      }
+    });
+    return Storage.get(key)
+      .then(res => res)
+      .catch(err => console.log(err));
+  } else {
+    return data;
+  }
 };
