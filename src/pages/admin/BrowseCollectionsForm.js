@@ -351,7 +351,7 @@ class BrowseCollectionsForm extends Component {
   render() {
     return (
       <div className="col-lg-9 col-sm-12 admin-content">
-        <h1>{`Browse Collections page's filter and sort: ${process.env.REACT_APP_REP_TYPE.toLowerCase()}`}</h1>
+        <h1>{`Browse Collections page's filter and sort for ${process.env.REACT_APP_REP_TYPE.toLowerCase()}`}</h1>
         <Form>
           <Form.Group inline>
             <label>Current mode:</label>

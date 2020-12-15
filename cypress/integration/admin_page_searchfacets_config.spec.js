@@ -1,7 +1,7 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env("password");
 
-describe("Displays and updates sitepages configurations", () => {
+describe("Displays and updates search page configurations", () => {
   beforeEach(() => {
     cy.visit("/siteAdmin");
     cy.get("amplify-authenticator")
@@ -26,7 +26,7 @@ describe("Displays and updates sitepages configurations", () => {
 
     cy.get("#content-wrapper > div > div > ul")
       .find(":nth-child(5) > a")
-      .contains("Search Facets Config")
+      .contains("Search Page Config")
       .click();
     cy.url({ timeout: 2000 }).should("include", "/siteAdmin");
   });
