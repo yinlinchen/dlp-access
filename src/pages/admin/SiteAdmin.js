@@ -109,7 +109,7 @@ class SiteAdmin extends Component {
                 onClick={() => this.setForm("searchFacets")}
                 to={"/siteAdmin"}
               >
-                Search Facets Config
+                Search Page Config
               </Link>
             </li>
             <li
@@ -121,7 +121,7 @@ class SiteAdmin extends Component {
                 onClick={() => this.setForm("browseCollections")}
                 to={"/siteAdmin"}
               >
-                Filter and Sort Config for Browse Collections Page
+                Browse Collections Page
               </Link>
             </li>
             <li>
