@@ -97,12 +97,17 @@ REACT_APP_REP_TYPE=IAWA
 
 <img src="https://img.cloud.lib.vt.edu/images/amplify_env.png" width="80%"/>
 
-You can see various examples in the [VTDLP-siteconfig](https://github.com/VTUL/VTDLP-siteconfig).
+See instruction and site configuration example below:
+* [Instruction](https://github.com/VTUL/dlp-access/wiki/Customization)
+* [Demo site](https://vtdlp-demo.cloud.lib.vt.edu/) configuration: [examples/default.json](examples/default.json).
 
 ## Site custom images and HTML files
 We put custom static images (e.g., site cover image) and HTML files (e.g, about page) in a S3 bucket with Cloudfront setup.
 
-You can see various examples in the [VTDLP-sitecontent](https://github.com/VTUL/VTDLP-sitecontent).
+See instruction and various site content examples below:
+* [Instruction](https://github.com/VTUL/dlp-access/wiki/Customization)
+* [html](examples/html/) exampes
+* [images](examples/images/) exampes
 
 ## Running the tests
 * An end-to-end testing framework using [Cypress.io](https://www.cypress.io/) has been setup for this project.
