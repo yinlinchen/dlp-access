@@ -776,6 +776,7 @@ export const onCreateSite = /* GraphQL */ `
   subscription OnCreateSite {
     onCreateSite {
       id
+      groups
       analyticsID
       assetBasePath
       browseCollections
@@ -783,6 +784,7 @@ export const onCreateSite = /* GraphQL */ `
       displayedAttributes
       homePage
       lang
+      miradorOptions
       searchPage
       siteColor
       siteId
@@ -798,6 +800,7 @@ export const onUpdateSite = /* GraphQL */ `
   subscription OnUpdateSite {
     onUpdateSite {
       id
+      groups
       analyticsID
       assetBasePath
       browseCollections
@@ -805,6 +808,7 @@ export const onUpdateSite = /* GraphQL */ `
       displayedAttributes
       homePage
       lang
+      miradorOptions
       searchPage
       siteColor
       siteId
@@ -820,6 +824,7 @@ export const onDeleteSite = /* GraphQL */ `
   subscription OnDeleteSite {
     onDeleteSite {
       id
+      groups
       analyticsID
       assetBasePath
       browseCollections
@@ -827,6 +832,7 @@ export const onDeleteSite = /* GraphQL */ `
       displayedAttributes
       homePage
       lang
+      miradorOptions
       searchPage
       siteColor
       siteId
@@ -842,6 +848,7 @@ export const onCreateHistory = /* GraphQL */ `
   subscription OnCreateHistory {
     onCreateHistory {
       id
+      groups
       userEmail
       siteID
       event
@@ -854,6 +861,7 @@ export const onUpdateHistory = /* GraphQL */ `
   subscription OnUpdateHistory {
     onUpdateHistory {
       id
+      groups
       userEmail
       siteID
       event
@@ -866,6 +874,7 @@ export const onDeleteHistory = /* GraphQL */ `
   subscription OnDeleteHistory {
     onDeleteHistory {
       id
+      groups
       userEmail
       siteID
       event

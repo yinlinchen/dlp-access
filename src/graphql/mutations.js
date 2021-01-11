@@ -776,6 +776,7 @@ export const createSite = /* GraphQL */ `
   mutation CreateSite($input: CreateSiteInput!) {
     createSite(input: $input) {
       id
+      groups
       analyticsID
       assetBasePath
       browseCollections
@@ -783,6 +784,7 @@ export const createSite = /* GraphQL */ `
       displayedAttributes
       homePage
       lang
+      miradorOptions
       searchPage
       siteColor
       siteId
@@ -798,6 +800,7 @@ export const updateSite = /* GraphQL */ `
   mutation UpdateSite($input: UpdateSiteInput!) {
     updateSite(input: $input) {
       id
+      groups
       analyticsID
       assetBasePath
       browseCollections
@@ -805,6 +808,7 @@ export const updateSite = /* GraphQL */ `
       displayedAttributes
       homePage
       lang
+      miradorOptions
       searchPage
       siteColor
       siteId
@@ -820,6 +824,7 @@ export const deleteSite = /* GraphQL */ `
   mutation DeleteSite($input: DeleteSiteInput!) {
     deleteSite(input: $input) {
       id
+      groups
       analyticsID
       assetBasePath
       browseCollections
@@ -827,6 +832,7 @@ export const deleteSite = /* GraphQL */ `
       displayedAttributes
       homePage
       lang
+      miradorOptions
       searchPage
       siteColor
       siteId
@@ -842,6 +848,7 @@ export const createHistory = /* GraphQL */ `
   mutation CreateHistory($input: CreateHistoryInput!) {
     createHistory(input: $input) {
       id
+      groups
       userEmail
       siteID
       event
@@ -854,6 +861,7 @@ export const updateHistory = /* GraphQL */ `
   mutation UpdateHistory($input: UpdateHistoryInput!) {
     updateHistory(input: $input) {
       id
+      groups
       userEmail
       siteID
       event
@@ -866,6 +874,7 @@ export const deleteHistory = /* GraphQL */ `
   mutation DeleteHistory($input: DeleteHistoryInput!) {
     deleteHistory(input: $input) {
       id
+      groups
       userEmail
       siteID
       event

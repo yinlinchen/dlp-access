@@ -22,8 +22,8 @@ interface Object {
   heirarchy_path: [String!]
   thumbnail_path: String
   parent_collection: [String!]
-  create_date: String!
-  modified_date: String!
+  create_date: String
+  modified_date: String
 }
 
 type Collection implements Object
@@ -57,8 +57,8 @@ type Collection implements Object
   visibility: Boolean!
   thumbnail_path: String
   parent_collection: [String!]
-  create_date: String!
-  modified_date: String!
+  create_date: String
+  modified_date: String
   heirarchy_path: [String!]
   collectionmap_id: String
   collectionmap: Collectionmap @connection(name: "CollectionCollectionMap")
@@ -72,8 +72,8 @@ type Collectionmap
     id: ID!
     collection_id: String!
     map_object: String!
-    create_date: String!
-    modified_date: String!
+    create_date: String
+    modified_date: String
     collection: Collection @connection(name: "CollectionCollectionMap")
   }
 
@@ -117,8 +117,8 @@ type Archive implements Object
   thumbnail_path: String
   manifest_url: String!
   heirarchy_path: [String!]
-  create_date: String!
-  modified_date: String!
+  create_date: String
+  modified_date: String
   collection: Collection @connection(name: "CollectionArchives")
 }
 
@@ -127,9 +127,10 @@ type Site
   @key(fields: ["siteId"], name: "SiteId", queryField: "siteBySiteId")
   @auth(rules: [
     { allow: public, operations: [read] },
-    { allow: groups, groups: ["SiteAdmin"] }
+    { allow: groups, groupsField: "groups" }
     ]) {
   id: ID!
+  groups: [String]!
   analyticsID: String
   assetBasePath: String
   browseCollections: AWSJSON!
@@ -137,6 +138,7 @@ type Site
   displayedAttributes: AWSJSON!
   homePage: AWSJSON!
   lang: String
+  miradorOptions: AWSJSON
   searchPage: AWSJSON!
   siteColor: String
   siteId: String!
@@ -148,10 +150,11 @@ type Site
 type History
   @model
   @auth(rules: [
-    { allow: groups, groups: ["SiteAdmin"], operations: [read, create] },
-    { allow: groups, groups: ["Admin"] }
+    { allow: groups, groups: ["Admin"] },
+    { allow: groups, groupsField: "groups", operations: [read, create] }
   ]) {
   id: ID!
+  groups: [String]!
   userEmail: AWSEmail!
   siteID: ID!
   event: AWSJSON!

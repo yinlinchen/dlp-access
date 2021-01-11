@@ -860,12 +860,14 @@ export const searchCollections = /* GraphQL */ `
     $sort: SearchableCollectionSortInput
     $limit: Int
     $nextToken: String
+    $from: Int
   ) {
     searchCollections(
       filter: $filter
       sort: $sort
       limit: $limit
       nextToken: $nextToken
+      from: $from
     ) {
       items {
         id
@@ -921,12 +923,14 @@ export const searchCollectionmaps = /* GraphQL */ `
     $sort: SearchableCollectionmapSortInput
     $limit: Int
     $nextToken: String
+    $from: Int
   ) {
     searchCollectionmaps(
       filter: $filter
       sort: $sort
       limit: $limit
       nextToken: $nextToken
+      from: $from
     ) {
       items {
         id
@@ -979,12 +983,14 @@ export const searchArchives = /* GraphQL */ `
     $sort: SearchableArchiveSortInput
     $limit: Int
     $nextToken: String
+    $from: Int
   ) {
     searchArchives(
       filter: $filter
       sort: $sort
       limit: $limit
       nextToken: $nextToken
+      from: $from
     ) {
       items {
         id
@@ -1064,6 +1070,7 @@ export const getSite = /* GraphQL */ `
   query GetSite($id: ID!) {
     getSite(id: $id) {
       id
+      groups
       analyticsID
       assetBasePath
       browseCollections
@@ -1071,6 +1078,7 @@ export const getSite = /* GraphQL */ `
       displayedAttributes
       homePage
       lang
+      miradorOptions
       searchPage
       siteColor
       siteId
@@ -1091,6 +1099,7 @@ export const listSites = /* GraphQL */ `
     listSites(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        groups
         analyticsID
         assetBasePath
         browseCollections
@@ -1098,6 +1107,7 @@ export const listSites = /* GraphQL */ `
         displayedAttributes
         homePage
         lang
+        miradorOptions
         searchPage
         siteColor
         siteId
@@ -1128,6 +1138,7 @@ export const siteBySiteId = /* GraphQL */ `
     ) {
       items {
         id
+        groups
         analyticsID
         assetBasePath
         browseCollections
@@ -1135,6 +1146,7 @@ export const siteBySiteId = /* GraphQL */ `
         displayedAttributes
         homePage
         lang
+        miradorOptions
         searchPage
         siteColor
         siteId
@@ -1152,6 +1164,7 @@ export const getHistory = /* GraphQL */ `
   query GetHistory($id: ID!) {
     getHistory(id: $id) {
       id
+      groups
       userEmail
       siteID
       event
@@ -1169,6 +1182,7 @@ export const listHistorys = /* GraphQL */ `
     listHistorys(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        groups
         userEmail
         siteID
         event
