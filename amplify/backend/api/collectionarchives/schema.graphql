@@ -22,6 +22,7 @@ interface Object {
   heirarchy_path: [String!]
   thumbnail_path: String
   parent_collection: [String!]
+  display_date: String
   create_date: String
   modified_date: String
 }
@@ -57,6 +58,7 @@ type Collection implements Object
   visibility: Boolean!
   thumbnail_path: String
   parent_collection: [String!]
+  display_date: String
   create_date: String
   modified_date: String
   heirarchy_path: [String!]
@@ -117,6 +119,7 @@ type Archive implements Object
   thumbnail_path: String
   manifest_url: String!
   heirarchy_path: [String!]
+  display_date: String
   create_date: String
   modified_date: String
   collection: Collection @connection(name: "CollectionArchives")
