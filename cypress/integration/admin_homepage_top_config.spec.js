@@ -47,14 +47,14 @@ describe("Update Homepage fields and revert", function() {
 
   it("Update Show title", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='staticImageShowTitle']", { timeout: 2000 }).uncheck();
+    cy.get("input[name='staticImageShowTitle']", { timeout: 4000 }).uncheck();
     cy.contains("Update Config").click();
     cy.contains("Show title: false", { timeout: 4000 }).should('be.visible');
   })
 
   it("Change Show title back", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='staticImageShowTitle']", { timeout: 2000 }).check();
+    cy.get("input[name='staticImageShowTitle']", { timeout: 4000 }).check();
     cy.contains("Update Config").click();
     cy.contains("Show title: true", { timeout: 4000 }).should('be.visible');
   })
