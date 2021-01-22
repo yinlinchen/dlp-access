@@ -47,16 +47,16 @@ describe("Update Homepage fields and revert", function() {
 
   it("Update Show title", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='staticImageShowTitle']", { timeout: 12000 }).uncheck();
-    cy.contains("Update Config").click();
-    cy.contains("Show title: false", { timeout: 12000 }).should('be.visible');
+    cy.get("input[name='staticImageShowTitle']", { timeout: 4000 }).uncheck();
+    cy.contains("Update Config", { timeout: 4000 }).click();
+    cy.contains("Show title: false", { timeout: 4000 }).should('be.visible');
   })
 
   it("Change Show title back", () => {
     cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='staticImageShowTitle']", { timeout: 12000 }).check();
-    cy.contains("Update Config").click();
-    cy.contains("Show title: true", { timeout: 12000 }).should('be.visible');
+    cy.get("input[name='staticImageShowTitle']", { timeout: 4000 }).check();
+    cy.contains("Update Config", { timeout: 4000 }).click();
+    cy.contains("Show title: true", { timeout: 4000 }).should('be.visible');
   })
 
   it("displays successful upload", () => {
