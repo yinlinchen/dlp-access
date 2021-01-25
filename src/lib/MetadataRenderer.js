@@ -1,6 +1,6 @@
 import React from "react";
 import qs from "query-string";
-import "../css/ListPages.css";
+import "../css/ListPages.scss";
 import ReactHtmlParser from "react-html-parser";
 
 export function labelAttr(attr, filter, languages) {
@@ -42,9 +42,15 @@ export function titleFormatted(item, category) {
 }
 export function dateFormatted(item) {
   let circa_date = item.circa ? item.circa : "";
-  let end_date = item.end_date ? " - " + parseInt(item.end_date) : "";
-  let start_date = item.start_date ? parseInt(item.start_date) : "";
+  let end_date = item.end_date ? " - " + yearmonthDate(item.end_date) : "";
+  let start_date = item.start_date ? yearmonthDate(item.start_date) : "";
   return circa_date + start_date + end_date;
+}
+
+function yearmonthDate(date) {
+  if (date.length === 6) {
+    return [date.slice(0, 4), "/", date.slice(4)].join("");
+  } else return date;
 }
 
 export function collectionSizeText(collection) {
@@ -131,7 +137,7 @@ function textFormat(item, attr, languages) {
     );
   } else if (attr === "description") {
     return <MoreLink category={category} item={item} />;
-  } else if (attr === "date") {
+  } else if (attr === "start_date") {
     return dateFormatted(item);
   } else if (attr === "size") {
     if (category === "collection") return collectionSizeText(item);
@@ -156,7 +162,8 @@ const MoreLink = ({ category, item }) => {
 };
 
 const RenderAttribute = ({ item, attribute, languages }) => {
-  if (textFormat(item, attribute.field, languages)) {
+  const item_value = textFormat(item, attribute.field, languages);
+  if (item_value) {
     let value_style = attribute.field === "identifier" ? "identifier" : "";
     return (
       <div className="collection-detail">
@@ -167,7 +174,7 @@ const RenderAttribute = ({ item, attribute, languages }) => {
                 {attribute.label}:
               </th>
               <td className={`collection-detail-value ${value_style}`}>
-                {textFormat(item, attribute.field, languages)}
+                {item_value}
               </td>
             </tr>
           </tbody>
@@ -180,23 +187,54 @@ const RenderAttribute = ({ item, attribute, languages }) => {
 };
 
 const RenderAttrDetailed = ({ item, attribute, languages, type }) => {
+  const item_value = item[attribute.field];
+  const item_label = attribute.label;
   if (textFormat(item, attribute.field, languages)) {
     let value_style = attribute.field === "identifier" ? "identifier" : "";
     if (type === "table") {
-      return (
-        <tr>
-          <th className="collection-detail-key" scope="row">
-            {attribute.label}
-          </th>
-          <td className={`collection-detail-value ${value_style}`}>
-            {textFormat(item, attribute.field, languages)}
-          </td>
-        </tr>
-      );
+      if (
+        Array.isArray(item_label) &&
+        Array.isArray(item_value) &&
+        item_label.length >= item_value.length
+      ) {
+        return item_value.map((i_value, idx) => {
+          return (
+            <tr
+              key={`${item_label}_${idx}`}
+              className={item_label[idx].toLowerCase().replace(" ", "_")}
+            >
+              <th className="collection-detail-key" scope="row">
+                {item_label[idx]}
+              </th>
+              <td className={`collection-detail-value ${value_style}`}>
+                {i_value}
+              </td>
+            </tr>
+          );
+        });
+      } else {
+        return (
+          <tr
+            key={item_label}
+            className={item_label.toLowerCase().replace(" ", "_")}
+          >
+            <th className="collection-detail-key" scope="row">
+              {item_label}
+            </th>
+            <td className={`collection-detail-value ${value_style}`}>
+              {textFormat(item, attribute.field, languages)}
+            </td>
+          </tr>
+        );
+      }
     } else if (type === "grid") {
       return (
-        <div className="collection-detail-entry">
-          <div className="collection-detail-key">{attribute.label}</div>
+        <div
+          className={`collection-detail-entry ${item_label
+            .toLowerCase()
+            .replace(" ", "_")}`}
+        >
+          <div className="collection-detail-key">{item_label}</div>
           <div className={`collection-detail-value ${value_style}`}>
             {textFormat(item, attribute.field, languages)}
           </div>
@@ -209,7 +247,7 @@ const RenderAttrDetailed = ({ item, attribute, languages, type }) => {
 };
 export const RenderItems = ({ keyArray, item, languages }) => {
   let render_items = [];
-  for (const [index, value] of keyArray.entries()) {
+  keyArray.forEach((value, index) => {
     render_items.push(
       <RenderAttribute
         item={item}
@@ -218,7 +256,7 @@ export const RenderItems = ({ keyArray, item, languages }) => {
         languages={languages}
       />
     );
-  }
+  });
   return render_items;
 };
 
@@ -229,7 +267,7 @@ export const RenderItemsDetailed = ({
   type = "table"
 }) => {
   let render_items_detailed = [];
-  for (const [index, value] of keyArray.entries()) {
+  keyArray.forEach((value, index) => {
     render_items_detailed.push(
       <RenderAttrDetailed
         item={item}
@@ -239,6 +277,6 @@ export const RenderItemsDetailed = ({
         type={type}
       />
     );
-  }
+  });
   return render_items_detailed;
 };

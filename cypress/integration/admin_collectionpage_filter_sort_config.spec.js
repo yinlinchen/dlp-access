@@ -26,7 +26,7 @@ describe("Displays and updates browse collections page configurations", () => {
 
     cy.get("#content-wrapper > div > div > ul")
       .find(":nth-child(6) > a")
-      .contains("Filter and Sort Config for Browse Collections Page")
+      .contains("Browse Collections Page")
       .click();
     cy.wait(500);
     cy.url().should("include", "/siteAdmin");
