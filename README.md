@@ -95,6 +95,11 @@ As an example, the site of [IAWA](https://iawa.lib.vt.edu/) takes these settings
 REACT_APP_REP_TYPE=IAWA
 ```
 
+The site of [Demo](https://vtdlp-demo.cloud.lib.vt.edu/) takes these settings below:
+```
+REACT_APP_REP_TYPE=Default
+```
+
 <img src="https://img.cloud.lib.vt.edu/images/amplify_env.png" width="80%"/>
 
 See instruction and site configuration example below:
@@ -116,8 +121,12 @@ See instruction and various site content examples below:
 * To test locally
 
   0. Put your configuration json files to a S3 bucket and enable CORS and make the config file public. 
-  1. Start local server using ```REACT_APP_REP_TYPE=IAWA npm start```
+  1. Start local server using ```REACT_APP_REP_TYPE=Default npm start```
   2. Launch the Cypress app ```CYPRESS_password=secret yarn run cypress open```
+
+  * The username for authentication is: `devtest`. You can create this `devtest` account through account creation page.
+  * You can create your own testing account and password, and update the username. E.g., [an example here](https://github.com/VTUL/dlp-access/blob/dev/cypress/integration/admin_page_sitepages_config.spec.js#L1)
+
 
 ## Cleanup
 If you'd like to tear down the project & delete all of the resources created by this project, you can run the following:
