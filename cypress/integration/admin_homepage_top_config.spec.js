@@ -46,23 +46,23 @@ describe("Update Homepage fields and revert", function() {
   })
 
   it("Update Show title", () => {
-    cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='staticImageShowTitle']", { timeout: 5000 }).uncheck();
-    cy.contains("Update Config", { timeout: 5000 }).click();
-    cy.contains("Show title: false", { timeout: 5000 }).should('be.visible');
+    cy.get("input[value='edit']").parent().click({timeout: 5000});
+    cy.get("input[name='staticImageShowTitle']", { timeout: 4000 }).uncheck({timeout: 5000});
+    cy.contains("Update Config", { timeout: 4000 }).click({timeout: 5000});
+    cy.contains("Show title: false", { timeout: 4000 }).should('be.visible');
   })
 
   it("Change Show title back", () => {
-    cy.get("input[value='edit']").parent().click();
-    cy.get("input[name='staticImageShowTitle']", { timeout: 2000 }).check();
-    cy.contains("Update Config", { timeout: 2000 }).click();
-    cy.contains("Show title: true", { timeout: 2000 }).should('be.visible');
+    cy.get("input[value='edit']").parent().click({timeout: 5000});
+    cy.get("input[name='staticImageShowTitle']", { timeout: 4000 }).check({timeout: 5000});
+    cy.contains("Update Config", { timeout: 4000 }).click({timeout: 5000});
+    cy.contains("Show title: true", { timeout: 4000 }).should('be.visible');
   })
 
   it("displays successful upload", () => {
     cy.get("input[value='edit']").parent().click();
     const imgPath = "sitecontent/cover_image1.jpg";
-    cy.get("input[type=file]").eq(0).attachFile(imgPath).trigger('change', { force: true });
+    cy.get("input[type=file]", { timeout: 2000 }).eq(0).attachFile(imgPath).trigger('change', { force: true });
     cy.get(".static-image > div.fileUploadField > button.uploadButton")
       .click({ force: true });
     cy.get('[data-test="upload-message"]', { timeout: 2000 })

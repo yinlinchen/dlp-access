@@ -10,5 +10,21 @@
     {
         "groupName": "SiteAdmin",
         "precedence": 3
+    },
+    {
+        "groupName": "iawaSiteAdmin",
+        "precedence": 4
+    },
+    {
+        "groupName": "swvaSiteAdmin",
+        "precedence": 5
+    },
+    {
+        "groupName": "podcastSiteAdmin",
+        "precedence": 6
+    },
+    {
+        "groupName": "demoSiteAdmin",
+        "precedence": 7
     }
 ]

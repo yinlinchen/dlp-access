@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { graphqlOperation } from "aws-amplify";
-import { Connect } from "aws-amplify-react";
+import { API, graphqlOperation } from "aws-amplify";
 import PDFViewer from "../../components/PDFViewer";
 import KalturaPlayer from "../../components/KalturaPlayer";
 import MiradorViewer from "../../components/MiradorViewer";
@@ -13,10 +12,15 @@ import {
   RenderItemsDetailed,
   addNewlineInDesc
 } from "../../lib/MetadataRenderer";
-import { fetchLanguages } from "../../lib/fetchTools";
+import {
+  fetchLanguages,
+  getTopLevelParentForCollection
+} from "../../lib/fetchTools";
 import { searchArchives } from "../../graphql/queries";
 import RelatedItems from "../../components/RelatedItems";
 import Citation from "../../components/Citation";
+import MtlElement from "../../components/MtlElement";
+import X3DElement from "../../components/X3DElement";
 
 import "../../css/ArchivePage.scss";
 
@@ -24,12 +28,44 @@ class ArchivePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      item: null,
+      collectionCustomKey: "",
       page: 0,
       category: "archive",
       searchField: "title",
       view: "Gallery",
       languages: null
     };
+  }
+
+  async getArchive(customKey) {
+    const options = {
+      order: "ASC",
+      limit: 1,
+      filter: {
+        item_category: { eq: process.env.REACT_APP_REP_TYPE },
+        visibility: { eq: true },
+        custom_key: {
+          eq: `ark:/53696/${this.props.customKey}`
+        }
+      }
+    };
+    const response = await API.graphql(
+      graphqlOperation(searchArchives, options)
+    );
+    try {
+      const item = response.data.searchArchives.items[0];
+      const topLevelParentCollection = await getTopLevelParentForCollection(
+        item
+      );
+      const collectionCustomKey = topLevelParentCollection.custom_key;
+      this.setState({
+        item: item,
+        collectionCustomKey: collectionCustomKey
+      });
+    } catch (error) {
+      console.error(`Error fetching item: ${customKey}`);
+    }
   }
 
   updateFormState = (name, val) => {
@@ -76,8 +112,14 @@ class ArchivePage extends Component {
     return url.match(/\.(json)$/) != null;
   }
 
-  is3DURL(url) {
+  isObjURL(url) {
     return url.match(/\.(obj|OBJ)$/) != null;
+  }
+  isMtlUrl(url) {
+    return url.match(/\.(mtl)$/) != null;
+  }
+  isX3DUrl(url) {
+    return url.match(/\.(x3d|X3D)$/) != null;
   }
 
   buildTrack(url, thumbnail_path) {
@@ -97,6 +139,10 @@ class ArchivePage extends Component {
     let display = null;
     let config = {};
     let tracks = [];
+    let width = Math.min(
+      document.getElementById("content-wrapper").offsetWidth - 50,
+      720
+    );
     if (this.isJsonURL(item.manifest_url)) {
       display = <MiradorViewer item={item} site={this.props.site} />;
     } else if (this.isImgURL(item.manifest_url)) {
@@ -123,10 +169,26 @@ class ArchivePage extends Component {
       display = (
         <PDFViewer manifest_url={item.manifest_url} title={item.title} />
       );
-    } else if (this.is3DURL(item.manifest_url)) {
+    } else if (this.isObjURL(item.manifest_url)) {
+      const texPath = item.manifest_url.substr(
+        0,
+        item.manifest_url.lastIndexOf("/") + 1
+      );
       display = (
-        <div className="obj-wrapper">
-          <OBJModel src={item.manifest_url} texPath="" />
+        <div className="obj-wrapper" style={{ width: `${width}px` }}>
+          <OBJModel src={item.manifest_url} texPath={texPath} />
+        </div>
+      );
+    } else if (this.isMtlUrl(item.manifest_url)) {
+      display = (
+        <div className="obj-wrapper" style={{ width: `${width}px` }}>
+          <MtlElement mtl={item.manifest_url} />
+        </div>
+      );
+    } else if (this.isX3DUrl(item.manifest_url)) {
+      display = (
+        <div className="obj-wrapper" style={{ width: `${width}px` }}>
+          <X3DElement url={item.manifest_url} frameSize={width} />
         </div>
       );
     } else {
@@ -165,100 +227,89 @@ class ArchivePage extends Component {
     );
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      this.getArchive(this.props.customKey);
+    }
+  }
+
   componentDidMount() {
     fetchLanguages(this, this.props.site, "abbr");
+    this.getArchive(this.props.customKey);
   }
 
   render() {
-    return (
-      <Connect
-        query={graphqlOperation(searchArchives, {
-          order: "ASC",
-          limit: 1,
-          filter: {
-            custom_key: {
-              eq: `ark:/53696/${this.props.customKey}`
-            }
-          }
-        })}
-      >
-        {({ data: { searchArchives }, loading, errors }) => {
-          if (!(errors === undefined || errors.length === 0))
-            return <h3>Error</h3>;
-          if (loading || !searchArchives) return <h3>Loading...</h3>;
-          const item = searchArchives.items[0];
+    if (
+      this.state.languages &&
+      this.state.item &&
+      this.state.collectionCustomKey
+    ) {
+      // log archive identifier in ga
+      window.ga("send", "pageview", {
+        dimension1: this.state.item.identifier
+      });
+      return (
+        <div className="item-page-wrapper">
+          <SiteTitle
+            siteTitle={this.props.site.siteTitle}
+            pageTitle={this.state.item.title}
+          />
+          <SearchBar
+            category={this.state.category}
+            view={this.state.view}
+            searchField={this.state.searchField}
+            setPage={this.setPage}
+            updateFormState={this.updateFormState}
+          />
 
-          // log archive identifier in ga
-          window.ga("send", "pageview", {
-            dimension1: item.identifier
-          });
-
-          if (this.state.languages) {
-            return (
-              <div className="item-page-wrapper">
-                <SiteTitle
-                  siteTitle={this.props.site.siteTitle}
-                  pageTitle={item.title}
-                />
-                <SearchBar
-                  category={this.state.category}
-                  view={this.state.view}
-                  searchField={this.state.searchField}
-                  setPage={this.setPage}
-                  updateFormState={this.updateFormState}
-                />
-
-                <div className="item-image-section">
-                  <div className="breadcrumbs-wrapper">
-                    <nav aria-label="Collection breadcrumbs">
-                      <Breadcrumbs category={"Archives"} record={item} />
-                    </nav>
-                  </div>
-                  <div className="row">
-                    <div
-                      className="col-sm-12"
-                      role="region"
-                      aria-label="Item media"
-                    >
-                      {this.mediaDisplay(item)}
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="row item-details-section"
-                  role="region"
-                  aria-label="Item details"
-                >
-                  <div className="col-lg-6 details-section-description">
-                    <h2>{item.title}</h2>
-                    {addNewlineInDesc(item.description)}
-                  </div>
-                  <div className="col-lg-6 details-section-metadata">
-                    <Citation item={item} />
-                    <table aria-label="Item Metadata">
-                      <tbody>
-                        <RenderItemsDetailed
-                          keyArray={
-                            JSON.parse(this.props.site.displayedAttributes)[
-                              "archive"
-                            ]
-                          }
-                          item={item}
-                          languages={this.state.languages}
-                        />
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <RelatedItems collection={item} />
+          <div className="item-image-section">
+            <div className="breadcrumbs-wrapper">
+              <nav aria-label="Collection breadcrumbs">
+                <Breadcrumbs category={"Archives"} record={this.state.item} />
+              </nav>
+            </div>
+            <div className="row">
+              <div
+                className="col-sm-12"
+                id="item-media-col"
+                role="region"
+                aria-label="Item media"
+              >
+                {this.mediaDisplay(this.state.item)}
               </div>
-            );
-          } else {
-            return <></>;
-          }
-        }}
-      </Connect>
-    );
+            </div>
+          </div>
+          <div
+            className="row item-details-section"
+            role="region"
+            aria-label="Item details"
+          >
+            <div className="col-lg-6 details-section-description">
+              <h2>{this.state.item.title}</h2>
+              {addNewlineInDesc(this.state.item.description)}
+            </div>
+            <div className="col-lg-6 details-section-metadata">
+              <Citation item={this.state.item} />
+              <table aria-label="Item Metadata">
+                <tbody>
+                  <RenderItemsDetailed
+                    keyArray={
+                      JSON.parse(this.props.site.displayedAttributes)["archive"]
+                    }
+                    item={this.state.item}
+                    languages={this.state.languages}
+                    collectionCustomKey={this.state.collectionCustomKey}
+                  />
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <RelatedItems collection={this.state.item} />
+        </div>
+      );
+    } else {
+      return <></>;
+    }
   }
 }
 

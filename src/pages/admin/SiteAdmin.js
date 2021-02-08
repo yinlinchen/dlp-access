@@ -6,7 +6,7 @@ import SiteForm from "./SiteForm";
 import SitePagesForm from "./SitePagesForm";
 import ContentUpload from "./ContentUpload";
 import HomepageForm from "./HomepageForm";
-import SearchFacetsForm from "./SearchFacetsForm";
+import SearchPageForm from "./SearchPageForm";
 import BrowseCollectionsForm from "./BrowseCollectionsForm";
 import DisplayedAttributesForm from "./DisplayedAttributesForm";
 import MediaSectionForm from "./MediaSectionForm";
@@ -27,7 +27,16 @@ class SiteAdmin extends Component {
       const data = await Auth.currentUserPoolUser();
       const groups =
         data.signInUserSession.accessToken.payload["cognito:groups"];
-      if (groups.indexOf("SiteAdmin") !== -1) {
+      let adminGroup = "";
+      const repo_type = process.env.REACT_APP_REP_TYPE.toLowerCase();
+      if (repo_type === "default") {
+        adminGroup = "demoSiteAdmin";
+      } else if (repo_type === "podcasts") {
+        adminGroup = "podcastSiteAdmin";
+      } else {
+        adminGroup = `${repo_type}SiteAdmin`;
+      }
+      if (groups && groups.indexOf(adminGroup) !== -1) {
         this.setAuthorized(true);
       } else {
         this.setAuthorized(false);
@@ -52,7 +61,7 @@ class SiteAdmin extends Component {
       contentUpload: <ContentUpload />,
       sitePages: <SitePagesForm />,
       homepage: <HomepageForm />,
-      searchFacets: <SearchFacetsForm />,
+      searchPage: <SearchPageForm />,
       browseCollections: <BrowseCollectionsForm />,
       displayedAttributes: <DisplayedAttributesForm />,
       mediaSection: <MediaSectionForm />
@@ -101,12 +110,10 @@ class SiteAdmin extends Component {
               </Link>
             </li>
             <li
-              className={
-                this.state.form === "searchFacets" ? "admin-active" : ""
-              }
+              className={this.state.form === "searchPage" ? "admin-active" : ""}
             >
               <Link
-                onClick={() => this.setForm("searchFacets")}
+                onClick={() => this.setForm("searchPage")}
                 to={"/siteAdmin"}
               >
                 Search Page Config

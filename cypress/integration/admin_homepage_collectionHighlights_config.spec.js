@@ -1,7 +1,7 @@
 const USERNAME = "devtest";
 const PASSWORD = Cypress.env("password");
 
-describe("Update featured items fields and revert", function () {
+describe("Update collection highlights fields and revert", function () {
     beforeEach(() => {
         cy.visit("/siteAdmin");
         cy.get("amplify-authenticator")
@@ -78,7 +78,7 @@ describe("Update featured items fields and revert", function () {
         cy.contains("Update Config").click();
         cy.contains("Collection Highlight 4", { timeout: 2000 }).should("be.visible");
         cy.contains(
-          "Image Source: https://img.cloud.lib.vt.edu/sites/images/default/highlight4.jpg"
+          "Image Source: highlights/highlight4.jpg"
         ).should("be.visible");
         cy.contains("Title: New Highlight").should("be.visible");
         cy.contains("Link: /search?q=building&view=gallery").should(

@@ -27,6 +27,7 @@ export const onCreateCollection = /* GraphQL */ `
       visibility
       thumbnail_path
       parent_collection
+      display_date
       create_date
       modified_date
       heirarchy_path
@@ -61,6 +62,7 @@ export const onCreateCollection = /* GraphQL */ `
           visibility
           thumbnail_path
           parent_collection
+          display_date
           create_date
           modified_date
           heirarchy_path
@@ -105,6 +107,7 @@ export const onCreateCollection = /* GraphQL */ `
           thumbnail_path
           manifest_url
           heirarchy_path
+          display_date
           create_date
           modified_date
           createdAt
@@ -143,6 +146,7 @@ export const onUpdateCollection = /* GraphQL */ `
       visibility
       thumbnail_path
       parent_collection
+      display_date
       create_date
       modified_date
       heirarchy_path
@@ -177,6 +181,7 @@ export const onUpdateCollection = /* GraphQL */ `
           visibility
           thumbnail_path
           parent_collection
+          display_date
           create_date
           modified_date
           heirarchy_path
@@ -221,6 +226,7 @@ export const onUpdateCollection = /* GraphQL */ `
           thumbnail_path
           manifest_url
           heirarchy_path
+          display_date
           create_date
           modified_date
           createdAt
@@ -259,6 +265,7 @@ export const onDeleteCollection = /* GraphQL */ `
       visibility
       thumbnail_path
       parent_collection
+      display_date
       create_date
       modified_date
       heirarchy_path
@@ -293,6 +300,7 @@ export const onDeleteCollection = /* GraphQL */ `
           visibility
           thumbnail_path
           parent_collection
+          display_date
           create_date
           modified_date
           heirarchy_path
@@ -337,6 +345,7 @@ export const onDeleteCollection = /* GraphQL */ `
           thumbnail_path
           manifest_url
           heirarchy_path
+          display_date
           create_date
           modified_date
           createdAt
@@ -381,6 +390,7 @@ export const onCreateCollectionmap = /* GraphQL */ `
         visibility
         thumbnail_path
         parent_collection
+        display_date
         create_date
         modified_date
         heirarchy_path
@@ -437,6 +447,7 @@ export const onUpdateCollectionmap = /* GraphQL */ `
         visibility
         thumbnail_path
         parent_collection
+        display_date
         create_date
         modified_date
         heirarchy_path
@@ -493,6 +504,7 @@ export const onDeleteCollectionmap = /* GraphQL */ `
         visibility
         thumbnail_path
         parent_collection
+        display_date
         create_date
         modified_date
         heirarchy_path
@@ -552,6 +564,7 @@ export const onCreateArchive = /* GraphQL */ `
       thumbnail_path
       manifest_url
       heirarchy_path
+      display_date
       create_date
       modified_date
       collection {
@@ -578,6 +591,7 @@ export const onCreateArchive = /* GraphQL */ `
         visibility
         thumbnail_path
         parent_collection
+        display_date
         create_date
         modified_date
         heirarchy_path
@@ -637,6 +651,7 @@ export const onUpdateArchive = /* GraphQL */ `
       thumbnail_path
       manifest_url
       heirarchy_path
+      display_date
       create_date
       modified_date
       collection {
@@ -663,6 +678,7 @@ export const onUpdateArchive = /* GraphQL */ `
         visibility
         thumbnail_path
         parent_collection
+        display_date
         create_date
         modified_date
         heirarchy_path
@@ -722,6 +738,7 @@ export const onDeleteArchive = /* GraphQL */ `
       thumbnail_path
       manifest_url
       heirarchy_path
+      display_date
       create_date
       modified_date
       collection {
@@ -748,6 +765,7 @@ export const onDeleteArchive = /* GraphQL */ `
         visibility
         thumbnail_path
         parent_collection
+        display_date
         create_date
         modified_date
         heirarchy_path
@@ -776,6 +794,7 @@ export const onCreateSite = /* GraphQL */ `
   subscription OnCreateSite {
     onCreateSite {
       id
+      groups
       analyticsID
       assetBasePath
       browseCollections
@@ -783,6 +802,7 @@ export const onCreateSite = /* GraphQL */ `
       displayedAttributes
       homePage
       lang
+      miradorOptions
       searchPage
       siteColor
       siteId
@@ -798,6 +818,7 @@ export const onUpdateSite = /* GraphQL */ `
   subscription OnUpdateSite {
     onUpdateSite {
       id
+      groups
       analyticsID
       assetBasePath
       browseCollections
@@ -805,6 +826,7 @@ export const onUpdateSite = /* GraphQL */ `
       displayedAttributes
       homePage
       lang
+      miradorOptions
       searchPage
       siteColor
       siteId
@@ -820,6 +842,7 @@ export const onDeleteSite = /* GraphQL */ `
   subscription OnDeleteSite {
     onDeleteSite {
       id
+      groups
       analyticsID
       assetBasePath
       browseCollections
@@ -827,6 +850,7 @@ export const onDeleteSite = /* GraphQL */ `
       displayedAttributes
       homePage
       lang
+      miradorOptions
       searchPage
       siteColor
       siteId
@@ -842,6 +866,7 @@ export const onCreateHistory = /* GraphQL */ `
   subscription OnCreateHistory {
     onCreateHistory {
       id
+      groups
       userEmail
       siteID
       event
@@ -854,6 +879,7 @@ export const onUpdateHistory = /* GraphQL */ `
   subscription OnUpdateHistory {
     onUpdateHistory {
       id
+      groups
       userEmail
       siteID
       event
@@ -866,6 +892,7 @@ export const onDeleteHistory = /* GraphQL */ `
   subscription OnDeleteHistory {
     onDeleteHistory {
       id
+      groups
       userEmail
       siteID
       event
