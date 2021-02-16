@@ -380,3 +380,24 @@ export const getImgUrl = key => {
     return data;
   }
 };
+
+export const getArchiveByIdentifier = async identifier => {
+  const REP_TYPE = process.env.REACT_APP_REP_TYPE;
+  const apiData = await API.graphql({
+    query: queries.archiveByIdentifier,
+    variables: {
+      identifier: identifier,
+      filter: {
+        item_category: { eq: REP_TYPE }
+      },
+      limit: 1
+    }
+  });
+  const {
+    data: {
+      archiveByIdentifier: { items }
+    }
+  } = apiData;
+  const archive = items[0];
+  return archive;
+};
