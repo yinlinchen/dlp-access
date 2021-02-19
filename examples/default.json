@@ -33,19 +33,19 @@
     {
       "cityStateZip": "Blacksburg, VA 24061",
       "department": "University Libraries (0434)",
-      "email": "specref@vt.edu",
-      "group": "Special Collections",
-      "phone": "(540)231-6308",
-      "streetAddress": "560 Drillfield Drive",
-      "title": "IAWA Archivist"
+      "email": "demo1@vt.edu",
+      "group": "Demo Group",
+      "phone": "(540)123-4567",
+      "streetAddress": "158 Demo Drive",
+      "title": "Archivist"
     },
     {
       "cityStateZip": "Blacksburg, VA 24061",
-      "department": "201 Cowgill Hall (0205)",
-      "email": "ddunay@vt.edu",
-      "group": "IAWA Center",
-      "phone": "(540)231-5512",
-      "streetAddress": "1325 Perry St.",
+      "department": "University Libraries (0434)",
+      "email": "demo2@vt.edu",
+      "group": "Demo Center",
+      "phone": "(540)123-4567",
+      "streetAddress": "668 Demo St.",
       "title": "Board Chair"
     }
   ],
@@ -235,7 +235,7 @@
     ],
     "homeStatement": {
       "heading": "Welcome",
-      "statement": "A visual exhibit of selected items from the International Archive of Women in Architecture, a joint partnership between the College of Architecture and Urban Studies and the University Libraries at Virginia Tech"
+      "statement": "A dlp-access demo site created by the University Libraries at Virginia Tech"
     },
     "mediaSection": {
       "link": "https://lib.vt.edu/",
@@ -245,9 +245,9 @@
     },
     "sponsors": [
       {
-        "alt": "CLIR",
+        "alt": "Sponsor1",
         "img": "https://img.cloud.lib.vt.edu/sites/images/default/sponsor1.png",
-        "link": "https://clir.org/"
+        "link": "https://demo.sponsor.org"
       },
       {
         "alt": "IAWA",
@@ -264,7 +264,7 @@
     "staticImage": {
       "altText": "",
       "showTitle": true,
-      "src": "https://img.cloud.lib.vt.edu/sites/images/default/cover_image.jpg"
+      "src": "https://img.cloud.lib.vt.edu/sites/images/demo/cover_image.jpg"
     }
   },
   "id": "633f1277-e948-409f-afc9-671dc606d897",
@@ -431,7 +431,7 @@
     }
   },
   "siteColor": "",
-  "siteId": "default",
+  "siteId": "demo",
   "siteName": "Demo Site",
   "sitePages": {
     "about": {
@@ -453,5 +453,5 @@
     }
   },
   "siteTitle": "DEMO",
-  "updatedAt": "2020-12-17T20:41:11.557Z"
+  "updatedAt": "2021-02-19T18:29:26.405Z"
 }
