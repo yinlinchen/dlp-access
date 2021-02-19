@@ -250,9 +250,9 @@
         "link": "https://demo.sponsor.org"
       },
       {
-        "alt": "IAWA",
+        "alt": "Sponsor2",
         "img": "https://img.cloud.lib.vt.edu/sites/images/default/sponsor2.png",
-        "link": "https://spec.lib.vt.edu/iawa/"
+        "link": "https://demo2.sponsor.org"
       },
       {
         "alt": "Virginia Tech Libraries",
@@ -453,5 +453,5 @@
     }
   },
   "siteTitle": "DEMO",
-  "updatedAt": "2021-02-19T18:29:26.405Z"
+  "updatedAt": "2021-02-19T18:52:46.316Z"
 }
