@@ -1,7 +1,7 @@
 {
   "__typename": "Site",
   "analyticsID": "demo",
-  "assetBasePath": "https://img.cloud.lib.vt.edu/sites/html/default",
+  "assetBasePath": "https://img.cloud.lib.vt.edu/sites/html/demo",
   "browseCollections": {
     "filter": {
       "field": "subject",
@@ -207,30 +207,6 @@
         "cardTitle": "Shackled Hands And Human Chains",
         "link": "https://swva-dev.cloud.lib.vt.edu/archive/6p15t97g",
         "src": "https://img.cloud.lib.vt.edu/sites/images/swva/featured_item5.JPG"
-      },
-      {
-        "altText": "Thieves Carnival, Barter Theatre",
-        "cardTitle": "Thieves Carnival",
-        "link": "https://swva-dev.cloud.lib.vt.edu/archive/2k14bg2z",
-        "src": "https://img.cloud.lib.vt.edu/sites/images/swva/featured_item6.jpg"
-      },
-      {
-        "altText": "Leader of the Pack by Sherman Ewing, Barter Theatre",
-        "cardTitle": "Leader of the Pack by Sherman Ewing",
-        "link": "https://swva-dev.cloud.lib.vt.edu/archive/8g08sz6b",
-        "src": "https://img.cloud.lib.vt.edu/sites/images/swva/featured_item7.jpg"
-      },
-      {
-        "altText": "As You Like It by William Shakespeare, Barter Theatre",
-        "cardTitle": "As You Like It by William Shakespeare",
-        "link": "https://swva-dev.cloud.lib.vt.edu/archive/0c595666",
-        "src": "https://img.cloud.lib.vt.edu/sites/images/swva/featured_item8.jpg"
-      },
-      {
-        "altText": "Measure For Measure by William Shakespeare, Virginia Polytechnic Institute and State University. Theatre Arts - University Theatre",
-        "cardTitle": "Measure For Measure by William Shakespeare",
-        "link": "",
-        "src": "https://img.cloud.lib.vt.edu/sites/images/swva/featured_item9.JPG"
       }
     ],
     "homeStatement": {
@@ -255,9 +231,9 @@
         "link": "https://demo2.sponsor.org"
       },
       {
-        "alt": "Virginia Tech Libraries",
+        "alt": "Sponsor3",
         "img": "https://img.cloud.lib.vt.edu/sites/images/default/sponsor3.png",
-        "link": "https://lib.vt.edu/"
+        "link": "https://demo3.sponsor.org"
       }
     ],
     "statement": "<div><h1>Virginia Tech Digital Library Platform</h1><p>Welcome to VTDLP. VTDLP is a cloud-native, digital libraries solution supporting preservation and access while taking advantage of the efficiencies of Amazon Web Services.</p></div>",
@@ -453,5 +429,5 @@
     }
   },
   "siteTitle": "DEMO",
-  "updatedAt": "2021-02-19T18:52:46.316Z"
+  "updatedAt": "2021-02-19T19:24:04.314Z"
 }
