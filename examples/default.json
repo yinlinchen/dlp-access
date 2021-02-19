@@ -162,7 +162,7 @@
         "img": "https://img.cloud.lib.vt.edu/sites/images/iawa/highlight1.jpg",
         "itemCount": "51",
         "link": "/search?q=&field=description&view=Gallery&category=archive&resource_type=Travel+sketches",
-        "title": "Travel sketches by IAWA architects"
+        "title": "Travel sketches"
       },
       {
         "img": "https://img.cloud.lib.vt.edu/sites/images/iawa/highlight2.jpg",
@@ -174,7 +174,7 @@
         "img": "https://img.cloud.lib.vt.edu/sites/images/iawa/highlight3.jpg",
         "itemCount": "85",
         "link": "/search/?category=archive&field=tags&q=Student%20work&view=Gallery",
-        "title": "Student work by IAWA architects"
+        "title": "Student work"
       }
     ],
     "featuredItems": [
@@ -238,7 +238,7 @@
     ],
     "statement": "<div><h1>Virginia Tech Digital Library Platform</h1><p>Welcome to VTDLP. VTDLP is a cloud-native, digital libraries solution supporting preservation and access while taking advantage of the efficiencies of Amazon Web Services.</p></div>",
     "staticImage": {
-      "altText": "",
+      "altText": "Welcome",
       "showTitle": true,
       "src": "https://img.cloud.lib.vt.edu/sites/images/demo/cover_image.jpg"
     }
@@ -429,5 +429,5 @@
     }
   },
   "siteTitle": "DEMO",
-  "updatedAt": "2021-02-19T19:24:04.314Z"
+  "updatedAt": "2021-02-19T19:41:37.179Z"
 }
