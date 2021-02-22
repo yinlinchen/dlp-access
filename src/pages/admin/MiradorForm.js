@@ -22,110 +22,56 @@ class MiradorForm extends Component {
   async loadSite() {
     const site = await getSite();
     if (site) {
-      if (site.miradorOptions) {
-        const mirador = JSON.parse(site.miradorOptions);
-        let siteInfo = {
-          selectedTheme: mirador.selectedTheme || "light",
-          language: "en",
-          id: "mirador_viewer",
-          window: {
-            allowClose: false,
-            allowFullscreen: true,
-            allowMaximize: false,
-            allowTopMenuButton: mirador.window.allowTopMenuButton || true,
-            allowWindowSideBar: mirador.window.allowWindowSideBar || true,
-            sideBarPanel: mirador.window.sideBarPanel || "info",
-            defaultView: "single",
-            sideBarOpen: mirador.window.sideBarOpen || false,
-            panels: {
-              info: true,
-              attribution: true,
-              canvas: false,
-              annotations: true,
-              search: false,
-              layers: false
-            }
-          },
-          windows: [
-            {
-              manifestId: ""
-            }
-          ],
-          thumbnailNavigation: {
-            defaultPosition:
-              mirador.thumbnailNavigation.defaultPosition || "far-bottom",
-            displaySettings:
-              mirador.thumbnailNavigation.displaySettings || true,
-            height: mirador.thumbnailNavigation.height || 130,
-            width: mirador.thumbnailNavigation.width || 100
-          },
-          workspace: {
-            draggingEnabled: false,
-            allowNewWindows: false,
-            isWorkspaceAddVisible: false,
-            showZoomControls: true,
-            type: "mosaic"
-          },
-          workspaceControlPanel: {
-            enabled: false
+      let siteInfo = {
+        selectedTheme: "light",
+        language: "en",
+        id: "mirador_viewer",
+        window: {
+          allowClose: false,
+          allowFullscreen: true,
+          allowMaximize: false,
+          allowTopMenuButton: true,
+          allowWindowSideBar: true,
+          sideBarPanel: "info",
+          defaultView: "single",
+          sideBarOpen: false,
+          panels: {
+            info: true,
+            attribution: true,
+            canvas: false,
+            annotations: true,
+            search: false,
+            layers: false
           }
-        };
-        this.setState({
-          formState: siteInfo,
-          prevFormState: siteInfo,
-          site: site
-        });
-      } else {
-        let siteInfo = {
-          selectedTheme: "light",
-          language: "en",
-          id: "mirador_viewer",
-          window: {
-            allowClose: false,
-            allowFullscreen: true,
-            allowMaximize: false,
-            allowTopMenuButton: true,
-            allowWindowSideBar: true,
-            sideBarPanel: "info",
-            defaultView: "single",
-            sideBarOpen: false,
-            panels: {
-              info: true,
-              attribution: true,
-              canvas: false,
-              annotations: true,
-              search: false,
-              layers: false
-            }
-          },
-          windows: [
-            {
-              manifestId: ""
-            }
-          ],
-          thumbnailNavigation: {
-            defaultPosition: "far-bottom",
-            displaySettings: true,
-            height: 130,
-            width: 100
-          },
-          workspace: {
-            draggingEnabled: false,
-            allowNewWindows: false,
-            isWorkspaceAddVisible: false,
-            showZoomControls: true,
-            type: "mosaic"
-          },
-          workspaceControlPanel: {
-            enabled: false
+        },
+        windows: [
+          {
+            manifestId: ""
           }
-        };
-        this.setState({
-          formState: siteInfo,
-          prevFormState: siteInfo,
-          site: site
-        });
-      }
+        ],
+        thumbnailNavigation: {
+          defaultPosition: "far-bottom",
+          displaySettings: true,
+          height: 130,
+          width: 100
+        },
+        workspace: {
+          draggingEnabled: false,
+          allowNewWindows: false,
+          isWorkspaceAddVisible: false,
+          showZoomControls: true,
+          type: "mosaic"
+        },
+        workspaceControlPanel: {
+          enabled: false
+        }
+      };
+      siteInfo = JSON.parse(site.miradorOptions) || siteInfo;
+      this.setState({
+        formState: siteInfo,
+        prevFormState: siteInfo,
+        site: site
+      });
     }
   }
 
