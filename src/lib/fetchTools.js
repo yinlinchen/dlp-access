@@ -9,6 +9,37 @@ export function getFile(copyURL, type, component) {
   }
 }
 
+export const mintNOID = async () => {
+  const apiKey = process.env.REACT_APP_MINT_API_KEY;
+  const noidLink =
+    "https://pl2qz9poyf.execute-api.us-east-1.amazonaws.com/Prod/mint";
+  const headers = new Headers({
+    "X-Api-Key": apiKey,
+    Origin: "http://localhost:3000"
+  });
+  let response = null;
+  try {
+    response = await fetch(noidLink, {
+      method: "GET",
+      mode: "cors",
+      headers: headers
+    }).then(resp => {
+      return resp.json();
+    });
+  } catch (error) {
+    console.error("Error minting noid -- ", error);
+  }
+  let retVal = null;
+  if (response) {
+    try {
+      retVal = response.message.match(/^New NOID: ([a-zA-Z0-9]+)/)[1];
+    } catch (error) {
+      console.error("Error extracting noid from response -- ", error);
+    }
+  }
+  return retVal;
+};
+
 const fetchCopyFile = async (copyURL, type, component) => {
   let data = null;
   try {
@@ -44,7 +75,7 @@ const fetchCopyFile = async (copyURL, type, component) => {
   }
 };
 
-export const fetchAvailableDisplayedAttributes = async (site) => {
+export const fetchAvailableDisplayedAttributes = async site => {
   let data = null;
   const keyName = `availableAttributes`;
   try {
@@ -68,8 +99,7 @@ export const fetchAvailableDisplayedAttributes = async (site) => {
     sessionStorage.setItem(keyName, JSON.stringify(data));
     return data;
   }
-
-}
+};
 
 export const fetchLanguages = async (component, site, key, callback) => {
   let data = null;
@@ -248,6 +278,26 @@ const getCollectionIDByTitle = async title => {
     console.error(`Error getting id for collection title: ${title}`);
   }
   return id;
+};
+
+export const getPodcastCollections = async () => {
+  let items = null;
+  const results = await API.graphql(
+    graphqlOperation(queries.searchCollections, {
+      order: "ASC",
+      filter: {
+        collection_category: {
+          eq: "podcasts"
+        }
+      }
+    })
+  );
+  try {
+    items = results.data.searchCollections.items;
+  } catch (error) {
+    console.error(`Error getting podcast collections`);
+  }
+  return items;
 };
 
 export const getTopLevelParentForCollection = async collection => {

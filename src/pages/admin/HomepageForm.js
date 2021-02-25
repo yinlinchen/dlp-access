@@ -206,10 +206,12 @@ class HomepageForm extends Component {
             <FileUploadField
               value={this.state.formState.staticImageSrc}
               label={this.fileUploadLabel(this.state.formState.staticImageSrc)}
+              input_id="static_img_src"
               name="staticImageSrc"
               placeholder="Enter Src"
               site={this.state.site}
               setSrc={this.updateInputValue}
+              fileType="image"
             />
             <Form.Input
               label="Alt Text"

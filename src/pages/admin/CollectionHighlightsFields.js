@@ -11,11 +11,13 @@ const CollectionHighlightsForm = props => {
           <FileUploadField
             value={obj.src}
             label="Upload file: (Image file only):"
+            input_id={`collection_highlights_upload_${index}`}
             name={`collectionHighlights_${index}`}
             placeholder="Enter image source"
             site={props.site}
             filepath="highlights"
             setSrc={props.updateInputValue}
+            fileType="image"
           />
           <label htmlFor={`highlight${index}_title`}>Title</label>
           <input

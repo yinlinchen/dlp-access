@@ -70,15 +70,16 @@ describe("Update collection highlights fields and revert", function () {
         cy.get(
           "#collectionHighlight3_form > section > div.fileUploadField > button.uploadButton"
         ).click({ force: true });
+        cy.wait(5 * 1000);
         cy.get("#highlight3_title", { timeout: 2000 }).type("New Highlight");
         cy.get("#highlight3_link", { timeout: 2000 }).type(
           "/search?q=building&view=gallery"
         );
         cy.get("#highlight3_count").type("5");
         cy.contains("Update Config").click();
-        cy.contains("Collection Highlight 4", { timeout: 2000 }).should("be.visible");
+        cy.contains("Collection Highlight 4", { timeout: 10 * 1000 }).should("be.visible");
         cy.contains(
-          "Image Source: highlights/highlight4.jpg"
+          "highlights/highlight4.jpg"
         ).should("be.visible");
         cy.contains("Title: New Highlight").should("be.visible");
         cy.contains("Link: /search?q=building&view=gallery").should(

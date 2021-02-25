@@ -11,11 +11,13 @@ const SponsorForm = props => {
           <FileUploadField
             value={obj.src}
             label="Upload file: (Image file only):"
+            input_id={`sponsors_upload_${index}`}
             name={`sponsors_${index}`}
             placeholder="Enter Src"
             site={props.site}
             filepath="sponsors"
             setSrc={props.updateInputValue}
+            fileType="image"
           />
           <label htmlFor={`s${index}_alt`}>Alt Text</label>
           <input
