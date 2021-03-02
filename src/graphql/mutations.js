@@ -73,6 +73,8 @@ export const createCollection = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      createdAt
+      updatedAt
       archives {
         items {
           id
@@ -115,8 +117,6 @@ export const createCollection = /* GraphQL */ `
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -192,6 +192,8 @@ export const updateCollection = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      createdAt
+      updatedAt
       archives {
         items {
           id
@@ -234,8 +236,6 @@ export const updateCollection = /* GraphQL */ `
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -311,6 +311,8 @@ export const deleteCollection = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      createdAt
+      updatedAt
       archives {
         items {
           id
@@ -353,8 +355,6 @@ export const deleteCollection = /* GraphQL */ `
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -404,11 +404,11 @@ export const createCollectionmap = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        createdAt
+        updatedAt
         archives {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       createdAt
       updatedAt
@@ -461,11 +461,11 @@ export const updateCollectionmap = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        createdAt
+        updatedAt
         archives {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       createdAt
       updatedAt
@@ -518,11 +518,11 @@ export const deleteCollectionmap = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        createdAt
+        updatedAt
         archives {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       createdAt
       updatedAt
@@ -605,11 +605,11 @@ export const createArchive = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        createdAt
+        updatedAt
         archives {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       createdAt
       updatedAt
@@ -692,11 +692,11 @@ export const updateArchive = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        createdAt
+        updatedAt
         archives {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       createdAt
       updatedAt
@@ -779,11 +779,11 @@ export const deleteArchive = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        createdAt
+        updatedAt
         archives {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       createdAt
       updatedAt

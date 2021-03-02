@@ -55,11 +55,11 @@ export const searchObjects = /* GraphQL */ `
             createdAt
             updatedAt
           }
+          createdAt
+          updatedAt
           archives {
             nextToken
           }
-          createdAt
-          updatedAt
         }
         ... on Archive {
           tags
@@ -165,11 +165,11 @@ export const fulltextCollections = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        createdAt
+        updatedAt
         archives {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       nextToken
       total
@@ -339,6 +339,8 @@ export const getCollection = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      createdAt
+      updatedAt
       archives {
         items {
           id
@@ -381,8 +383,6 @@ export const getCollection = /* GraphQL */ `
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -431,11 +431,11 @@ export const listCollections = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        createdAt
+        updatedAt
         archives {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -487,11 +487,11 @@ export const getCollectionmap = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        createdAt
+        updatedAt
         archives {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       createdAt
       updatedAt
@@ -509,175 +509,6 @@ export const listCollectionmaps = /* GraphQL */ `
         id
         collection_id
         map_object
-        create_date
-        modified_date
-        collection {
-          id
-          title
-          identifier
-          description
-          creator
-          source
-          circa
-          start_date
-          end_date
-          subject
-          location
-          rights_statement
-          language
-          related_url
-          provenance
-          belongs_to
-          bibliographic_citation
-          rights_holder
-          custom_key
-          collection_category
-          visibility
-          thumbnail_path
-          parent_collection
-          display_date
-          create_date
-          modified_date
-          heirarchy_path
-          collectionmap_id
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getArchive = /* GraphQL */ `
-  query GetArchive($id: ID!) {
-    getArchive(id: $id) {
-      id
-      title
-      identifier
-      description
-      tags
-      creator
-      source
-      circa
-      start_date
-      end_date
-      subject
-      rights_statement
-      language
-      resource_type
-      belongs_to
-      location
-      medium
-      bibliographic_citation
-      rights_holder
-      format
-      related_url
-      provenance
-      repository
-      reference
-      contributor
-      custom_key
-      parent_collection
-      item_category
-      visibility
-      thumbnail_path
-      manifest_url
-      heirarchy_path
-      display_date
-      create_date
-      modified_date
-      collection {
-        id
-        title
-        identifier
-        description
-        creator
-        source
-        circa
-        start_date
-        end_date
-        subject
-        location
-        rights_statement
-        language
-        related_url
-        provenance
-        belongs_to
-        bibliographic_citation
-        rights_holder
-        custom_key
-        collection_category
-        visibility
-        thumbnail_path
-        parent_collection
-        display_date
-        create_date
-        modified_date
-        heirarchy_path
-        collectionmap_id
-        collectionmap {
-          id
-          collection_id
-          map_object
-          create_date
-          modified_date
-          createdAt
-          updatedAt
-        }
-        archives {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listArchives = /* GraphQL */ `
-  query ListArchives(
-    $filter: ModelArchiveFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listArchives(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        title
-        identifier
-        description
-        tags
-        creator
-        source
-        circa
-        start_date
-        end_date
-        subject
-        rights_statement
-        language
-        resource_type
-        belongs_to
-        location
-        medium
-        bibliographic_citation
-        rights_holder
-        format
-        related_url
-        provenance
-        repository
-        reference
-        contributor
-        custom_key
-        parent_collection
-        item_category
-        visibility
-        thumbnail_path
-        manifest_url
-        heirarchy_path
-        display_date
         create_date
         modified_date
         collection {
@@ -772,8 +603,302 @@ export const collectionByIdentifier = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        createdAt
+        updatedAt
         archives {
           nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const searchCollections = /* GraphQL */ `
+  query SearchCollections(
+    $filter: SearchableCollectionFilterInput
+    $sort: SearchableCollectionSortInput
+    $limit: Int
+    $nextToken: String
+    $from: Int
+  ) {
+    searchCollections(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+    ) {
+      items {
+        id
+        title
+        identifier
+        description
+        creator
+        source
+        circa
+        start_date
+        end_date
+        subject
+        location
+        rights_statement
+        language
+        related_url
+        provenance
+        belongs_to
+        bibliographic_citation
+        rights_holder
+        custom_key
+        collection_category
+        visibility
+        thumbnail_path
+        parent_collection
+        display_date
+        create_date
+        modified_date
+        heirarchy_path
+        collectionmap_id
+        collectionmap {
+          id
+          collection_id
+          map_object
+          create_date
+          modified_date
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+        archives {
+          nextToken
+        }
+      }
+      nextToken
+      total
+    }
+  }
+`;
+export const searchCollectionmaps = /* GraphQL */ `
+  query SearchCollectionmaps(
+    $filter: SearchableCollectionmapFilterInput
+    $sort: SearchableCollectionmapSortInput
+    $limit: Int
+    $nextToken: String
+    $from: Int
+  ) {
+    searchCollectionmaps(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+    ) {
+      items {
+        id
+        collection_id
+        map_object
+        create_date
+        modified_date
+        collection {
+          id
+          title
+          identifier
+          description
+          creator
+          source
+          circa
+          start_date
+          end_date
+          subject
+          location
+          rights_statement
+          language
+          related_url
+          provenance
+          belongs_to
+          bibliographic_citation
+          rights_holder
+          custom_key
+          collection_category
+          visibility
+          thumbnail_path
+          parent_collection
+          display_date
+          create_date
+          modified_date
+          heirarchy_path
+          collectionmap_id
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+      total
+    }
+  }
+`;
+export const getArchive = /* GraphQL */ `
+  query GetArchive($id: ID!) {
+    getArchive(id: $id) {
+      id
+      title
+      identifier
+      description
+      tags
+      creator
+      source
+      circa
+      start_date
+      end_date
+      subject
+      rights_statement
+      language
+      resource_type
+      belongs_to
+      location
+      medium
+      bibliographic_citation
+      rights_holder
+      format
+      related_url
+      provenance
+      repository
+      reference
+      contributor
+      custom_key
+      parent_collection
+      item_category
+      visibility
+      thumbnail_path
+      manifest_url
+      heirarchy_path
+      display_date
+      create_date
+      modified_date
+      collection {
+        id
+        title
+        identifier
+        description
+        creator
+        source
+        circa
+        start_date
+        end_date
+        subject
+        location
+        rights_statement
+        language
+        related_url
+        provenance
+        belongs_to
+        bibliographic_citation
+        rights_holder
+        custom_key
+        collection_category
+        visibility
+        thumbnail_path
+        parent_collection
+        display_date
+        create_date
+        modified_date
+        heirarchy_path
+        collectionmap_id
+        collectionmap {
+          id
+          collection_id
+          map_object
+          create_date
+          modified_date
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+        archives {
+          nextToken
+        }
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listArchives = /* GraphQL */ `
+  query ListArchives(
+    $filter: ModelArchiveFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listArchives(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        identifier
+        description
+        tags
+        creator
+        source
+        circa
+        start_date
+        end_date
+        subject
+        rights_statement
+        language
+        resource_type
+        belongs_to
+        location
+        medium
+        bibliographic_citation
+        rights_holder
+        format
+        related_url
+        provenance
+        repository
+        reference
+        contributor
+        custom_key
+        parent_collection
+        item_category
+        visibility
+        thumbnail_path
+        manifest_url
+        heirarchy_path
+        display_date
+        create_date
+        modified_date
+        collection {
+          id
+          title
+          identifier
+          description
+          creator
+          source
+          circa
+          start_date
+          end_date
+          subject
+          location
+          rights_statement
+          language
+          related_url
+          provenance
+          belongs_to
+          bibliographic_citation
+          rights_holder
+          custom_key
+          collection_category
+          visibility
+          thumbnail_path
+          parent_collection
+          display_date
+          create_date
+          modified_date
+          heirarchy_path
+          collectionmap_id
+          createdAt
+          updatedAt
         }
         createdAt
         updatedAt
@@ -869,131 +994,6 @@ export const archiveByIdentifier = /* GraphQL */ `
         updatedAt
       }
       nextToken
-    }
-  }
-`;
-export const searchCollections = /* GraphQL */ `
-  query SearchCollections(
-    $filter: SearchableCollectionFilterInput
-    $sort: SearchableCollectionSortInput
-    $limit: Int
-    $nextToken: String
-    $from: Int
-  ) {
-    searchCollections(
-      filter: $filter
-      sort: $sort
-      limit: $limit
-      nextToken: $nextToken
-      from: $from
-    ) {
-      items {
-        id
-        title
-        identifier
-        description
-        creator
-        source
-        circa
-        start_date
-        end_date
-        subject
-        location
-        rights_statement
-        language
-        related_url
-        provenance
-        belongs_to
-        bibliographic_citation
-        rights_holder
-        custom_key
-        collection_category
-        visibility
-        thumbnail_path
-        parent_collection
-        display_date
-        create_date
-        modified_date
-        heirarchy_path
-        collectionmap_id
-        collectionmap {
-          id
-          collection_id
-          map_object
-          create_date
-          modified_date
-          createdAt
-          updatedAt
-        }
-        archives {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
-      total
-    }
-  }
-`;
-export const searchCollectionmaps = /* GraphQL */ `
-  query SearchCollectionmaps(
-    $filter: SearchableCollectionmapFilterInput
-    $sort: SearchableCollectionmapSortInput
-    $limit: Int
-    $nextToken: String
-    $from: Int
-  ) {
-    searchCollectionmaps(
-      filter: $filter
-      sort: $sort
-      limit: $limit
-      nextToken: $nextToken
-      from: $from
-    ) {
-      items {
-        id
-        collection_id
-        map_object
-        create_date
-        modified_date
-        collection {
-          id
-          title
-          identifier
-          description
-          creator
-          source
-          circa
-          start_date
-          end_date
-          subject
-          location
-          rights_statement
-          language
-          related_url
-          provenance
-          belongs_to
-          bibliographic_citation
-          rights_holder
-          custom_key
-          collection_category
-          visibility
-          thumbnail_path
-          parent_collection
-          display_date
-          create_date
-          modified_date
-          heirarchy_path
-          collectionmap_id
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
-      total
     }
   }
 `;

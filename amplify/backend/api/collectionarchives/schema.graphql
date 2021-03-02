@@ -86,7 +86,12 @@ type Archive implements Object
     fields: ["identifier"]
     name: "Identifier"
     queryField: "archiveByIdentifier"
-  ) {
+  )
+  @auth(rules: [
+    { allow: public, operations: [read] },
+    { allow: groups, groups: ["Admin"] },
+    { allow: groups, groupsField: "groups", operations: [read, create, update, delete] }
+  ]){
   id: ID!
   title: String!
   identifier: String!
