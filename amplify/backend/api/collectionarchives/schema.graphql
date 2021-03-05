@@ -94,6 +94,7 @@ type Archive implements Object
     { allow: groups, groupsField: "groups", operations: [read, create, update, delete] }
   ]){
   id: ID!
+  groups: [String]!
   title: String!
   identifier: String!
   description: String
