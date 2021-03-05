@@ -46,6 +46,7 @@ export const searchObjects = /* GraphQL */ `
         ... on Collection {
           collection_category
           collectionmap_id
+          ownerinfo
           collectionmap {
             id
             collection_id
@@ -71,6 +72,7 @@ export const searchObjects = /* GraphQL */ `
           contributor
           item_category
           manifest_url
+          explicit
           collection {
             id
             title
@@ -100,6 +102,7 @@ export const searchObjects = /* GraphQL */ `
             modified_date
             heirarchy_path
             collectionmap_id
+            ownerinfo
             createdAt
             updatedAt
           }
@@ -156,6 +159,7 @@ export const fulltextCollections = /* GraphQL */ `
         modified_date
         heirarchy_path
         collectionmap_id
+        ownerinfo
         collectionmap {
           id
           collection_id
@@ -227,6 +231,7 @@ export const fulltextArchives = /* GraphQL */ `
         display_date
         create_date
         modified_date
+        explicit
         collection {
           id
           title
@@ -256,6 +261,7 @@ export const fulltextArchives = /* GraphQL */ `
           modified_date
           heirarchy_path
           collectionmap_id
+          ownerinfo
           createdAt
           updatedAt
         }
@@ -298,6 +304,7 @@ export const getCollection = /* GraphQL */ `
       modified_date
       heirarchy_path
       collectionmap_id
+      ownerinfo
       collectionmap {
         id
         collection_id
@@ -333,6 +340,7 @@ export const getCollection = /* GraphQL */ `
           modified_date
           heirarchy_path
           collectionmap_id
+          ownerinfo
           createdAt
           updatedAt
         }
@@ -378,6 +386,7 @@ export const getCollection = /* GraphQL */ `
           display_date
           create_date
           modified_date
+          explicit
           createdAt
           updatedAt
         }
@@ -422,6 +431,7 @@ export const listCollections = /* GraphQL */ `
         modified_date
         heirarchy_path
         collectionmap_id
+        ownerinfo
         collectionmap {
           id
           collection_id
@@ -478,6 +488,7 @@ export const getCollectionmap = /* GraphQL */ `
         modified_date
         heirarchy_path
         collectionmap_id
+        ownerinfo
         collectionmap {
           id
           collection_id
@@ -540,6 +551,7 @@ export const listCollectionmaps = /* GraphQL */ `
           modified_date
           heirarchy_path
           collectionmap_id
+          ownerinfo
           createdAt
           updatedAt
         }
@@ -594,6 +606,7 @@ export const collectionByIdentifier = /* GraphQL */ `
         modified_date
         heirarchy_path
         collectionmap_id
+        ownerinfo
         collectionmap {
           id
           collection_id
@@ -657,6 +670,7 @@ export const searchCollections = /* GraphQL */ `
         modified_date
         heirarchy_path
         collectionmap_id
+        ownerinfo
         collectionmap {
           id
           collection_id
@@ -727,6 +741,7 @@ export const searchCollectionmaps = /* GraphQL */ `
           modified_date
           heirarchy_path
           collectionmap_id
+          ownerinfo
           createdAt
           updatedAt
         }
@@ -776,6 +791,7 @@ export const getArchive = /* GraphQL */ `
       display_date
       create_date
       modified_date
+      explicit
       collection {
         id
         title
@@ -805,6 +821,7 @@ export const getArchive = /* GraphQL */ `
         modified_date
         heirarchy_path
         collectionmap_id
+        ownerinfo
         collectionmap {
           id
           collection_id
@@ -868,6 +885,7 @@ export const listArchives = /* GraphQL */ `
         display_date
         create_date
         modified_date
+        explicit
         collection {
           id
           title
@@ -897,6 +915,7 @@ export const listArchives = /* GraphQL */ `
           modified_date
           heirarchy_path
           collectionmap_id
+          ownerinfo
           createdAt
           updatedAt
         }
@@ -958,6 +977,7 @@ export const archiveByIdentifier = /* GraphQL */ `
         display_date
         create_date
         modified_date
+        explicit
         collection {
           id
           title
@@ -987,6 +1007,7 @@ export const archiveByIdentifier = /* GraphQL */ `
           modified_date
           heirarchy_path
           collectionmap_id
+          ownerinfo
           createdAt
           updatedAt
         }
@@ -1048,6 +1069,7 @@ export const searchArchives = /* GraphQL */ `
         display_date
         create_date
         modified_date
+        explicit
         collection {
           id
           title
@@ -1077,6 +1099,7 @@ export const searchArchives = /* GraphQL */ `
           modified_date
           heirarchy_path
           collectionmap_id
+          ownerinfo
           createdAt
           updatedAt
         }

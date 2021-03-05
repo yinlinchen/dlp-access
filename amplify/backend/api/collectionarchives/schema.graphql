@@ -63,6 +63,7 @@ type Collection implements Object
   modified_date: String
   heirarchy_path: [String!]
   collectionmap_id: String
+  ownerinfo: AWSJSON
   collectionmap: Collectionmap @connection(name: "CollectionCollectionMap")
   archives: [Archive] @connection(name: "CollectionArchives")
 }
@@ -127,6 +128,7 @@ type Archive implements Object
   display_date: String
   create_date: String
   modified_date: String
+  explicit: Boolean
   collection: Collection @connection(name: "CollectionArchives")
 }
 
