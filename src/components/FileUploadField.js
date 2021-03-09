@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { API, Auth, Storage } from "aws-amplify";
-import * as mutations from "../../graphql/mutations";
+import * as mutations from "../graphql/mutations";
 
 class FileUploadField extends Component {
   constructor(props) {

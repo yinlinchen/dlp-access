@@ -1,6 +1,6 @@
 import React from "react";
 import { Form } from "semantic-ui-react";
-import FileUploadField from "./FileUploadField";
+import FileUploadField from "../../components/FileUploadField";
 
 const FeaturedItemsForm = props => {
   const items = props.itemList.map((obj, index) => {

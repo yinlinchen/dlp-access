@@ -5,7 +5,7 @@ import { updatedDiff } from "deep-object-diff";
 import { API, Auth, Storage } from "aws-amplify";
 import { getPodcastCollections, mintNOID } from "../../lib/fetchTools";
 import * as mutations from "../../graphql/mutations";
-import FileUploadField from "./FileUploadField";
+import { input } from "../../components/FormFields";
 import { v4 as uuidv4 } from "uuid";
 
 import "../../css/adminForms.scss";
@@ -94,7 +94,9 @@ class PodcastDeposit extends Component {
     let attributes = JSON.parse(JSON.stringify(this.state.formState));
     attributes[name] = value;
 
-    this.setState({ formState: attributes });
+    this.setState({ formState: attributes }, () => {
+      console.log(this.state.formState);
+    });
   };
 
   sourceLinkFormatted(link, text) {
@@ -109,7 +111,6 @@ class PodcastDeposit extends Component {
 
   handleSubmit = async () => {
     const id = uuidv4();
-
     const noid = await mintNOID();
     const customKeyPrefix = "ark:/53696";
     const customKey = `${customKeyPrefix}/${noid}`;
@@ -202,109 +203,115 @@ class PodcastDeposit extends Component {
         <Form>
           <section className="podcast-metadata">
             <h3>Episode Metadata</h3>
-            <label>
-              Podcast Collection:
-              <select
-                id="selectedCollectionID"
-                name="selectedCollectionID"
-                value={this.state.formState.selectedCollectionID}
-                onChange={this.updateInputValue}
-              >
-                {this.state.collections.map(collection => (
-                  <option key={collection.id} value={collection.id}>
-                    {collection.title}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <Form.Input
-              label="Episode title"
-              name="title"
-              placeholder="Enter episode title"
-              onChange={this.updateInputValue}
-            />
-            <Form.TextArea
-              label="Episode description"
-              name="description"
-              placeholder="Enter episode description"
-              onChange={this.updateInputValue}
-            />
-            <Form.Input
-              label="Source Link"
-              name="source_link"
-              placeholder="Enter source link"
-              onChange={this.updateInputValue}
-            />
-            <Form.Input
-              label="Source Text"
-              name="source_text"
-              placeholder="Enter source text"
-              onChange={this.updateInputValue}
-            />
-            <div class="field">
-              <label htmlFor="publication_date">Publication date:</label>
-              <div class="ui input">
-                <input
-                  type="date"
-                  id="publication_date"
-                  name="publication_date"
-                  onChange={this.updateInputValue}
-                ></input>
-              </div>
-            </div>
-            <div class="field explicit-checkbox">
-              <label htmlFor="publication_date">
-                Explicit:
-                <input
-                  id="explicit-checkbox"
-                  type="checkbox"
-                  onChange={this.updateInputValue}
-                  key="explicit"
-                  name="explicit"
-                  checked={this.state.formState.explicit}
-                />
-              </label>
-            </div>
-            <div class="field visibility-checkbox">
-              <label htmlFor="visibility">
-                Visibility:
-                <input
-                  id="visibility-checkbox"
-                  type="checkbox"
-                  onChange={this.updateInputValue}
-                  key="visibility"
-                  name="visibility"
-                  checked={this.state.formState.visibility}
-                />
-              </label>
-            </div>
+            {input(
+              {
+                label: "Podcast Collection:",
+                name: "selectedCollectionID",
+                value: this.state.formState.selectedCollectionID,
+                onChange: this.updateInputValue,
+                entries: this.state.collections.map(collection => {
+                  return { id: collection.id, text: collection.title };
+                })
+              },
+              "select"
+            )}
+            {input({
+              label: "Episode title",
+              name: "title",
+              placeholder: "Enter episode title",
+              onChange: this.updateInputValue
+            })}
+            {input(
+              {
+                name: "description",
+                label: "Episode description",
+                placeholder: "Enter episode description",
+                onChange: this.updateInputValue
+              },
+              "textArea"
+            )}
+            {input({
+              label: "Source Link",
+              name: "source_link",
+              placeholder: "Enter source link",
+              onChange: this.updateInputValue
+            })}
+            {input({
+              label: "Source Text",
+              name: "source_text",
+              placeholder: "Enter source text",
+              onChange: this.updateInputValue
+            })}
+
+            {input(
+              {
+                outerClass: "field",
+                innerClass: "ui input",
+                label: "Publication date:",
+                name: "publication_date",
+                onChange: this.updateInputValue
+              },
+              "date"
+            )}
+
+            {input(
+              {
+                outerClass: "field explicit-checkbox",
+                label: "Explicit:",
+                name: "explicit",
+                id: "explicit-checkbox",
+                onChange: this.updateInputValue,
+                checked: this.state.formState.explicit
+              },
+              "checkBox"
+            )}
+            {input(
+              {
+                outerClass: "field visibility-checkbox",
+                label: "Visibility:",
+                name: "visibility",
+                id: "visibility-checkbox",
+                onChange: this.updateInputValue,
+                checked: this.state.formState.visibility
+              },
+              "checkBox"
+            )}
           </section>
           <section className="file-uploads">
             <h3>Episode files</h3>
-            <FileUploadField
-              label="Audio file (required)"
-              input_id="manifest_url_upload"
-              name="manifest_url"
-              placeholder="Audio file"
-              setSrc={this.updateInputValue}
-              fileType="audio"
-            />
-            <FileUploadField
-              label="Audio transcript (optional)"
-              input_id="audio_transcript_upload"
-              name="audioTranscript"
-              placeholder="Audio transcript"
-              setSrc={this.updateInputValue}
-              fileType="text"
-            />
-            <FileUploadField
-              label="Episode image (optional)"
-              input_id="thumbnail_path_upload"
-              name="thumbnail_path"
-              placeholder="Episode image"
-              setSrc={this.updateInputValue}
-              fileType="image"
-            />
+            {input(
+              {
+                label: "Audio file (required)",
+                id: "manifest_url_upload",
+                name: "manifest_url",
+                placeholder: "Audio file",
+                setSrc: this.updateInputValue,
+                fileType: "audio"
+              },
+              "file"
+            )}
+            {input(
+              {
+                label: "Audio transcript (optional)",
+                id: "audio_transcript_upload",
+                name: "audioTranscript",
+                placeholder: "Audio transcript",
+                setSrc: this.updateInputValue,
+                fileType: "text"
+              },
+              "file"
+            )}
+            {input(
+              {
+                label: "Episode image (optional)",
+                id: "thumbnail_path_upload",
+                name: "thumbnail_path",
+                placeholder: "Episode image",
+                setSrc: this.updateInputValue,
+                fileType: "image"
+              },
+              "file"
+            )}
           </section>
         </Form>
         <button className="submit" onClick={this.handleSubmit}>

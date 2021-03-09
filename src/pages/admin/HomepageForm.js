@@ -5,7 +5,7 @@ import { updatedDiff } from "deep-object-diff";
 import { API, Auth } from "aws-amplify";
 import { getSite } from "../../lib/fetchTools";
 import * as mutations from "../../graphql/mutations";
-import FileUploadField from "./FileUploadField";
+import FileUploadField from "../../components/FileUploadField";
 import { FeaturedItemsForm, FeaturedItems } from "./FeaturedItemsFields";
 import { SponsorForm, Sponsors } from "./SponsorFields";
 import {
