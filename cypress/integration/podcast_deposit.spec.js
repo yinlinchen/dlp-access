@@ -53,8 +53,8 @@ describe("Creates Podcast Archive record", () => {
         cy.get("input#manifest_url_upload").attachFile(imgPath).trigger('change', { force: true });
         cy.get("button#manifest_url_upload_button")
           .click({ force: true });
-          
-        cy.get('#manifest_url_upload_upload_message', { timeout: (60 * 1000) })
+        cy.wait(5 * 1000);
+        cy.get('#manifest_url_upload_upload_message', { timeout: (10 * 1000) })
           .should('have.attr', 'style', 'color: green;')
           .invoke("text")
           .should("include", "uploaded successfully");
