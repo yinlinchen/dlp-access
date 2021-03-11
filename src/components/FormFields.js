@@ -28,7 +28,7 @@ export const input = (options, type) => {
 };
 
 const defaultInput = options => {
-  const { label, id, name, placeholder, onChange } = options;
+  const { label, id, name, placeholder, onChange, onBlur } = options;
   return (
     <Form.Input
       id={id || name}
@@ -36,6 +36,7 @@ const defaultInput = options => {
       name={name}
       placeholder={placeholder}
       onChange={onChange}
+      onBlur={onBlur}
     />
   );
 };

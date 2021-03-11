@@ -34,6 +34,11 @@ class PodcastDeposit extends Component {
       viewState: "edit",
       collections: null,
       valid_email: true,
+      email_edited: false,
+      valid_source_link: true,
+      source_link_edited: false,
+      valid_audio_upload: true,
+      audio_upload_edited: false,
       archive: {}
     };
   }
@@ -87,16 +92,18 @@ class PodcastDeposit extends Component {
     const { name, type } = event.target;
     let value = type === "checkbox" ? event.target.checked : event.target.value;
 
+    let attributes = JSON.parse(JSON.stringify(this.state.formState));
     if (type === "upload") {
       value = this.getFileUrl(name, value);
+      this.setState({
+        formState: attributes,
+        audio_upload_edited: true,
+        valid_audio_upload: true
+      });
+    } else {
+      attributes[name] = value;
+      this.setState({ formState: attributes });
     }
-
-    let attributes = JSON.parse(JSON.stringify(this.state.formState));
-    attributes[name] = value;
-
-    this.setState({ formState: attributes }, () => {
-      console.log(this.state.formState);
-    });
   };
 
   sourceLinkFormatted(link, text) {
@@ -188,12 +195,26 @@ class PodcastDeposit extends Component {
 
   validateEmail = event => {
     const { value } = event.target;
-    let valid = true;
     const re = /^[^\s@]+@[^\s@]+$/;
-    if (!re.test(value)) {
-      valid = false;
-    }
-    this.setState({ valid_email: valid });
+    this.setState({ valid_email: !!re.test(value) });
+  };
+
+  validateURL = event => {
+    const { value } = event.target;
+    const re = new RegExp(
+      "^(https?:\\/\\/)?" +
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" +
+        "((\\d{1,3}\\.){3}\\d{1,3}))" +
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" +
+        "(\\?[;&a-z\\d%_.~+=-]*)?" +
+        "(\\#[-a-z\\d_]*)?$",
+      "i"
+    );
+
+    this.setState({
+      source_link_edited: true,
+      valid_source_link: !!re.test(value)
+    });
   };
 
   newPodcastForm = () => {
@@ -230,11 +251,15 @@ class PodcastDeposit extends Component {
               },
               "textArea"
             )}
+            {!this.state.valid_source_link && (
+              <span class="validation_msg">Please enter a valid URL below</span>
+            )}
             {input({
               label: "Source Link",
               name: "source_link",
               placeholder: "Enter source link",
-              onChange: this.updateInputValue
+              onChange: this.updateInputValue,
+              onBlur: this.validateURL
             })}
             {input({
               label: "Source Text",
@@ -314,7 +339,18 @@ class PodcastDeposit extends Component {
             )}
           </section>
         </Form>
-        <button className="submit" onClick={this.handleSubmit}>
+        <button
+          disabled={
+            !(
+              this.state.source_link_edited &&
+              this.state.valid_source_link &&
+              this.state.audio_upload_edited &&
+              this.state.valid_audio_upload
+            )
+          }
+          className="submit"
+          onClick={this.handleSubmit}
+        >
           Submit Podcast Episode
         </button>
       </div>
