@@ -63,7 +63,6 @@ export const searchObjects = /* GraphQL */ `
           }
         }
         ... on Archive {
-          groups
           tags
           resource_type
           medium
@@ -198,7 +197,6 @@ export const fulltextArchives = /* GraphQL */ `
     ) {
       items {
         id
-        groups
         title
         identifier
         description
@@ -354,7 +352,6 @@ export const getCollection = /* GraphQL */ `
       archives {
         items {
           id
-          groups
           title
           identifier
           description
@@ -760,7 +757,6 @@ export const getArchive = /* GraphQL */ `
   query GetArchive($id: ID!) {
     getArchive(id: $id) {
       id
-      groups
       title
       identifier
       description
@@ -855,7 +851,6 @@ export const listArchives = /* GraphQL */ `
     listArchives(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        groups
         title
         identifier
         description
@@ -948,7 +943,6 @@ export const archiveByIdentifier = /* GraphQL */ `
     ) {
       items {
         id
-        groups
         title
         identifier
         description
@@ -1041,7 +1035,6 @@ export const searchArchives = /* GraphQL */ `
     ) {
       items {
         id
-        groups
         title
         identifier
         description

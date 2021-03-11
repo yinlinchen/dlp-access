@@ -90,11 +90,10 @@ type Archive implements Object
   )
   @auth(rules: [
     { allow: public, operations: [read] },
-    { allow: groups, groups: ["Admin"] },
-    { allow: groups, groupsField: "groups", operations: [read, create, update, delete] }
+    { allow: groups, groups: ["Admin", "Editor"] },
+    { allow: groups, groupsField: "item_category" }
   ]){
   id: ID!
-  groups: [String]!
   title: String!
   identifier: String!
   description: String

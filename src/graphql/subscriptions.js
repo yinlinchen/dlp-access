@@ -80,7 +80,6 @@ export const onCreateCollection = /* GraphQL */ `
       archives {
         items {
           id
-          groups
           title
           identifier
           description
@@ -203,7 +202,6 @@ export const onUpdateCollection = /* GraphQL */ `
       archives {
         items {
           id
-          groups
           title
           identifier
           description
@@ -326,7 +324,6 @@ export const onDeleteCollection = /* GraphQL */ `
       archives {
         items {
           id
-          groups
           title
           identifier
           description
@@ -548,7 +545,6 @@ export const onCreateArchive = /* GraphQL */ `
   subscription OnCreateArchive {
     onCreateArchive {
       id
-      groups
       title
       identifier
       description
@@ -638,7 +634,6 @@ export const onUpdateArchive = /* GraphQL */ `
   subscription OnUpdateArchive {
     onUpdateArchive {
       id
-      groups
       title
       identifier
       description
@@ -728,7 +723,6 @@ export const onDeleteArchive = /* GraphQL */ `
   subscription OnDeleteArchive {
     onDeleteArchive {
       id
-      groups
       title
       identifier
       description

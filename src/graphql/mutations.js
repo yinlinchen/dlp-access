@@ -80,7 +80,6 @@ export const createCollection = /* GraphQL */ `
       archives {
         items {
           id
-          groups
           title
           identifier
           description
@@ -203,7 +202,6 @@ export const updateCollection = /* GraphQL */ `
       archives {
         items {
           id
-          groups
           title
           identifier
           description
@@ -326,7 +324,6 @@ export const deleteCollection = /* GraphQL */ `
       archives {
         items {
           id
-          groups
           title
           identifier
           description
@@ -548,7 +545,6 @@ export const createArchive = /* GraphQL */ `
   mutation CreateArchive($input: CreateArchiveInput!) {
     createArchive(input: $input) {
       id
-      groups
       title
       identifier
       description
@@ -638,7 +634,6 @@ export const updateArchive = /* GraphQL */ `
   mutation UpdateArchive($input: UpdateArchiveInput!) {
     updateArchive(input: $input) {
       id
-      groups
       title
       identifier
       description
@@ -728,7 +723,6 @@ export const deleteArchive = /* GraphQL */ `
   mutation DeleteArchive($input: DeleteArchiveInput!) {
     deleteArchive(input: $input) {
       id
-      groups
       title
       identifier
       description
