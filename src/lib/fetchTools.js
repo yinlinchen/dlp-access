@@ -11,11 +11,9 @@ export function getFile(copyURL, type, component) {
 
 export const mintNOID = async () => {
   const apiKey = process.env.REACT_APP_MINT_API_KEY;
-  const noidLink =
-    "https://pl2qz9poyf.execute-api.us-east-1.amazonaws.com/Prod/mint";
+  const noidLink = process.env.REACT_APP_MINT_LINK;
   const headers = new Headers({
-    "X-Api-Key": apiKey,
-    Origin: "http://localhost:3000"
+    "X-Api-Key": apiKey
   });
   let response = null;
   try {
