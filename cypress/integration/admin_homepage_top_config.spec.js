@@ -65,6 +65,7 @@ describe("Update Homepage fields and revert", function() {
     cy.get("input[type=file]", { timeout: 2000 }).eq(0).attachFile(imgPath).trigger('change', { force: true });
     cy.get(".static-image > div.fileUploadField > button.uploadButton")
       .click({ force: true });
+    cy.wait(5 * 1000);
     cy.get('[data-test="upload-message"]', { timeout: 2000 })
       .should('have.attr', 'style', 'color: green;')
       .invoke("text")

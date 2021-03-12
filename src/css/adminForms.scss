@@ -74,3 +74,18 @@ form.displayedAttributesForm a.delete,
 span.required {
   margin-top: 40px;
 }
+
+.validation_msg {
+  color: red;
+}
+
+#explicit-checkbox,
+#visibility-checkbox {
+  margin: -3px 0 0 5px;
+  vertical-align: middle;
+}
+
+.signout-wrapper {
+  margin: 30px 25%;
+  width: 50%;
+}

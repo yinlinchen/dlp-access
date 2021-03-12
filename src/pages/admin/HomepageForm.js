@@ -5,7 +5,7 @@ import { updatedDiff } from "deep-object-diff";
 import { API, Auth } from "aws-amplify";
 import { getSite } from "../../lib/fetchTools";
 import * as mutations from "../../graphql/mutations";
-import FileUploadField from "./FileUploadField";
+import FileUploadField from "../../components/FileUploadField";
 import { FeaturedItemsForm, FeaturedItems } from "./FeaturedItemsFields";
 import { SponsorForm, Sponsors } from "./SponsorFields";
 import {
@@ -206,10 +206,12 @@ class HomepageForm extends Component {
             <FileUploadField
               value={this.state.formState.staticImageSrc}
               label={this.fileUploadLabel(this.state.formState.staticImageSrc)}
+              input_id="static_img_src"
               name="staticImageSrc"
               placeholder="Enter Src"
               site={this.state.site}
               setSrc={this.updateInputValue}
+              fileType="image"
             />
             <Form.Input
               label="Alt Text"
