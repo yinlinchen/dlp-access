@@ -22,7 +22,7 @@ const initialFormState = {
   source_text: "",
   publication_date: "",
   explicit: false,
-  visibility: true
+  visibility: false
 };
 
 class PodcastDeposit extends Component {
@@ -95,6 +95,7 @@ class PodcastDeposit extends Component {
     let attributes = JSON.parse(JSON.stringify(this.state.formState));
     if (type === "upload") {
       value = this.getFileUrl(name, value);
+      attributes[name] = value;
       this.setState({
         formState: attributes,
         audio_upload_edited: true,
@@ -144,11 +145,11 @@ class PodcastDeposit extends Component {
       custom_key: customKey,
       parent_collection: [selectedCollection.id],
       item_category: "podcasts",
-      visibility: true,
+      visibility: this.state.formState.visibility || false,
       thumbnail_path: this.state.formState.thumbnail_path,
       manifest_url: this.state.formState.manifest_url,
       heirarchy_path: [selectedCollection.heirarchy_path],
-      explicit: this.state.formState.explicit,
+      explicit: this.state.formState.explicit || false,
       create_date: modifiedPubDate,
       modified_date: modifiedPubDate
     };
