@@ -40,19 +40,30 @@ export const mintNOID = async () => {
 
 const fetchCopyFile = async (copyURL, type, component) => {
   let data = null;
+  let filename = copyURL;
+  console.log(copyURL);
+  let prefix = `public/sitecontent/${type}/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/`;
+  if (copyURL.indexOf("https") === 0) {
+    filename = copyURL.split("/").pop();
+    const bucket = Storage._config.AWSS3.bucket;
+    prefix = copyURL
+      .replace(`https://${bucket}.s3.amazonaws.com/`, "")
+      .replace(filename, "");
+  }
   try {
     data = sessionStorage.getItem(copyURL);
   } catch (error) {
     console.log(`${copyURL} not in sessionStorage`);
   }
   if (!data) {
+    console.log(prefix);
     try {
       Storage.configure({
         customPrefix: {
-          public: `public/sitecontent/${type}/${process.env.REACT_APP_REP_TYPE.toLowerCase()}/`
+          public: prefix
         }
       });
-      const copyLink = await Storage.get(copyURL);
+      const copyLink = await Storage.get(filename);
       console.log(`fetching copy from: ${copyLink}`);
       if (type === "html") {
         const response = await fetch(copyLink);
@@ -68,7 +79,7 @@ const fetchCopyFile = async (copyURL, type, component) => {
     }
   }
   if (data) {
-    sessionStorage.setItem(copyURL, data);
+    sessionStorage.setItem(filename, data);
     component.setState({ copy: data });
   }
 };
