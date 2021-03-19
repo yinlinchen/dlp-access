@@ -89,3 +89,12 @@ span.required {
   margin: 30px 25%;
   width: 50%;
 }
+
+.ui.form .field label {
+  display: block;
+  margin: 0 0 0.28571429rem 0;
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 0.92857143em;
+  font-weight: 700;
+  text-transform: none;
+}

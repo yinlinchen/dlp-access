@@ -22,10 +22,13 @@ class FileUploadField extends Component {
         match = file.type.match(/\/(plain|csv|html)$/g);
         break;
       case "application":
-        match = file.type.match(/\/(json|rss\+xml)$/g);
+        match = file.type.match(/\/(msword|json|rss\+xml)$/g);
         break;
       case "audio":
         match = file.type.match(/\/(mpeg|wav)$/g);
+        break;
+      case "any":
+        match = true;
         break;
       default:
         break;
@@ -94,6 +97,16 @@ class FileUploadField extends Component {
       };
 
       this.setState({ isUploaded: true }, () => {
+        if (
+          this.props.context &&
+          typeof this.props.setFileFolder === "function"
+        ) {
+          this.props.setFileFolder(
+            this.props.context,
+            this.folderNameByFileType(this.state.file),
+            evt
+          );
+        }
         this.props.setSrc(evt);
       });
 
