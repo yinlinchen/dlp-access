@@ -41,7 +41,7 @@ describe("Displays and updates sitepages configurations", () => {
       cy.contains("Assets:").should("be.visible");
       cy.contains("Local URL: /permissions").should("be.visible");
       cy.contains("Text: Permission").should("be.visible");
-      cy.contains("Data URL: https://collectionmap125018-newdev.s3.amazonaws.com/public/sitecontent/text/default/terms.html").should("be.visible");
+      cy.contains("terms.html").should("be.visible");
     });
   });
     
