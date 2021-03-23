@@ -28,7 +28,7 @@ describe("Update collection highlights fields and revert", function () {
             .find(":nth-child(4) > a")
             .contains("Homepage Config")
             .click();
-        cy.url({ timeout: 2000 }).should("include", "/siteAdmin");
+        cy.url().should("include", "/siteAdmin");
     });
 
     it("Updates first item title", () => {
@@ -39,7 +39,7 @@ describe("Update collection highlights fields and revert", function () {
             .clear()
             .type("Sketches");
         cy.contains("Update Config").click();
-        cy.contains("Title: Sketches", { timeout: 2000 }).should("be.visible");
+        cy.contains("Title: Sketches").should("be.visible");
     });
 
     it("Reverses update", () => {
@@ -50,9 +50,7 @@ describe("Update collection highlights fields and revert", function () {
           .clear()
           .type("Travel sketches by IAWA architects");
         cy.contains("Update Config").click();
-        cy.contains("Title: Travel sketches by IAWA architects", {
-          timeout: 2000,
-        }).should("be.visible");
+        cy.contains("Title: Travel sketches by IAWA architects").should("be.visible");
     });
    
     it("Adds new item with image", () => {
@@ -60,24 +58,21 @@ describe("Update collection highlights fields and revert", function () {
             .parent()
             .click();
         const imgPath = "sitecontent/highlight4.jpg";
-        cy.get("button[aria-label='Add a collection highlight']", { timeout: 2000 }).click();
-        cy.get(
-            "#collectionHighlight3_form > section > div.fileUploadField > input[type=file]", { timeout: 2000 }
-        )
+        cy.get("button[aria-label='Add a collection highlight']").click();
+        cy.get("#collectionHighlight3_form > section > div.fileUploadField > input[type=file]")
             .eq(0)
             .attachFile(imgPath)
             .trigger("change", { force: true });
         cy.get(
           "#collectionHighlight3_form > section > div.fileUploadField > button.uploadButton"
         ).click({ force: true });
-        cy.wait(5 * 1000);
-        cy.get("#highlight3_title", { timeout: 2000 }).type("New Highlight");
-        cy.get("#highlight3_link", { timeout: 2000 }).type(
+        cy.get("#highlight3_title").type("New Highlight");
+        cy.get("#highlight3_link").type(
           "/search?q=building&view=gallery"
         );
         cy.get("#highlight3_count").type("5");
         cy.contains("Update Config").click();
-        cy.contains("Collection Highlight 4", { timeout: 10 * 1000 }).should("be.visible");
+        cy.contains("Collection Highlight 4").should("be.visible");
         cy.contains(
           "highlights/highlight4.jpg"
         ).should("be.visible");
@@ -92,12 +87,10 @@ describe("Update collection highlights fields and revert", function () {
             .parent()
             .click();
         cy.get("#collectionHighlight3_form")
-          .contains("Remove highlight", {
-            timeout: 2000,
-          })
+          .contains("Remove highlight")
           .click();
         cy.contains("Update Config").click();
-        cy.contains("Collection Highlight 4", { timeout: 2000 }).should("not.exist");
+        cy.contains("Collection Highlight 4").should("not.exist");
     })
 
     afterEach("User signout:", () => {
