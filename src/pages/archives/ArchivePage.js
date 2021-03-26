@@ -102,7 +102,7 @@ class ArchivePage extends Component {
   }
 
   isKalturaURL(url) {
-    return url.match(/\.(kaltura.com)/) != null;
+    return url.match(/(video.vt.edu\/media)/) != null;
   }
 
   isPdfURL(url) {
