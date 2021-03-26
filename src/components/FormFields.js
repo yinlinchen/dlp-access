@@ -117,6 +117,7 @@ const fileInput = options => {
     setSrc,
     fileType,
     setFileFolder,
+    setFileCharacterization,
     context
   } = options;
   return (
@@ -129,6 +130,7 @@ const fileInput = options => {
       setSrc={setSrc}
       fileType={fileType}
       setFileFolder={setFileFolder}
+      setFileCharacterization={setFileCharacterization}
       context={context}
     />
   );

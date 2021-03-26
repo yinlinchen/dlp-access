@@ -33,6 +33,7 @@ export const createCollection = /* GraphQL */ `
       heirarchy_path
       collectionmap_id
       ownerinfo
+      explicit
       collectionmap {
         id
         collection_id
@@ -69,6 +70,7 @@ export const createCollection = /* GraphQL */ `
           heirarchy_path
           collectionmap_id
           ownerinfo
+          explicit
           createdAt
           updatedAt
         }
@@ -111,10 +113,10 @@ export const createCollection = /* GraphQL */ `
           thumbnail_path
           manifest_url
           heirarchy_path
+          manifest_file_characterization
           display_date
           create_date
           modified_date
-          explicit
           createdAt
           updatedAt
         }
@@ -155,6 +157,7 @@ export const updateCollection = /* GraphQL */ `
       heirarchy_path
       collectionmap_id
       ownerinfo
+      explicit
       collectionmap {
         id
         collection_id
@@ -191,6 +194,7 @@ export const updateCollection = /* GraphQL */ `
           heirarchy_path
           collectionmap_id
           ownerinfo
+          explicit
           createdAt
           updatedAt
         }
@@ -233,10 +237,10 @@ export const updateCollection = /* GraphQL */ `
           thumbnail_path
           manifest_url
           heirarchy_path
+          manifest_file_characterization
           display_date
           create_date
           modified_date
-          explicit
           createdAt
           updatedAt
         }
@@ -277,6 +281,7 @@ export const deleteCollection = /* GraphQL */ `
       heirarchy_path
       collectionmap_id
       ownerinfo
+      explicit
       collectionmap {
         id
         collection_id
@@ -313,6 +318,7 @@ export const deleteCollection = /* GraphQL */ `
           heirarchy_path
           collectionmap_id
           ownerinfo
+          explicit
           createdAt
           updatedAt
         }
@@ -355,10 +361,10 @@ export const deleteCollection = /* GraphQL */ `
           thumbnail_path
           manifest_url
           heirarchy_path
+          manifest_file_characterization
           display_date
           create_date
           modified_date
-          explicit
           createdAt
           updatedAt
         }
@@ -405,6 +411,7 @@ export const createCollectionmap = /* GraphQL */ `
         heirarchy_path
         collectionmap_id
         ownerinfo
+        explicit
         collectionmap {
           id
           collection_id
@@ -463,6 +470,7 @@ export const updateCollectionmap = /* GraphQL */ `
         heirarchy_path
         collectionmap_id
         ownerinfo
+        explicit
         collectionmap {
           id
           collection_id
@@ -521,6 +529,7 @@ export const deleteCollectionmap = /* GraphQL */ `
         heirarchy_path
         collectionmap_id
         ownerinfo
+        explicit
         collectionmap {
           id
           collection_id
@@ -576,10 +585,10 @@ export const createArchive = /* GraphQL */ `
       thumbnail_path
       manifest_url
       heirarchy_path
+      manifest_file_characterization
       display_date
       create_date
       modified_date
-      explicit
       collection {
         id
         title
@@ -610,6 +619,7 @@ export const createArchive = /* GraphQL */ `
         heirarchy_path
         collectionmap_id
         ownerinfo
+        explicit
         collectionmap {
           id
           collection_id
@@ -665,10 +675,10 @@ export const updateArchive = /* GraphQL */ `
       thumbnail_path
       manifest_url
       heirarchy_path
+      manifest_file_characterization
       display_date
       create_date
       modified_date
-      explicit
       collection {
         id
         title
@@ -699,6 +709,7 @@ export const updateArchive = /* GraphQL */ `
         heirarchy_path
         collectionmap_id
         ownerinfo
+        explicit
         collectionmap {
           id
           collection_id
@@ -754,10 +765,10 @@ export const deleteArchive = /* GraphQL */ `
       thumbnail_path
       manifest_url
       heirarchy_path
+      manifest_file_characterization
       display_date
       create_date
       modified_date
-      explicit
       collection {
         id
         title
@@ -788,6 +799,7 @@ export const deleteArchive = /* GraphQL */ `
         heirarchy_path
         collectionmap_id
         ownerinfo
+        explicit
         collectionmap {
           id
           collection_id

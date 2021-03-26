@@ -64,6 +64,7 @@ type Collection implements Object
   heirarchy_path: [String!]
   collectionmap_id: String
   ownerinfo: AWSJSON
+  explicit: Boolean
   collectionmap: Collectionmap @connection(name: "CollectionCollectionMap")
   archives: [Archive] @connection(name: "CollectionArchives")
 }
@@ -125,10 +126,10 @@ type Archive implements Object
   thumbnail_path: String
   manifest_url: String!
   heirarchy_path: [String!]
+  manifest_file_characterization: AWSJSON
   display_date: String
   create_date: String
   modified_date: String
-  explicit: Boolean
   collection: Collection @connection(name: "CollectionArchives")
 }
 
